@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebReactSite.Models;
+using System.Security.Claims;
 
 namespace WebReactSite.Services.Interfaces
 {
@@ -11,5 +12,7 @@ namespace WebReactSite.Services.Interfaces
         Task<User> GetUser(string userName);
         Task Create(User user);
         IEnumerable<User> GetAll();
+        Task<IReadOnlyCollection<Claim>> GetIdentity(string username, string password);
+        string GetToken(IReadOnlyCollection<Claim> identity);
     }
 }

@@ -47,31 +47,35 @@ namespace WebReactSite.Controllers
         }
         [Route("create")]
         [HttpPost]
-        public async Task Create([FromBody] User user)
+        public async Task<IActionResult> Create([FromBody] User user)
         {
             await _service.Create(user);
+            var identity = await _service.GetIdentity(user.Login, user.Password);
+            var encodedJwt = _service.GetToken(identity);
+            var response = new
+            {
+                token = encodedJwt,
+                user = user.Login,
+                isAdmin = user.IsAdmin
+
+            };
+
+            return Ok(response);
         }
         //api/user/signin
         [Route("signin")]
         [HttpPost]
         public async Task<IActionResult> SignIn([FromBody] User user)
         {
-            var identity = await GetIdentity(user.Login, user.Password);
-            // var identity = await GetIdentity(login, password);
+            var identity = await _service.GetIdentity(user.Login, user.Password);
             if (identity == null)
             {
                 return Unauthorized();
             }
 
-            var now = DateTime.UtcNow;
-            var jwt = new JwtSecurityToken(
-                    issuer: AuthOptions.ISSUER,
-                    audience: AuthOptions.AUDIENCE,
-                    notBefore: now,
-                    claims: identity,
-                    expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
-                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+            var encodedJwt =  _service.GetToken(identity);
+
+
             var response = new
             {
                 token = encodedJwt,
@@ -83,23 +87,6 @@ namespace WebReactSite.Controllers
             return Ok(response);
         }
 
-        private async Task<IReadOnlyCollection<Claim>> GetIdentity(string username, string password)
-        {
-            List<Claim> claims = null;
-            var user = await _service.GetUser(username);
-            if (user != null)
-            {
-                //ToDo check password decrypt
-                if(user.Password == password)
-                {
-                    claims = new List<Claim>
-                    {
-                        new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login)
-                    };
-                }
-            }
-            return claims;
-        }
 
         //// PUT api/<controller>/5
         //[HttpPut("{id}")]

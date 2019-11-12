@@ -27,7 +27,7 @@ export default {
     return login;
   },
 
-  isLogged: () => {
+  isAuthenticated: () => {
     let item = localStorage.getItem(constants.tokenKey);
     if (item) {
       return true;
