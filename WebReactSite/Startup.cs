@@ -13,6 +13,11 @@ using WebReactSite.Repositories;
 using Microsoft.AspNetCore.Http;
 using WebReactSite.Services.Interfaces;
 using WebReactSite.Services.Implementation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using WebReactSite.Helpers;
 
 
 namespace WebReactSite
@@ -40,6 +45,27 @@ namespace WebReactSite
 
             //Add Services
             services.AddScoped<IUserService, UserService>();
+
+            //Add Auth
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true, // проверка издателя
+                        ValidIssuer = AuthOptions.ISSUER,
+
+
+                        ValidateAudience = true,  // будет ли валидироваться потребитель токена
+                        ValidAudience = AuthOptions.AUDIENCE,
+
+                        ValidateLifetime = true, // будет ли валидироваться время существования
+                        IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+                        ValidateIssuerSigningKey = true
+                    };
+                });
+
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

@@ -6,6 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using WebReactSite.Models;
 using WebReactSite.Services.Interfaces;
 using WebReactSite.Services.Implementation;
+using System.Security.Claims;
+using WebReactSite.Helpers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -45,6 +50,47 @@ namespace WebReactSite.Controllers
         public async Task Create([FromBody] User user)
         {
             await _service.Create(user);
+        }
+
+        [Route("signin")]
+        [HttpPost]
+        public async Task<IActionResult> SignIn([FromBody] User user)
+        {
+            var identity = await GetIdentity(user.Login, user.Password);
+            if (identity == null)
+            {
+                return Unauthorized();
+            }
+
+            var now = DateTime.UtcNow;
+            var jwt = new JwtSecurityToken(
+                    issuer: AuthOptions.ISSUER,
+                    audience: AuthOptions.AUDIENCE,
+                    notBefore: now,
+                    claims: identity,
+                    expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
+                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+
+            return Ok(encodedJwt);
+        }
+
+        private async Task<IReadOnlyCollection<Claim>> GetIdentity(string username, string password)
+        {
+            List<Claim> claims = null;
+            var user = await _service.GetUser(username);
+            if (user != null)
+            {
+                //ToDo check password decrypt
+                if(user.Password == password)
+                {
+                    claims = new List<Claim>
+                    {
+                        new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login)
+                    };
+                }
+            }
+            return claims;
         }
 
         //// PUT api/<controller>/5
