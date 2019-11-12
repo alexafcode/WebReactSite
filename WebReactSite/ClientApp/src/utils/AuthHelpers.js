@@ -3,19 +3,23 @@ const constants = {
 };
 
 export default {
-  saveAuth: (userName, token) => {
-    sessionStorage.setItem(
+  saveAuth: (userName, token, isAdmin) => {
+    localStorage.setItem(
       constants.tokenKey,
-      JSON.stringify({ userName: userName, access_token: token })
+      JSON.stringify({
+        userName: userName,
+        access_token: token,
+        isAdmin: (isAdmin = false)
+      })
     );
   },
 
   clearAuth: () => {
-    sessionStorage.removeItem(constants.tokenKey);
+    localStorage.removeItem(constants.tokenKey);
   },
 
   getLogin: () => {
-    let item = sessionStorage.getItem(constants.tokenKey);
+    let item = localStorage.getItem(constants.tokenKey);
     let login = "";
     if (item) {
       login = JSON.parse(item).userName;
@@ -24,7 +28,7 @@ export default {
   },
 
   isLogged: () => {
-    let item = sessionStorage.getItem(constants.tokenKey);
+    let item = localStorage.getItem(constants.tokenKey);
     if (item) {
       return true;
     } else {
@@ -33,7 +37,7 @@ export default {
   },
 
   getToken: () => {
-    let item = sessionStorage.getItem(constants.tokenKey);
+    let item = localStorage.getItem(constants.tokenKey);
     let token = null;
     if (item) {
       token = JSON.parse(item).access_token;

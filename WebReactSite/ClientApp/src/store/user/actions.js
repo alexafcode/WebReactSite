@@ -1,6 +1,7 @@
-import { SIGNIN, TOKEN, SIGNIN_ERROR, LOADING } from "./constants";
-import history from "../../history";
 import axios from "axios";
+import { SIGNIN, TOKEN, SIGNIN_ERROR, LOGIN_SUCCESS } from "./constants";
+import helper from "../../utils/authHelpers";
+import history from "../../history";
 
 export const signInAction = (login, password) => async dispatch => {
   dispatch({ type: SIGNIN });
@@ -12,12 +13,13 @@ export const signInAction = (login, password) => async dispatch => {
     .then(response => {
       console.log(response);
       const data = response.data;
-      const token = data.token;
-      const userLogin = data.user;
-      // const isAdmin = responce.data.isAdmin;
-      // helper
+      helper.saveAuth(data.user, data.token, data.isAdmin);
+      dispatch({ type: LOGIN_SUCCESS, payload: data.user });
+      dispatch({ type: TOKEN, payload: data.token });
+      history.push("/");
     })
     .catch(e => {
       console.log(e);
+      SIGNIN_ERROR({ type: SIGNIN_ERROR, payload: e.message });
     });
 };

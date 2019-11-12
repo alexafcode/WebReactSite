@@ -1,6 +1,8 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
-import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { compose } from "redux";
+// import PropTypes from "prop-types";
 import { AppBar, Toolbar } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
@@ -44,4 +46,19 @@ class Menu extends React.PureComponent {
   }
 }
 
-export default withStyles(styles)(Menu);
+// export default withStyles(styles)(Menu);
+const mapStateToProps = state => ({
+  ...state,
+  isAuthenticated: state.UsersReducers.isAuthenticated
+});
+
+// const mapDispatchToProps = {
+//   singOutAction
+// };
+
+export default compose(
+  withStyles(styles, {
+    name: "Menu"
+  }),
+  connect(mapStateToProps, null)
+)(Menu);
