@@ -8,6 +8,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using WebReactSite.Models;
+using WebReactSite.Interfaces;
+using WebReactSite.Repositories;
+using Microsoft.AspNetCore.Http;
+using WebReactSite.Services.Interfaces;
+using WebReactSite.Services.Implementation;
+
 
 namespace WebReactSite
 {
@@ -24,9 +30,16 @@ namespace WebReactSite
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            string connection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<RepositoryContext>(options =>
-                options.UseSqlServer(connection));
+            //string connection = Configuration.GetConnectionString("DefaultConnection");
+            //services.AddDbContext<RepositoryContext>(options =>
+            //    options.UseSqlServer(connection));
+            services.AddScoped<IRepositoryContextFactory, RepositoryContextFactory>();
+            services.AddScoped<IUserRepository>(provider => new UserRepository(Configuration.GetConnectionString("DefaultConnection"), provider.GetService<IRepositoryContextFactory>()));
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IConfiguration>(Configuration);
+
+            //Add Services
+            services.AddScoped<IUserService, UserService>();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
