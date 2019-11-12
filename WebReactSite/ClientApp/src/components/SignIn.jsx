@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
+import { signInAction } from "../store/user/actions";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -41,32 +42,13 @@ const useStyles = makeStyles(theme => ({
 function SignIn(props) {
   const classes = useStyles();
   const [state, setState] = useState({
-    email: "",
+    login: "",
     password: "",
-    emailError: false,
+    loginError: false,
     // passwordError: false,
-    emailErrorText: ""
+    loginErrorText: ""
     // passwordErrorText: ""
   });
-
-  const emailValidation = email => {
-    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if (reg.test(email)) {
-      setState({
-        ...state,
-        email: email,
-        emailError: false,
-        emailErrorText: ""
-      });
-    } else {
-      setState({
-        ...state,
-        email: email,
-        emailError: true,
-        emailErrorText: "Email not Corrected"
-      });
-    }
-  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -80,20 +62,19 @@ function SignIn(props) {
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
-            error={state.emailError}
+            error={state.loginError}
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            label="Login"
+            name="login"
             autoFocus
-            value={state.email}
-            onChange={e => emailValidation(e.target.value)}
+            value={state.login}
+            onChange={e => setState({ ...state, login: e.target.value })}
           />
-          {state.emailError && (
-            <p style={{ color: "red" }}>{state.emailErrorText}</p>
+          {state.loginError && (
+            <p style={{ color: "red" }}>{state.loginErrorText}</p>
           )}
           <TextField
             variant="outlined"
@@ -107,10 +88,6 @@ function SignIn(props) {
             value={state.password}
             onChange={e => setState({ ...state, password: e.target.value })}
           />
-          {/* <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          /> */}
           {props.loading && <LinearProgress />}
           {props.error && <p style={{ color: "red" }}>{props.errorMessage}</p>}
           <Button
@@ -121,8 +98,9 @@ function SignIn(props) {
             className={classes.submit}
             onClick={e => {
               e.preventDefault();
-              if (state.email && state.password && !state.emailError) {
-                // props.signInAction(state.email, state.password);
+              if (state.login && state.password && !state.loginError) {
+                console.log(state);
+                props.signInAction(state.login, state.password);
                 console.log("Send");
                 setState({ ...state, password: "" });
               }
@@ -131,11 +109,6 @@ function SignIn(props) {
             Sign In
           </Button>
           <Grid container>
-            {/* <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid> */}
             <Grid item>
               <Link href="/signup" variant="body2">
                 {"Don't have an account? Sign Up"}
@@ -148,27 +121,19 @@ function SignIn(props) {
   );
 }
 
-// const mapStateToProps = state => {
-//   return {
-//     error: state.AuthReducers.error,
-//     errorMessage: state.AuthReducers.errorMessage,
-//     loading: state.AuthReducers.loading
-//   };
-// };
-// const mapDispatchToProps = {
-//   signInAction
-// };
+const mapStateToProps = state => {
+  console.log(state);
+  return {
+    // error: state.AuthReducers.error,
+    // errorMessage: state.AuthReducers.errorMessage,
+    // loading: state.AuthReducers.loading
+  };
+};
+const mapDispatchToProps = {
+  signInAction
+};
 
 // SignIn.propTypes = {
-//   error: PropTypes.bool.isRequired,
-//   errorMessage: PropTypes.string.isRequired,
-//   loading: PropTypes.bool.isRequired,
-//   signInAction: PropTypes.func.isRequired
 // };
 
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(SignIn);
-
-export default SignIn;
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

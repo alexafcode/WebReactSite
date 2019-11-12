@@ -51,12 +51,13 @@ namespace WebReactSite.Controllers
         {
             await _service.Create(user);
         }
-
+        //api/user/signin
         [Route("signin")]
         [HttpPost]
         public async Task<IActionResult> SignIn([FromBody] User user)
         {
             var identity = await GetIdentity(user.Login, user.Password);
+            // var identity = await GetIdentity(login, password);
             if (identity == null)
             {
                 return Unauthorized();
@@ -71,8 +72,15 @@ namespace WebReactSite.Controllers
                     expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
                     signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+            var response = new
+            {
+                token = encodedJwt,
+                user = user.Login,
+                isAdmin = user.IsAdmin
 
-            return Ok(encodedJwt);
+            };
+
+            return Ok(response);
         }
 
         private async Task<IReadOnlyCollection<Claim>> GetIdentity(string username, string password)
