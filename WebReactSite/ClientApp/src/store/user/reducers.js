@@ -4,6 +4,7 @@ const initialState = {
   isAuthenticated: helper.isAuthenticated(),
   token: helper.getToken(),
   user: helper.getLogin(),
+  email: helper.getEmail(),
   error: false,
   errorMessage: "",
   loading: false
@@ -42,7 +43,8 @@ export default (state = initialState, action) => {
         ...state,
         isAuthenticated: false,
         user: null,
-        token: null
+        token: null,
+        email: ""
       };
     // case "ERROR_MESSAGE":
     //   return {

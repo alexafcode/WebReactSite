@@ -49,17 +49,20 @@ namespace WebReactSite.Controllers
         }
         [Route("create")]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] User user)
+        public async Task<IActionResult> Create([FromBody] UserRegistration newuser)
         {
-            await _service.Create(user);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var user = await _service.Create(newuser.Username, newuser.Password, newuser.Email);
             var identity = await _service.GetIdentity(user.Login, user.Password);
             var encodedJwt = _service.GetToken(identity);
             var response = new
             {
                 token = encodedJwt,
                 user = user.Login,
-                isAdmin = user.IsAdmin
-
+                isAdmin = user.IsAdmin,
+                email = user.Email
             };
 
             return Ok(response);
@@ -82,8 +85,8 @@ namespace WebReactSite.Controllers
             {
                 token = encodedJwt,
                 user = user.Login,
-                isAdmin = user.IsAdmin
-
+                isAdmin = user.IsAdmin,
+                email = user.Email
             };
 
             return Ok(response);

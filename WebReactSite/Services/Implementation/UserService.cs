@@ -24,8 +24,12 @@ namespace WebReactSite.Services.Implementation
         {
             return await _repository.GetUser(userName);
         }
-        public Task Create(User user)
+        public Task<User> Create(string login, string password, string email)
         {
+            User user = new User();
+            user.Login = login;
+            user.Password = password;
+            user.Email = email;
             return  _repository.Create(user);
         }
         public IEnumerable<User> GetAll()

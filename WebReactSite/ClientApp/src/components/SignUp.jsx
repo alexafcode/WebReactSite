@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-// import { connect } from "react-redux";
+import { connect } from "react-redux";
 // import PropTypes from "prop-types";
-// import { createUserAction } from "../../store/register/actions";
+import { createUserAction } from "../store/user/actions";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -43,10 +43,13 @@ function SignUp(props) {
   const classes = useStyles();
 
   const [state, setState] = useState({
+    login: "",
     email: "",
     password: "",
+    loginError: false,
     emailError: false,
     passwordError: false,
+    loginErrorText: "",
     emailErrorText: "",
     passwordErrorText: ""
   });
@@ -70,8 +73,27 @@ function SignUp(props) {
     }
   };
 
+  const loginValidation = login => {
+    if (login.length >= 4 && login.length <= 10) {
+      setState({
+        ...state,
+        login: login,
+        emailError: false,
+        loginErrorText: ""
+      });
+    } else {
+      setState({
+        ...state,
+        login: login,
+        emailError: true,
+        loginErrorText:
+          "Your Login must be at least 4 characters long and most 10 characters"
+      });
+    }
+  };
+
   const pwdValidation = pwd => {
-    if (pwd.length >= 6) {
+    if (pwd.length >= 6 && pwd.length <= 8) {
       setState({
         ...state,
         password: pwd,
@@ -83,7 +105,8 @@ function SignUp(props) {
         ...state,
         password: pwd,
         passwordError: true,
-        passwordErrorText: "Your password must be at least 6 characters long "
+        passwordErrorText:
+          "Your password must be at least 4 characters long and most 8 characters"
       });
     }
   };
@@ -105,7 +128,7 @@ function SignUp(props) {
                 value={state.email}
                 error={state.emailError}
                 variant="outlined"
-                required
+                // required
                 fullWidth
                 autoFocus
                 label="Email Address"
@@ -115,6 +138,22 @@ function SignUp(props) {
               />
               {state.emailError && (
                 <p style={{ color: "red" }}>{state.emailErrorText}</p>
+              )}
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                value={state.login}
+                error={state.loginError}
+                variant="outlined"
+                required
+                fullWidth
+                autoFocus
+                label="Enter Login"
+                name="login"
+                onChange={e => loginValidation(e.target.value)}
+              />
+              {state.emailError && (
+                <p style={{ color: "red" }}>{state.loginErrorText}</p>
               )}
             </Grid>
             <Grid item xs={12}>
@@ -146,8 +185,11 @@ function SignUp(props) {
             onClick={e => {
               e.preventDefault();
               if (!state.emailError && !state.passwordError) {
-                // props.createUserAction(state.email, state.password);
-                console.log("Send");
+                props.createUserAction(
+                  state.login,
+                  state.password,
+                  state.email
+                );
               }
             }}
           >
@@ -166,16 +208,16 @@ function SignUp(props) {
   );
 }
 
-// const mapStateToProps = state => {
-//   return {
-//     error: state.AuthReducers.error,
-//     errorMessage: state.AuthReducers.errorMessage,
-//     loading: state.AuthReducers.loading
-//   };
-// };
-// const mapDispatchToProps = {
-//   createUserAction
-// };
+const mapStateToProps = state => {
+  return {
+    error: state.UsersReducers.error,
+    errorMessage: state.UsersReducers.errorMessage,
+    loading: state.UsersReducers.loading
+  };
+};
+const mapDispatchToProps = {
+  createUserAction
+};
 
 // SignUp.propTypes = {
 //   error: PropTypes.bool.isRequired,
@@ -184,9 +226,4 @@ function SignUp(props) {
 //   createUserAction: PropTypes.func.isRequired
 // };
 
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(SignUp);
-
-export default SignUp;
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

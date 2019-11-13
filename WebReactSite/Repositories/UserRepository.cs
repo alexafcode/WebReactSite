@@ -18,7 +18,7 @@ namespace WebReactSite.Repositories
                 return await context.Users.FirstOrDefaultAsync(u => u.Login == userName);
             }
         }
-        public async Task Create(User user)
+        public async Task<User> Create(User user)
         {
             using (var context = ContextFactory.CreateDbContext(ConnectionString))
             {
@@ -26,10 +26,22 @@ namespace WebReactSite.Repositories
                     throw new ApplicationException("Password is empty");
                 if(context.Users.Any(u => u.Login == user.Login))
                     throw new ApplicationException("User \"" + user.Login + "\" is exist");
+                //ToDo Email
+                //if (context.Users.Any(u => u.Login == user.Login))
+                //    throw new ApplicationException("User \"" + user.Login + "\" is exist");
                 //ToDo Password decrypt
-                context.Users.Add(user);
-                await context.SaveChangesAsync();
-                //return user;
+
+                try
+                {
+                    context.Users.Add(user);
+                    await context.SaveChangesAsync();
+                    return user;
+                }
+                catch(Exception e)
+                {
+                    throw new ApplicationException(e.InnerException.Message);
+                }                
+                // return user;
             }
         }
         public IEnumerable<User> GetAll()

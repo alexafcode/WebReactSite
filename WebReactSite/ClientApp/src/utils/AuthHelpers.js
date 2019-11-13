@@ -3,13 +3,18 @@ const constants = {
 };
 
 export default {
-  saveAuth: (userName, token, isAdmin) => {
+  urlConstants: {
+    singInUrl: "api/user/signin",
+    signUpUrl: "api/user/create"
+  },
+  saveAuth: (userName, token, isAdmin = false, email) => {
     localStorage.setItem(
       constants.tokenKey,
       JSON.stringify({
         userName: userName,
         access_token: token,
-        isAdmin: (isAdmin = false)
+        isAdmin: isAdmin,
+        email: email
       })
     );
   },
@@ -25,6 +30,15 @@ export default {
       login = JSON.parse(item).userName;
     }
     return login;
+  },
+
+  getEmail: () => {
+    let item = localStorage.getItem(constants.tokenKey);
+    let email = "";
+    if (item) {
+      email = JSON.parse(item).email;
+    }
+    return email;
   },
 
   isAuthenticated: () => {

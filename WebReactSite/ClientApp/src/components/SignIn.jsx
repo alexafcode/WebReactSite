@@ -45,9 +45,7 @@ function SignIn(props) {
     login: "",
     password: "",
     loginError: false,
-    // passwordError: false,
     loginErrorText: ""
-    // passwordErrorText: ""
   });
 
   return (
@@ -101,7 +99,6 @@ function SignIn(props) {
               if (state.login && state.password && !state.loginError) {
                 console.log(state);
                 props.signInAction(state.login, state.password);
-                console.log("Send");
                 setState({ ...state, password: "" });
               }
             }}
