@@ -41,12 +41,15 @@ const useStyles = makeStyles(theme => ({
 
 function SignIn(props) {
   const classes = useStyles();
-  const [state, setState] = useState({
-    login: "",
-    password: "",
-    loginError: false,
-    loginErrorText: ""
-  });
+  // const [state, setState] = useState({
+  //   login: "",
+  //   password: "",
+  //   loginError: false,
+  //   loginErrorText: ""
+  // });
+  const [login, setLogin] = useState("");
+
+  const [password, setPassword] = useState("");
 
   return (
     <Container component="main" maxWidth="xs">
@@ -60,7 +63,6 @@ function SignIn(props) {
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
-            error={state.loginError}
             variant="outlined"
             margin="normal"
             required
@@ -68,12 +70,12 @@ function SignIn(props) {
             label="Login"
             name="login"
             autoFocus
-            value={state.login}
-            onChange={e => setState({ ...state, login: e.target.value })}
+            value={login}
+            onChange={e => setLogin(e.target.value)}
           />
-          {state.loginError && (
-            <p style={{ color: "red" }}>{state.loginErrorText}</p>
-          )}
+          {/* {loginState.loginError && (
+            <p style={{ color: "red" }}>{loginState.loginErrorText}</p>
+          )} */}
           <TextField
             variant="outlined"
             margin="normal"
@@ -83,8 +85,8 @@ function SignIn(props) {
             label="Password"
             type="password"
             autoComplete="current-password"
-            value={state.password}
-            onChange={e => setState({ ...state, password: e.target.value })}
+            value={password}
+            onChange={e => setPassword(e.target.value)}
           />
           {props.loading && <LinearProgress />}
           {props.error && <p style={{ color: "red" }}>{props.errorMessage}</p>}
@@ -96,10 +98,9 @@ function SignIn(props) {
             className={classes.submit}
             onClick={e => {
               e.preventDefault();
-              if (state.login && state.password && !state.loginError) {
-                console.log(state);
-                props.signInAction(state.login, state.password);
-                setState({ ...state, password: "" });
+              if (login && password) {
+                props.signInAction(login, password);
+                setPassword(password);
               }
             }}
           >

@@ -42,71 +42,58 @@ const useStyles = makeStyles(theme => ({
 function SignUp(props) {
   const classes = useStyles();
 
-  const [state, setState] = useState({
-    login: "",
-    email: "",
-    password: "",
-    loginError: false,
-    emailError: false,
-    passwordError: false,
-    loginErrorText: "",
-    emailErrorText: "",
-    passwordErrorText: ""
+  const [login, setLogin] = useState({
+    value: "",
+    error: false
   });
-
-  const emailValidation = email => {
-    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if (reg.test(email)) {
-      setState({
-        ...state,
-        email: email,
-        emailError: false,
-        emailErrorText: ""
-      });
-    } else {
-      setState({
-        ...state,
-        email: email,
-        emailError: true,
-        emailErrorText: "Email not Corrected"
-      });
-    }
-  };
+  const [password, setPwd] = useState({
+    value: "",
+    error: false
+  });
+  const [email, setEmail] = useState({
+    value: "",
+    error: false
+  });
 
   const loginValidation = login => {
     if (login.length >= 4 && login.length <= 10) {
-      setState({
-        ...state,
-        login: login,
-        emailError: false,
-        loginErrorText: ""
+      setLogin({
+        value: login,
+        error: false
       });
     } else {
-      setState({
-        ...state,
-        login: login,
-        emailError: true,
-        loginErrorText:
-          "Your Login must be at least 4 characters long and most 10 characters"
+      setLogin({
+        value: login,
+        error: true
       });
     }
   };
 
   const pwdValidation = pwd => {
     if (pwd.length >= 6 && pwd.length <= 8) {
-      setState({
-        ...state,
-        password: pwd,
-        passwordError: false,
-        passwordErrorText: ""
+      setPwd({
+        value: pwd,
+        error: false
       });
     } else {
-      setState({
-        ...state,
-        password: pwd,
-        passwordError: true,
-        passwordErrorText:
-          "Your password must be at least 4 characters long and most 8 characters"
+      setPwd({
+        value: pwd,
+        error: true
+      });
+    }
+  };
+
+  const emailValidation = email => {
+    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (reg.test(email)) {
+      setEmail({
+        value: email,
+        error: false
+      });
+    } else {
+      setEmail({
+        value: email,
+        error: true
       });
     }
   };
@@ -125,8 +112,8 @@ function SignUp(props) {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-                value={state.email}
-                error={state.emailError}
+                value={email.value}
+                error={email.error}
                 variant="outlined"
                 // required
                 fullWidth
@@ -136,30 +123,32 @@ function SignUp(props) {
                 autoComplete="email"
                 onChange={e => emailValidation(e.target.value)}
               />
-              {state.emailError && (
-                <p style={{ color: "red" }}>{state.emailErrorText}</p>
+              {email.error && (
+                <p style={{ color: "red" }}>Email not Corrected</p>
               )}
             </Grid>
             <Grid item xs={12}>
               <TextField
-                value={state.login}
-                error={state.loginError}
+                value={login.value}
+                error={login.error}
                 variant="outlined"
                 required
                 fullWidth
-                autoFocus
                 label="Enter Login"
                 name="login"
                 onChange={e => loginValidation(e.target.value)}
               />
-              {state.emailError && (
-                <p style={{ color: "red" }}>{state.loginErrorText}</p>
+              {login.error && (
+                <p style={{ color: "red" }}>
+                  Your Login must be at least 4 characters long and most 10
+                  characters
+                </p>
               )}
             </Grid>
             <Grid item xs={12}>
               <TextField
-                value={state.password}
-                error={state.passwordError}
+                value={password.value}
+                error={password.error}
                 variant="outlined"
                 required
                 fullWidth
@@ -169,8 +158,11 @@ function SignUp(props) {
                 autoComplete="current-password"
                 onChange={e => pwdValidation(e.target.value)}
               />
-              {state.passwordError && (
-                <p style={{ color: "red" }}>{state.passwordErrorText}</p>
+              {password.error && (
+                <p style={{ color: "red" }}>
+                  Your password must be at least 4 characters long and most 8
+                  characters
+                </p>
               )}
             </Grid>
           </Grid>
@@ -184,11 +176,11 @@ function SignUp(props) {
             className={classes.submit}
             onClick={e => {
               e.preventDefault();
-              if (!state.emailError && !state.passwordError) {
+              if (!email.error && !password.error) {
                 props.createUserAction(
-                  state.login,
-                  state.password,
-                  state.email
+                  login.value,
+                  password.value,
+                  email.value
                 );
               }
             }}

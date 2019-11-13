@@ -26,6 +26,8 @@ namespace WebReactSite.Repositories
                     throw new ApplicationException("Password is empty");
                 if(context.Users.Any(u => u.Login == user.Login))
                     throw new ApplicationException("User \"" + user.Login + "\" is exist");
+                if (context.Users.Any(u => u.Email == user.Email))
+                    throw new ApplicationException("Email \"" + user.Email + "\" is exist");
                 //ToDo Email
                 //if (context.Users.Any(u => u.Login == user.Login))
                 //    throw new ApplicationException("User \"" + user.Login + "\" is exist");
