@@ -8,7 +8,8 @@ import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
 import Hidden from "@material-ui/core/Hidden";
 import Button from "@material-ui/core/Button";
-import { routes } from "./routes"
+import { routes } from "./routes";
+import { signOutAction } from "../../store/user/actions";
 
 const styles = {
   root: {
@@ -27,8 +28,8 @@ const styles = {
   }
 };
 
-
-const Menu = (props) => {
+const Menu = props => {
+  console.log(props);
   const { classes } = props;
   return (
     <div className={classes.root}>
@@ -39,11 +40,7 @@ const Menu = (props) => {
               <>
                 <Typography variant="h6">
                   {routes.map((route, index) => (
-                    <Link
-                      key={index}
-                      to={route.link}
-                      className={classes.link}
-                    >
+                    <Link key={index} to={route.link} className={classes.link}>
                       {route.name}
                     </Link>
                   ))}
@@ -51,27 +48,27 @@ const Menu = (props) => {
                 <Button
                   color="inherit"
                   className={classes.linkAuth}
-                // onClick={() => this.props.singOutAction()}
+                  onClick={() => props.signOutAction()}
                 >
                   SignOut
-                  </Button>
+                </Button>
               </>
             ) : (
-                <Typography variant="h6">
-                  <Link to="/signin" className={classes.link}>
-                    SignIn
-                  </Link>
-                  <Link to="/signup" className={classes.link}>
-                    SignUp
-                  </Link>
-                </Typography>
-              )}
+              <Typography variant="h6">
+                <Link to="/signin" className={classes.link}>
+                  SignIn
+                </Link>
+                <Link to="/signup" className={classes.link}>
+                  SignUp
+                </Link>
+              </Typography>
+            )}
           </Hidden>
         </Toolbar>
       </AppBar>
     </div>
   );
-}
+};
 
 // export default withStyles(styles)(Menu);
 const mapStateToProps = state => ({
@@ -79,13 +76,13 @@ const mapStateToProps = state => ({
   isAuthenticated: state.UsersReducers.isAuthenticated
 });
 
-// const mapDispatchToProps = {
-//   singOutAction
-// };
+const mapDispatchToProps = {
+  signOutAction
+};
 
 export default compose(
   withStyles(styles, {
     name: "Menu"
   }),
-  connect(mapStateToProps, null)
+  connect(mapStateToProps, mapDispatchToProps)
 )(Menu);

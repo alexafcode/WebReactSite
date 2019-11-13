@@ -34,18 +34,6 @@ namespace WebReactSite
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
-            //string connection = Configuration.GetConnectionString("DefaultConnection");
-            //services.AddDbContext<RepositoryContext>(options =>
-            //    options.UseSqlServer(connection));
-            services.AddScoped<IRepositoryContextFactory, RepositoryContextFactory>();
-            services.AddScoped<IUserRepository>(provider => new UserRepository(Configuration.GetConnectionString("DefaultConnection"), provider.GetService<IRepositoryContextFactory>()));
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<IConfiguration>(Configuration);
-
-            //Add Services
-            services.AddScoped<IUserService, UserService>();
-
             //Add Auth
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -65,6 +53,18 @@ namespace WebReactSite
                         ValidateIssuerSigningKey = true
                     };
                 });
+
+            services.AddControllersWithViews();
+            //string connection = Configuration.GetConnectionString("DefaultConnection");
+            //services.AddDbContext<RepositoryContext>(options =>
+            //    options.UseSqlServer(connection));
+            services.AddScoped<IRepositoryContextFactory, RepositoryContextFactory>();
+            services.AddScoped<IUserRepository>(provider => new UserRepository(Configuration.GetConnectionString("DefaultConnection"), provider.GetService<IRepositoryContextFactory>()));
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IConfiguration>(Configuration);
+
+            //Add Services
+            services.AddScoped<IUserService, UserService>();
 
 
             // In production, the React files will be served from this directory
@@ -87,6 +87,9 @@ namespace WebReactSite
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

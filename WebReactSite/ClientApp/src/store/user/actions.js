@@ -1,5 +1,11 @@
 import axios from "axios";
-import { SIGNIN, TOKEN, SIGNIN_ERROR, LOGIN_SUCCESS } from "./constants";
+import {
+  SIGNIN,
+  SIGNOUT,
+  TOKEN,
+  SIGNIN_ERROR,
+  LOGIN_SUCCESS
+} from "./constants";
 import helper from "../../utils/authHelpers";
 import history from "../../history";
 
@@ -22,4 +28,10 @@ export const signInAction = (login, password) => async dispatch => {
       console.log(e);
       SIGNIN_ERROR({ type: SIGNIN_ERROR, payload: e.message });
     });
+};
+
+export const signOutAction = () => dispatch => {
+  dispatch({ type: SIGNOUT });
+  helper.clearAuth();
+  history.push("/");
 };

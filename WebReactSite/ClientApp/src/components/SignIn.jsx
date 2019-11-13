@@ -122,11 +122,10 @@ function SignIn(props) {
 }
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
-    // error: state.AuthReducers.error,
-    // errorMessage: state.AuthReducers.errorMessage,
-    // loading: state.AuthReducers.loading
+    error: state.UsersReducers.error,
+    errorMessage: state.UsersReducers.errorMessage,
+    loading: state.UsersReducers.loading
   };
 };
 const mapDispatchToProps = {

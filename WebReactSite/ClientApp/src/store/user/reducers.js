@@ -1,7 +1,7 @@
 import helper from "../../utils/authHelpers";
 
 const initialState = {
-  isAuthenticated: false,
+  isAuthenticated: helper.isAuthenticated(),
   token: helper.getToken(),
   user: helper.getLogin(),
   error: false,
@@ -37,11 +37,13 @@ export default (state = initialState, action) => {
         error: true,
         errorMessage: action.payload
       };
-    // case "ERROR":
-    //   return {
-    //     ...state,
-    //     error: action.payload
-    //   };
+    case "SIGNOUT":
+      return {
+        ...state,
+        isAuthenticated: false,
+        user: null,
+        token: null
+      };
     // case "ERROR_MESSAGE":
     //   return {
     //     ...state,

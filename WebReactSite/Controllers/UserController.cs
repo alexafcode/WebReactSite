@@ -11,6 +11,7 @@ using WebReactSite.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -26,6 +27,7 @@ namespace WebReactSite.Controllers
         }
 
         // GET: api/<controller>
+        [Authorize]
         [Route("getall")]
         [HttpGet]
         public IEnumerable<User> GetAll()
