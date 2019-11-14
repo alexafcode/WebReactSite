@@ -1,7 +1,8 @@
-import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
+import { signOutAction } from "../../store/user/actions";
+import { withStyles } from "@material-ui/core/styles";
 // import PropTypes from "prop-types";
 import { AppBar, Toolbar } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
@@ -9,7 +10,7 @@ import { Link } from "react-router-dom";
 import Hidden from "@material-ui/core/Hidden";
 import Button from "@material-ui/core/Button";
 import { routes } from "./routes";
-import { signOutAction } from "../../store/user/actions";
+import MobileDrawer from "./MobileDrawer";
 
 const styles = {
   root: {
@@ -29,12 +30,26 @@ const styles = {
 };
 
 const Menu = props => {
-  console.log(props);
   const { classes } = props;
+  const [drawer, setDrawer] = useState(false);
+
+  const handleMobileMenu = () => {
+    setDrawer(drawer => !drawer);
+  };
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
+          <Hidden only={["md", "xl", "lg"]}>
+            <MobileDrawer
+              isAuthenticated={props.isAuthenticated}
+              singOutAction={props.singOutAction}
+              onClick={handleMobileMenu}
+              isOpen={drawer}
+              toggleDrawer={handleMobileMenu}
+            />
+          </Hidden>
           <Hidden only={["xs", "sm"]}>
             {props.isAuthenticated ? (
               <>
