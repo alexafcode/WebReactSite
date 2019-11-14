@@ -20,11 +20,14 @@ export default (state = initialState, action) => {
         errorMessage: ""
       };
     case "LOGIN_SUCCESS":
+      console.log(action);
       return {
         ...state,
         isAuthenticated: true,
         user: action.payload,
-        loading: false
+        loading: false,
+        token: action.token,
+        email: action.email
       };
     case "TOKEN":
       return {
@@ -32,6 +35,7 @@ export default (state = initialState, action) => {
         token: action.payload
       };
     case "SIGNIN_ERROR":
+      console.log(action);
       return {
         ...state,
         loading: false,

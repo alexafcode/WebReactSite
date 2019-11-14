@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
+using System.Net;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -70,16 +71,20 @@ namespace WebReactSite.Controllers
         //api/user/signin
         [Route("signin")]
         [HttpPost]
-        public async Task<IActionResult> SignIn([FromBody] User user)
+        public async Task<IActionResult> SignIn([FromQuery] string login, string password)
         {
-            var identity = await _service.GetIdentity(user.Login, user.Password);
+            var user = await _service.GetUser(login);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+            var identity = await _service.GetIdentity(login, password);
             if (identity == null)
             {
                 return Unauthorized();
             }
 
             var encodedJwt =  _service.GetToken(identity);
-
 
             var response = new
             {
@@ -91,7 +96,6 @@ namespace WebReactSite.Controllers
 
             return Ok(response);
         }
-
 
         //// PUT api/<controller>/5
         //[HttpPut("{id}")]

@@ -167,7 +167,11 @@ function SignUp(props) {
             </Grid>
           </Grid>
           {props.loading && <LinearProgress />}
-          {props.error && <p style={{ color: "red" }}>{props.errorMessage}</p>}
+          {props.error && (
+            <p style={{ color: "red", textAlign: "center" }}>
+              {props.errorMessage}
+            </p>
+          )}
           <Button
             type="submit"
             fullWidth

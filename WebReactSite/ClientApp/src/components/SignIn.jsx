@@ -41,14 +41,8 @@ const useStyles = makeStyles(theme => ({
 
 function SignIn(props) {
   const classes = useStyles();
-  // const [state, setState] = useState({
-  //   login: "",
-  //   password: "",
-  //   loginError: false,
-  //   loginErrorText: ""
-  // });
-  const [login, setLogin] = useState("");
 
+  const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
 
   return (
@@ -89,7 +83,11 @@ function SignIn(props) {
             onChange={e => setPassword(e.target.value)}
           />
           {props.loading && <LinearProgress />}
-          {props.error && <p style={{ color: "red" }}>{props.errorMessage}</p>}
+          {props.error && (
+            <p style={{ color: "red", textAlign: "center" }}>
+              {props.errorMessage}
+            </p>
+          )}
           <Button
             type="submit"
             fullWidth
