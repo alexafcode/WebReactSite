@@ -9,7 +9,7 @@ namespace WebReactSite.Interfaces
     public interface IUserRepository
     {
         Task<User> GetUser(string userName);
-        Task<User> Create(User user);
+        User Create(User user);
         IEnumerable<User> GetAll();
     }
 }

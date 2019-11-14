@@ -55,7 +55,12 @@ namespace WebReactSite.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var user = await _service.Create(newuser.Username, newuser.Password, newuser.Email);
+
+            var user = _service.Create(newuser.Username, newuser.Password, newuser.Email);
+            if (user == null)
+            {
+                return BadRequest();
+            }
             var identity = await _service.GetIdentity(user.Login, user.Password);
             var encodedJwt = _service.GetToken(identity);
             var response = new

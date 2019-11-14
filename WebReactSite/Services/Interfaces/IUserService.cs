@@ -11,7 +11,7 @@ namespace WebReactSite.Services.Interfaces
     {
         Task<User> GetUser(string userName);
         //Task Create(User user);
-        Task<User> Create(string login, string password, string email);
+        User Create(string login, string password, string email);
         IEnumerable<User> GetAll();
         Task<IReadOnlyCollection<Claim>> GetIdentity(string username, string password);
         string GetToken(IReadOnlyCollection<Claim> identity);

@@ -7,7 +7,7 @@ namespace WebReactSite.Helpers
     {
         public const string ISSUER = "WebReactSite"; // издатель токена
         public const string AUDIENCE = "http://localhost:44377/"; // потребитель токена
-        const string KEY = "mysupersecret_secretkey!123";   // ключ для шифрации
+        const string KEY = "WebReactSite_secretkey!4437?";   // ключ для шифрации
         public const int LIFETIME = 60; // время жизни токена - 1 минута
         public static SymmetricSecurityKey GetSymmetricSecurityKey()
         {

@@ -67,6 +67,6 @@ export const createUserAction = (login, password, email) => dispatch => {
     })
     .catch(e => {
       console.log(e.message);
-      dispatch({ type: SIGNIN_ERROR, payload: e.message });
+      dispatch({ type: SIGNIN_ERROR, payload: "User or Email exist" });
     });
 };

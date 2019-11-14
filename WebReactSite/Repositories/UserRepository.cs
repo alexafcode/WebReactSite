@@ -18,32 +18,17 @@ namespace WebReactSite.Repositories
                 return await context.Users.FirstOrDefaultAsync(u => u.Login == userName);
             }
         }
-        public async Task<User> Create(User user)
+        public User Create(User user)
         {
             using (var context = ContextFactory.CreateDbContext(ConnectionString))
             {
-                if (string.IsNullOrWhiteSpace(user.Password))
-                    throw new ApplicationException("Password is empty");
-                if(context.Users.Any(u => u.Login == user.Login))
-                    throw new ApplicationException("User \"" + user.Login + "\" is exist");
-                if (context.Users.Any(u => u.Email == user.Email))
-                    throw new ApplicationException("Email \"" + user.Email + "\" is exist");
-                //ToDo Email
-                //if (context.Users.Any(u => u.Login == user.Login))
-                //    throw new ApplicationException("User \"" + user.Login + "\" is exist");
-                //ToDo Password decrypt
-
-                try
+                if (!context.Users.Any(u => u.Login == user.Login) && !context.Users.Any(u => u.Email == user.Email))
                 {
-                    context.Users.Add(user);
-                    await context.SaveChangesAsync();
+                    context.Add(user);
+                    context.SaveChanges();
                     return user;
                 }
-                catch(Exception e)
-                {
-                    throw new ApplicationException(e.InnerException.Message);
-                }                
-                // return user;
+                return null;             
             }
         }
         public IEnumerable<User> GetAll()
