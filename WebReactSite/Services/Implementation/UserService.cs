@@ -28,7 +28,9 @@ namespace WebReactSite.Services.Implementation
         {
             if (IsNameInUse(login))
                 throw new Exception("User name in Use");
-            //ToDo check email
+            if (IsEmailInUse(email))
+                throw new Exception("User email in Use");
+
             User user = new User();
             user.Login = login;
             user.Password = password;
@@ -74,21 +76,27 @@ namespace WebReactSite.Services.Implementation
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
             return encodedJwt;
         }
-        public User GetUserByEmail(string name)
+        public User GetUserByName(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
                 return null;
-            var user = _repository.GetUserByName(name);
-            if (user == null)
-                return null;
-            return user;
+            return _repository.GetUserByName(name) ?? null;
         }
         public bool IsNameInUse(string name)
         {
-            var user = GetUserByEmail(name);
-            if (user == null)
-                return false;
-            return true;
+            var user = GetUserByName(name);
+            return user == null ? false : true;
+        }
+        public User GetUserByEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                    return null;
+                return _repository.GetUserByEmail(email) ?? null;
+        }
+        public bool IsEmailInUse(string email)
+        {
+            var user = GetUserByEmail(email);
+            return user == null ? false : true;
         }
     }
 }

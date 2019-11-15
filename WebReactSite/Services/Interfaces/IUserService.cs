@@ -15,7 +15,9 @@ namespace WebReactSite.Services.Interfaces
         IEnumerable<User> GetAll();
         Task<IReadOnlyCollection<Claim>> GetIdentity(string username, string password);
         string GetToken(IReadOnlyCollection<Claim> identity);
-        User GetUserByEmail(string name);
+        User GetUserByName(string name);
         bool IsNameInUse(string name);
+        User GetUserByEmail(string email);
+
     }
 }

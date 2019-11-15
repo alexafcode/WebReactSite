@@ -33,6 +33,7 @@ export const signInAction = (login, password) => dispatch => {
     })
     .catch(e => {
       console.log(e.response);
+      console.log(e.response.data);
       dispatch({ type: SIGNIN_ERROR, payload: "User or Password incorrect" });
     });
 };

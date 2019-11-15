@@ -57,7 +57,7 @@ namespace WebReactSite.Controllers
             User user;
             try
             {
-                user = _service.Create(newuser.Username, newuser.Password, newuser.Email);
+                user = _service.Create(newuser.Username.ToLower().Trim(), newuser.Password, newuser.Email);
             }
             catch(Exception e)
             {

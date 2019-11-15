@@ -12,5 +12,6 @@ namespace WebReactSite.Interfaces
         User Create(User user);
         IEnumerable<User> GetAll();
         User GetUserByName(string name);
+        User GetUserByEmail(string email);
     }
 }

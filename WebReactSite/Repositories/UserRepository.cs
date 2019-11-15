@@ -45,5 +45,12 @@ namespace WebReactSite.Repositories
                 return context.Users.FirstOrDefault(u => u.Login == name);
             }
         }
+        public  User GetUserByEmail(string email)
+        {
+            using (var context = ContextFactory.CreateDbContext(ConnectionString))
+            {
+                return context.Users.FirstOrDefault(u => u.Email == email);
+            }
+        }
     }
 }
