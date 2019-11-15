@@ -32,8 +32,7 @@ export const signInAction = (login, password) => dispatch => {
       history.push("/");
     })
     .catch(e => {
-      console.log(e);
-      console.log(e.message);
+      console.log(e.response);
       dispatch({ type: SIGNIN_ERROR, payload: "User or Password incorrect" });
     });
 };
@@ -66,7 +65,7 @@ export const createUserAction = (login, password, email) => dispatch => {
       history.push("/");
     })
     .catch(e => {
-      console.log(e.message);
-      dispatch({ type: SIGNIN_ERROR, payload: "User or Email exist" });
+      console.log(e.response);
+      dispatch({ type: SIGNIN_ERROR, payload: e.response.data });
     });
 };

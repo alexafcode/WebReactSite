@@ -26,6 +26,9 @@ namespace WebReactSite.Services.Implementation
         }
         public User Create(string login, string password, string email)
         {
+            if (IsNameInUse(login))
+                throw new Exception("User name in Use");
+            //ToDo check email
             User user = new User();
             user.Login = login;
             user.Password = password;
@@ -70,6 +73,22 @@ namespace WebReactSite.Services.Implementation
                     signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
             return encodedJwt;
+        }
+        public User GetUserByEmail(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return null;
+            var user = _repository.GetUserByName(name);
+            if (user == null)
+                return null;
+            return user;
+        }
+        public bool IsNameInUse(string name)
+        {
+            var user = GetUserByEmail(name);
+            if (user == null)
+                return false;
+            return true;
         }
     }
 }

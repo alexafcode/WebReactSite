@@ -54,9 +54,16 @@ namespace WebReactSite.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
-
-            var user = _service.Create(newuser.Username, newuser.Password, newuser.Email);
+            User user;
+            try
+            {
+                user = _service.Create(newuser.Username, newuser.Password, newuser.Email);
+            }
+            catch(Exception e)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
+            }
+            
             if (user == null)
             {
                 return BadRequest();
