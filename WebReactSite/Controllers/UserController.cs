@@ -39,15 +39,10 @@ namespace WebReactSite.Controllers
         // POST api/<controller>
         [Route("get")]
         [HttpPost]
-        public async Task<IActionResult> GetUser([FromBody]string value)
-        {
-            var user = await _service.GetUser(value);
-            if (user != null)
-            {
-                return StatusCode(200);
-            }
-            return StatusCode(400);
-        }
+        //public Task<IActionResult> GetUser([FromBody]string value)
+        //{
+
+        //}
         [Route("create")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] UserRegistration newuser)
@@ -57,7 +52,7 @@ namespace WebReactSite.Controllers
             User user;
             try
             {
-                user = _service.Create(newuser.Username.ToLower().Trim(), newuser.Password, newuser.Email);
+                user = _service.Create(newuser.Username.ToLower().Trim(), newuser.Password, newuser.Email.ToLower().Trim());
             }
             catch(Exception e)
             {
@@ -68,7 +63,7 @@ namespace WebReactSite.Controllers
             {
                 return BadRequest();
             }
-            var identity = await _service.GetIdentity(user.Login, user.Password);
+            var identity = await _service.GetIdentity(user.Login);
             var encodedJwt = _service.GetToken(identity);
             var response = new
             {
@@ -85,12 +80,21 @@ namespace WebReactSite.Controllers
         [HttpPost]
         public async Task<IActionResult> SignIn([FromQuery] string login, string password)
         {
-            var user = await _service.GetUser(login);
+            User user;
+            try
+            {
+                user = _service.SignIn(login.ToLower().Trim(), password);
+            }
+            catch (Exception e)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
+            }
+
             if (user == null)
             {
                 return Unauthorized();
             }
-            var identity = await _service.GetIdentity(login, password);
+            var identity = await _service.GetIdentity(login);
             if (identity == null)
             {
                 return Unauthorized();

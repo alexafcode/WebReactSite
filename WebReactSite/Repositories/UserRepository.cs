@@ -11,11 +11,11 @@ namespace WebReactSite.Repositories
     public class UserRepository : BaseRepository, IUserRepository
     {
         public UserRepository(string connectionString, IRepositoryContextFactory contextFactory) : base(connectionString, contextFactory) { }
-        public async Task<User> GetUser(string userName)
+        public User GetUser(string userName)
         {
             using (var context = ContextFactory.CreateDbContext(ConnectionString))
             {
-                return await context.Users.FirstOrDefaultAsync(u => u.Login == userName);
+                return context.Users.FirstOrDefault(u => u.Login == userName);
             }
         }
         public User Create(User user)

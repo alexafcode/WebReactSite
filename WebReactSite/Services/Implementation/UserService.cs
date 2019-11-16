@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace WebReactSite.Services.Implementation
 {
@@ -20,9 +22,20 @@ namespace WebReactSite.Services.Implementation
         {
             _repository = repository;
         }
-        public async Task<User> GetUser(string userName)
+        public User GetUser(string userName)
         {
-            return await _repository.GetUser(userName);
+            return _repository.GetUser(userName);
+        }
+
+        public User SignIn(string login, string password)
+        {
+            var user = _repository.GetUser(login);
+            if (user == null)
+                throw new Exception("User name or password incorrect");
+            var verifyPassword = verifyMd5Hash(password, user.Password);
+            if(!verifyPassword)
+                throw new Exception("User name or password incorrect");
+            return user;
         }
         public User Create(string login, string password, string email)
         {
@@ -32,8 +45,9 @@ namespace WebReactSite.Services.Implementation
                 throw new Exception("User email in Use");
 
             User user = new User();
+            var hash = getMd5Hash(password);
             user.Login = login;
-            user.Password = password;
+            user.Password = hash;
             user.Email = email;
             var result = _repository.Create(user);
             if(result != null)
@@ -46,21 +60,13 @@ namespace WebReactSite.Services.Implementation
         {
             return _repository.GetAll();
         }
-        public async Task<IReadOnlyCollection<Claim>> GetIdentity(string username, string password)
+        public IReadOnlyCollection<Claim> GetIdentity(string username)
         {
             List<Claim> claims = null;
-            var user = await GetUser(username);
-            if (user != null)
+            claims = new List<Claim>
             {
-                //ToDo check password decrypt
-                if (user.Password == password)
-                {
-                    claims = new List<Claim>
-                    {
-                        new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login)
-                    };
-                }
-            }
+                new Claim(ClaimsIdentity.DefaultNameClaimType, username)
+            };
             return claims;
         }
         public string GetToken(IReadOnlyCollection<Claim> identity)
@@ -98,5 +104,34 @@ namespace WebReactSite.Services.Implementation
             var user = GetUserByEmail(email);
             return user == null ? false : true;
         }
+        static string getMd5Hash(string input)
+        {
+            MD5CryptoServiceProvider md5Hasher = new MD5CryptoServiceProvider();
+
+            byte[] data = md5Hasher.ComputeHash(Encoding.Default.GetBytes(input));
+
+            StringBuilder sBuilder = new StringBuilder();
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                sBuilder.Append(data[i].ToString("x2"));
+            }
+            return sBuilder.ToString();
+        }
+        static bool verifyMd5Hash(string input, string hash)
+        {
+            string hashOfInput = getMd5Hash(input);
+            StringComparer comparer = StringComparer.OrdinalIgnoreCase;
+
+            if (0 == comparer.Compare(hashOfInput, hash))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 }

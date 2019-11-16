@@ -9,11 +9,11 @@ namespace WebReactSite.Services.Interfaces
 {
     public interface IUserService
     {
-        Task<User> GetUser(string userName);
-        //Task Create(User user);
+        User GetUser(string userName);
+        User SignIn(string login, string password);
         User Create(string login, string password, string email);
         IEnumerable<User> GetAll();
-        Task<IReadOnlyCollection<Claim>> GetIdentity(string username, string password);
+        IReadOnlyCollection<Claim> GetIdentity(string username);
         string GetToken(IReadOnlyCollection<Claim> identity);
         User GetUserByName(string name);
         bool IsNameInUse(string name);

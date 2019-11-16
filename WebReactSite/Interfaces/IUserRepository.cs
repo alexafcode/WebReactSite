@@ -8,7 +8,7 @@ namespace WebReactSite.Interfaces
 {
     public interface IUserRepository
     {
-        Task<User> GetUser(string userName);
+        User GetUser(string userName);
         User Create(User user);
         IEnumerable<User> GetAll();
         User GetUserByName(string name);
