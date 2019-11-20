@@ -60,11 +60,13 @@ namespace WebReactSite
             //    options.UseSqlServer(connection));
             services.AddScoped<IRepositoryContextFactory, RepositoryContextFactory>();
             services.AddScoped<IUserRepository>(provider => new UserRepository(Configuration.GetConnectionString("DefaultConnection"), provider.GetService<IRepositoryContextFactory>()));
+            services.AddScoped<IForumRepository>(provider => new ForumRepository(Configuration.GetConnectionString("DefaultConnection"), provider.GetService<IRepositoryContextFactory>()));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IConfiguration>(Configuration);
 
             //Add Services
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IForumService, ForumService>();
 
 
             // In production, the React files will be served from this directory

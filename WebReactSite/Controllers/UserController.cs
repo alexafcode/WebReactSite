@@ -45,7 +45,7 @@ namespace WebReactSite.Controllers
         //}
         [Route("create")]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] UserRegistration newuser)
+        public IActionResult Create([FromBody] UserRegistration newuser)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -54,16 +54,16 @@ namespace WebReactSite.Controllers
             {
                 user = _service.Create(newuser.Username.ToLower().Trim(), newuser.Password, newuser.Email.ToLower().Trim());
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
             }
-            
+
             if (user == null)
             {
                 return BadRequest();
             }
-            var identity = await _service.GetIdentity(user.Login);
+            var identity = _service.GetIdentity(user.Login);
             var encodedJwt = _service.GetToken(identity);
             var response = new
             {
@@ -78,7 +78,7 @@ namespace WebReactSite.Controllers
         //api/user/signin
         [Route("signin")]
         [HttpPost]
-        public async Task<IActionResult> SignIn([FromQuery] string login, string password)
+        public IActionResult SignIn([FromQuery] string login, string password)
         {
             User user;
             try
@@ -94,13 +94,13 @@ namespace WebReactSite.Controllers
             {
                 return Unauthorized();
             }
-            var identity = await _service.GetIdentity(login);
+            var identity = _service.GetIdentity(login);
             if (identity == null)
             {
                 return Unauthorized();
             }
 
-            var encodedJwt =  _service.GetToken(identity);
+            var encodedJwt = _service.GetToken(identity);
 
             var response = new
             {

@@ -32,7 +32,7 @@ namespace WebReactSite.Services.Implementation
             var user = _repository.GetUser(login);
             if (user == null)
                 throw new Exception("User name or password incorrect");
-            var verifyPassword = verifyMd5Hash(password, user.Password);
+            var verifyPassword = VerifyMd5Hash(password, user.Password);
             if(!verifyPassword)
                 throw new Exception("User name or password incorrect");
             return user;
@@ -118,7 +118,7 @@ namespace WebReactSite.Services.Implementation
             }
             return sBuilder.ToString();
         }
-        static bool verifyMd5Hash(string input, string hash)
+        static bool VerifyMd5Hash(string input, string hash)
         {
             string hashOfInput = getMd5Hash(input);
             StringComparer comparer = StringComparer.OrdinalIgnoreCase;
