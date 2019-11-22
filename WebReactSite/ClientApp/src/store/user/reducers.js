@@ -5,6 +5,7 @@ const initialState = {
   token: helper.getToken(),
   user: helper.getLogin(),
   email: helper.getEmail(),
+  isAdmin: helper.isAdmin(),
   error: false,
   errorMessage: "",
   loading: false
@@ -27,7 +28,8 @@ export default (state = initialState, action) => {
         user: action.payload,
         loading: false,
         token: action.token,
-        email: action.email
+        email: action.email,
+        isAdmin: action.isAdmin
       };
     case "TOKEN":
       return {
@@ -48,7 +50,8 @@ export default (state = initialState, action) => {
         isAuthenticated: false,
         user: null,
         token: null,
-        email: ""
+        email: "",
+        isAdmin: null
       };
     // case "ERROR_MESSAGE":
     //   return {

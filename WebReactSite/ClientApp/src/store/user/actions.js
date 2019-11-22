@@ -26,7 +26,8 @@ export const signInAction = (login, password) => dispatch => {
         type: LOGIN_SUCCESS,
         payload: data.user,
         token: data.token,
-        email: data.email
+        email: data.email,
+        isAdmin: data.isAdmin
       });
       // dispatch({ type: TOKEN, payload: data.token });
       history.push("/");
@@ -59,7 +60,8 @@ export const createUserAction = (login, password, email) => dispatch => {
         type: LOGIN_SUCCESS,
         payload: data.user,
         token: data.token,
-        email: data.email
+        email: data.email,
+        isAdmin: data.isAdmin
       });
       dispatch({ type: TOKEN, payload: data.token });
       history.push("/");

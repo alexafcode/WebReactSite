@@ -50,6 +50,17 @@ export default {
     }
   },
 
+  isAdmin: () => {
+    let item = localStorage.getItem(constants.tokenKey);
+    if (item) {
+      const isAdmin = JSON.parse(item).isAdmin;
+      if (isAdmin) {
+        return true;
+      }
+    }
+    return false;
+  },
+
   getToken: () => {
     let item = localStorage.getItem(constants.tokenKey);
     let token = null;

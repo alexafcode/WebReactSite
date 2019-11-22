@@ -7,6 +7,11 @@ export const routes = [
     icon: <Home />,
     link: "/",
     name: "Home"
+  },
+  {
+    icon: <AccountCircle />,
+    link: "/cabinet",
+    name: "Cabinet"
   }
 ];
 export const nonAuthRoutes = [
