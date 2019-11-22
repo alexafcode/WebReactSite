@@ -8,11 +8,12 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
 export default function FormDialog(props) {
+  const { open, handleClose, handleInputChange, values } = props;
   return (
     <div>
       <Dialog
-        open={props.open}
-        onClose={props.handleClose}
+        open={open}
+        onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">Create Theme</DialogTitle>
@@ -20,15 +21,37 @@ export default function FormDialog(props) {
           <DialogContentText>
             Please enter your New theme Header, Description and Icon
           </DialogContentText>
-          <TextField autoFocus margin="dense" label="Header" fullWidth />
-          <TextField margin="dense" label="Description" fullWidth />
-          <TextField margin="dense" label="Icon" fullWidth />
+          <TextField
+            name="header"
+            autoFocus
+            margin="dense"
+            label="Header"
+            fullWidth
+            onChange={handleInputChange}
+            value={values.name}
+          />
+          <TextField
+            name="description"
+            margin="dense"
+            label="Description"
+            fullWidth
+            onChange={handleInputChange}
+            value={values.name}
+          />
+          <TextField
+            name="icon"
+            margin="dense"
+            label="Icon"
+            fullWidth
+            onChange={handleInputChange}
+            value={values.name}
+          />
         </DialogContent>
         <DialogActions>
-          <Button onClick={props.handleClose} color="primary">
+          <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={props.handleClose} color="primary">
+          <Button onClick={handleClose} color="primary">
             Submit
           </Button>
         </DialogActions>

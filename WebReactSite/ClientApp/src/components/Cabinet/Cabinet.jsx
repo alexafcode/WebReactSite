@@ -16,14 +16,19 @@ const useStyles = makeStyles(theme => ({
 const Cabinet = props => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [values, setValues] = useState({
+    header: "",
+    description: "",
+    icon: ""
+  });
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleInputChange = e => {
+    const { name, value } = e.target;
+    setValues({ ...values, [name]: value });
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleClickOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
     <React.Fragment>
@@ -39,7 +44,12 @@ const Cabinet = props => {
             Management
           </Button>
         )}
-        <ThemeDialog open={open} handleClose={handleClose} />
+        <ThemeDialog
+          open={open}
+          handleClose={handleClose}
+          handleInputChange={handleInputChange}
+          values={values}
+        />
       </div>
     </React.Fragment>
   );
