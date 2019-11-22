@@ -1,4 +1,11 @@
 import helper from "../../utils/authHelpers";
+import {
+  SIGNIN,
+  LOGIN_SUCCESS,
+  SIGNOUT,
+  TOKEN,
+  SIGNIN_ERROR
+} from "./constants";
 
 const initialState = {
   isAuthenticated: helper.isAuthenticated(),
@@ -13,14 +20,14 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case "SIGNIN":
+    case SIGNIN:
       return {
         ...state,
         loading: true,
         error: false,
         errorMessage: ""
       };
-    case "LOGIN_SUCCESS":
+    case LOGIN_SUCCESS:
       console.log(action);
       return {
         ...state,
@@ -31,12 +38,12 @@ export default (state = initialState, action) => {
         email: action.email,
         isAdmin: action.isAdmin
       };
-    case "TOKEN":
+    case TOKEN:
       return {
         ...state,
         token: action.payload
       };
-    case "SIGNIN_ERROR":
+    case SIGNIN_ERROR:
       console.log(action);
       return {
         ...state,
@@ -44,7 +51,7 @@ export default (state = initialState, action) => {
         error: true,
         errorMessage: action.payload
       };
-    case "SIGNOUT":
+    case SIGNOUT:
       return {
         ...state,
         isAuthenticated: false,
@@ -53,16 +60,6 @@ export default (state = initialState, action) => {
         email: "",
         isAdmin: null
       };
-    // case "ERROR_MESSAGE":
-    //   return {
-    //     ...state,
-    //     errorMessage: action.payload
-    //   };
-    // case "LOADING":
-    //   return {
-    //     ...state,
-    //     loading: action.payload
-    //   };
     default:
       return state;
   }

@@ -29,7 +29,6 @@ export const signInAction = (login, password) => dispatch => {
         email: data.email,
         isAdmin: data.isAdmin
       });
-      // dispatch({ type: TOKEN, payload: data.token });
       history.push("/");
     })
     .catch(e => {
