@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebReactSite.Models
+namespace WebReactSite.ViewModels
 {
-    public class ForumTheme
+    public class AddForumThemeRequest
     {
-        [Key]
-        public int ForumId { get; set; }
-
         public string Header { get; set; }
         public string Description { get; set; }
         public string Icon { get; set; }

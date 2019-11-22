@@ -18,5 +18,13 @@ namespace WebReactSite.Repositories
                 return context.ForumThemes.ToList();
             }
         }
+        public async Task AddForumTheme(ForumTheme ft)
+        {
+            using (var context = ContextFactory.CreateDbContext(ConnectionString))
+            {
+                context.ForumThemes.Add(ft);
+                await context.SaveChangesAsync();
+            }
+        }
     }
 }

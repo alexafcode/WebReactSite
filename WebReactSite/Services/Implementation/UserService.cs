@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using WebReactSite.ViewModels;
 
 namespace WebReactSite.Services.Implementation
 {

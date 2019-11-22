@@ -9,5 +9,6 @@ namespace WebReactSite.Interfaces
     public interface IForumRepository
     {
         public IEnumerable<ForumTheme> GetForumTheme();
+        public Task AddForumTheme(ForumTheme ft);
     }
 }
