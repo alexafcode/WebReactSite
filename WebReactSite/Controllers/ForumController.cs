@@ -32,9 +32,14 @@ namespace WebReactSite.Controllers
         // POST api/<controller>
         [Route("addcomment")]
         [HttpPost]
-        public async Task AddComment([FromBody] AddForumThemeRequest request)
+        public async Task<IActionResult> AddComment([FromBody] AddForumThemeRequest request)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             await _forumService.AddForumTheme(request);
+            return Ok();
+            
         }
 
     }

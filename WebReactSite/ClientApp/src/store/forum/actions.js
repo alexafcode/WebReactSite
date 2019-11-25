@@ -31,5 +31,6 @@ export const addThemeAction = (header, desc, icon) => dispatch => {
     .catch(e => {
       dispatch({ type: LOADING, payload: false });
       console.log(e.response);
+      console.log(e.response.data.Header[0]);
     });
 };
