@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import { addThemeAction } from "../../store/forum/actions";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import ThemeDialog from "./ThemeDialog";
+import Loading from "../Loading/Loading";
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -10,6 +12,11 @@ const useStyles = makeStyles(theme => ({
   },
   input: {
     display: "none"
+  },
+  loading: {
+    margin: "auto",
+    width: "10%",
+    marginTop: "10%"
   }
 }));
 
@@ -29,37 +36,54 @@ const Cabinet = props => {
 
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const addTheme = () => {
+    props.addThemeAction(values.header, values.description, values.icon);
+    setOpen(false);
+  };
 
   return (
     <React.Fragment>
-      <div>Cabinet</div>
-      <div>
-        {props.isAdmin && (
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            onClick={() => handleClickOpen()}
-          >
-            Management
-          </Button>
-        )}
-        <ThemeDialog
-          open={open}
-          handleClose={handleClose}
-          handleInputChange={handleInputChange}
-          values={values}
-        />
-      </div>
+      {props.loading ? (
+        <div className={classes.loading}>
+          <Loading />
+        </div>
+      ) : (
+        <div>
+          <div>Cabinet</div>
+          <div>
+            {props.isAdmin && (
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                onClick={() => handleClickOpen()}
+              >
+                Management
+              </Button>
+            )}
+            <ThemeDialog
+              open={open}
+              handleClose={handleClose}
+              handleInputChange={handleInputChange}
+              values={values}
+              addTheme={addTheme}
+            />
+          </div>
+        </div>
+      )}
     </React.Fragment>
   );
 };
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.UsersReducers.isAuthenticated,
+    loading: state.ForumReducers.loading,
     isAdmin: state.UsersReducers.isAdmin
   };
 };
 
-export default connect(mapStateToProps, null)(Cabinet);
+const mapDispatchToProps = {
+  addThemeAction
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cabinet);

@@ -1,4 +1,5 @@
 import {
+  LOADING,
   GET_THEME_SUCCESS,
   GET_THEME_ERROR,
   GET_POSTS_SUCCESS,
@@ -7,8 +8,21 @@ import {
   GET_COMMENT_ERROR
 } from "./constants";
 
-export default (state = "", action) => {
+const initialState = {
+  forumTheme: [],
+  error: false,
+  errorMessage: "",
+  loading: false
+};
+
+export default (state = initialState, action) => {
   switch (action.type) {
+    case LOADING: {
+      return {
+        ...state,
+        loading: action.payload
+      };
+    }
     default:
       return state;
   }

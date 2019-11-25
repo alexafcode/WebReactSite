@@ -1,3 +1,5 @@
+export const LOADING = "LOADING";
+
 export const GET_THEME_SUCCESS = "GET_THEME_SUCCESS";
 export const GET_THEME_ERROR = "GET_THEME_ERROR";
 

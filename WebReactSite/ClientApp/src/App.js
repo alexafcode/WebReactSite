@@ -1,7 +1,7 @@
 import React, { Suspense, lazy } from "react";
 import { Router, Route, Switch } from "react-router-dom";
 import history from "../src/history";
-import Main from "./components/Main";
+import Main from "./components/Forum/Main";
 import Menu from "./components/Nav/Menu";
 import SignIn from "./components/Login/SignIn";
 import SignUp from "./components/Login/SignUp";
