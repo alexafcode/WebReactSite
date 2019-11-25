@@ -8,8 +8,7 @@ export default {
     signUpUrl: "api/user/create"
   },
   saveAuth: (userName, token, isAdmin = false, email) => {
-    localStorage.setItem(
-      constants.tokenKey,
+    setLS(
       JSON.stringify({
         userName: userName,
         access_token: token,
@@ -24,7 +23,7 @@ export default {
   },
 
   getLogin: () => {
-    let item = localStorage.getItem(constants.tokenKey);
+    const item = getLS();
     let login = "";
     if (item) {
       login = JSON.parse(item).userName;
@@ -33,7 +32,7 @@ export default {
   },
 
   getEmail: () => {
-    let item = localStorage.getItem(constants.tokenKey);
+    const item = getLS();
     let email = "";
     if (item) {
       email = JSON.parse(item).email;
@@ -42,7 +41,7 @@ export default {
   },
 
   isAuthenticated: () => {
-    let item = localStorage.getItem(constants.tokenKey);
+    const item = getLS();
     if (item) {
       return true;
     } else {
@@ -51,7 +50,7 @@ export default {
   },
 
   isAdmin: () => {
-    let item = localStorage.getItem(constants.tokenKey);
+    const item = getLS();
     if (item) {
       const isAdmin = JSON.parse(item).isAdmin;
       if (isAdmin) {
@@ -62,11 +61,28 @@ export default {
   },
 
   getToken: () => {
-    let item = localStorage.getItem(constants.tokenKey);
+    const item = getLS();
     let token = null;
     if (item) {
       token = JSON.parse(item).access_token;
     }
     return token;
+  }
+};
+const getLS = () => {
+  let item;
+  try {
+    item = localStorage.getItem(constants.tokenKey);
+    if (item) return item;
+  } catch (e) {
+    console.log(e);
+  }
+  return null;
+};
+const setLS = data => {
+  try {
+    localStorage.setItem(constants.tokenKey, data);
+  } catch (e) {
+    console.log(e);
   }
 };
