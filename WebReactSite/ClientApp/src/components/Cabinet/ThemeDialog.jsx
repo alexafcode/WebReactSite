@@ -9,6 +9,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 
 export default function FormDialog(props) {
   const { open, handleClose, handleInputChange, values, addTheme } = props;
+
   return (
     <div>
       <Dialog
@@ -19,7 +20,7 @@ export default function FormDialog(props) {
         <DialogTitle id="form-dialog-title">Create Theme</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Please enter your New theme Header, Description and Icon
+            Please enter your New Theme Header, Description and Icon
           </DialogContentText>
           <TextField
             name="header"
@@ -47,6 +48,9 @@ export default function FormDialog(props) {
             value={values.name}
           />
         </DialogContent>
+        {props.modalError && (
+          <p style={{ color: "red", margin: "auto" }}>{props.modalError}</p>
+        )}
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancel

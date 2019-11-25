@@ -1,6 +1,8 @@
 import axios from "axios";
 import {
   LOADING,
+  SET_MODAL,
+  SET_MODAL_ERROR,
   GET_THEME_SUCCESS,
   GET_THEME_ERROR,
   GET_POSTS_SUCCESS,
@@ -27,10 +29,17 @@ export const addThemeAction = (header, desc, icon) => dispatch => {
     .then(response => {
       console.log(response);
       dispatch({ type: LOADING, payload: false });
+      dispatch({ type: SET_MODAL });
     })
     .catch(e => {
-      dispatch({ type: LOADING, payload: false });
       console.log(e.response);
-      console.log(e.response.data.Header[0]);
+      const err = e.response.data.Header[0];
+      console.log(err);
+      dispatch({ type: LOADING, payload: false });
+      dispatch({ type: SET_MODAL_ERROR, payload: err });
     });
+};
+
+export const setModalAction = () => dispatch => {
+  dispatch({ type: SET_MODAL });
 };

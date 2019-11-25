@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { addThemeAction } from "../../store/forum/actions";
+import { addThemeAction, setModalAction } from "../../store/forum/actions";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import ThemeDialog from "./ThemeDialog";
@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 
 const Cabinet = props => {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
+  const open = props.openModal;
   const [values, setValues] = useState({
     header: "",
     description: "",
@@ -34,11 +34,10 @@ const Cabinet = props => {
     setValues({ ...values, [name]: value });
   };
 
-  const handleClickOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const clickModal = () => props.setModalAction();
+
   const addTheme = () => {
     props.addThemeAction(values.header, values.description, values.icon);
-    setOpen(false);
   };
 
   return (
@@ -56,17 +55,18 @@ const Cabinet = props => {
                 variant="contained"
                 color="primary"
                 className={classes.button}
-                onClick={() => handleClickOpen()}
+                onClick={() => clickModal()}
               >
                 Management
               </Button>
             )}
             <ThemeDialog
               open={open}
-              handleClose={handleClose}
+              handleClose={clickModal}
               handleInputChange={handleInputChange}
               values={values}
               addTheme={addTheme}
+              modalError={props.modalError}
             />
           </div>
         </div>
@@ -78,12 +78,15 @@ const Cabinet = props => {
 const mapStateToProps = state => {
   return {
     loading: state.ForumReducers.loading,
+    openModal: state.ForumReducers.openModal,
+    modalError: state.ForumReducers.modalError,
     isAdmin: state.UsersReducers.isAdmin
   };
 };
 
 const mapDispatchToProps = {
-  addThemeAction
+  addThemeAction,
+  setModalAction
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cabinet);

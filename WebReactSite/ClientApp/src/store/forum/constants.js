@@ -1,4 +1,6 @@
 export const LOADING = "LOADING";
+export const SET_MODAL = "SET_MODAL";
+export const SET_MODAL_ERROR = "SET_MODAL_ERROR";
 
 export const GET_THEME_SUCCESS = "GET_THEME_SUCCESS";
 export const GET_THEME_ERROR = "GET_THEME_ERROR";
