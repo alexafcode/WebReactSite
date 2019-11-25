@@ -23,10 +23,12 @@ namespace WebReactSite.Controllers
         }
 
         // GET: api/<controller>
+        [Route("gettheme")]
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult GetForumTheme()
         {
-            return new string[] { "value1", "value2" };
+            var themes = _forumService.GetForumThemes();
+            return Ok(themes);
         }
 
         // POST api/<controller>

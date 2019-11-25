@@ -21,5 +21,16 @@ namespace WebReactSite.Services.Implementation
             ForumTheme ft = new ForumTheme() { Header = request.Header, Description = request.Description, Icon = request.Icon };
             await _repository.AddForumTheme(ft);
         }
+        public IEnumerable<ForumTheme> GetForumThemes()
+        {
+            try
+            {
+                return _repository.GetForumTheme();
+            }
+            catch(Exception e)
+            {
+                throw new ApplicationException(e.Message);
+            }
+        }
     }
 }

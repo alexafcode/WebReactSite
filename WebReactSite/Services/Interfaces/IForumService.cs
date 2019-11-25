@@ -10,5 +10,6 @@ namespace WebReactSite.Services.Interfaces
     public interface IForumService
     {
         Task AddForumTheme(AddForumThemeRequest request);
+        IEnumerable<ForumTheme> GetForumThemes();
     }
 }
