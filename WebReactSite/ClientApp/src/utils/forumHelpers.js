@@ -1,5 +1,6 @@
 export default {
   urlConstants: {
-    getThemeUrl: "api/forum/addcomment"
+    addThemeUrl: "api/forum/theme",
+    getthemeUtl: "api/forum/theme"
   }
 };

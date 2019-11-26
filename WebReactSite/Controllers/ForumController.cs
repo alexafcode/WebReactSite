@@ -23,7 +23,7 @@ namespace WebReactSite.Controllers
         }
 
         // GET: api/<controller>
-        [Route("gettheme")]
+        [Route("theme")]
         [HttpGet]
         public IActionResult GetForumTheme()
         {
@@ -32,7 +32,7 @@ namespace WebReactSite.Controllers
         }
 
         // POST api/<controller>
-        [Route("addcomment")]
+        [Route("theme")]
         [HttpPost]
         public async Task<IActionResult> AddComment([FromBody] AddForumThemeRequest request)
         {

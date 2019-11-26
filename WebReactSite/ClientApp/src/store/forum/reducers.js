@@ -37,7 +37,15 @@ export default (state = initialState, action) => {
     case SET_MODAL_ERROR: {
       return {
         ...state,
+        loading: false,
         modalError: action.payload
+      };
+    }
+    case GET_THEME_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        forumTheme: [...action.payload]
       };
     }
     default:
