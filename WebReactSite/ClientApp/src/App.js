@@ -20,6 +20,7 @@ const App = () => (
         <Route exact path="/signin" component={SignIn} />
         <Route exact path="/signup" component={SignUp} />
         <Route exact path="/forum/:id" component={Post} />
+        <Route exact path="/forum/add" component={Post} />
         <PrivateRoute path="/cabinet" component={Cabinet} />
         <Route component={NotFound} />
       </Switch>

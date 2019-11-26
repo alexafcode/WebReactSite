@@ -43,6 +43,14 @@ namespace WebReactSite.Controllers
             return Ok();
             
         }
+        [Route("addpost")]
+        [HttpPost]
+        public async Task<IActionResult> AddPost([FromBody] AddPostRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            return Ok("Success");
+        }
 
     }
 }
