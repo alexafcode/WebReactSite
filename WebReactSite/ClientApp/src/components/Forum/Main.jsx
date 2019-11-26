@@ -1,26 +1,32 @@
 import React, { useEffect } from "react";
-import * as Font from "@material-ui/icons/";
 import { connect } from "react-redux";
 import { getModalTheme } from "../../store/forum/actions";
 import Loading from "../Loading/Loading";
+import ThemeItem from "./ThemeItem";
 
-const ForumBody = () => {};
 const Main = props => {
   const { loading, forumTheme, getModalTheme } = props;
+
+  const ForumBody = forumTheme.map(el => (
+    <ThemeItem key={el.forumId} theme={el} />
+  ));
+
   useEffect(() => {
     getModalTheme();
   }, []);
-  // return <div>{React.createElement(Font[icon])}</div>;
+
   return (
     <div className="container">
-      {loading && <Loading />}
-      <div className="container__body">LLL</div>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className="container__body">{ForumBody}</div>
+      )}
     </div>
   );
 };
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
     loading: state.ForumReducers.loading,
     forumTheme: state.ForumReducers.forumTheme
