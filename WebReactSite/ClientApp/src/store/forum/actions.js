@@ -2,9 +2,10 @@ import axios from "axios";
 import {
   LOADING,
   SET_MODAL,
-  SET_MODAL_ERROR,
+  SET_ERROR,
   GET_THEME_SUCCESS,
   GET_THEME_ERROR,
+  ADD_POST_ERROR,
   GET_POSTS_SUCCESS,
   GET_POSTS_ERROR,
   GET_COMMENT_SUCCESS,
@@ -35,7 +36,7 @@ export const addThemeAction = (header, desc, icon) => dispatch => {
       console.log(e.response);
       const err = e.response.data.Header[0];
       console.log(err);
-      dispatch({ type: SET_MODAL_ERROR, payload: err });
+      dispatch({ type: SET_ERROR, payload: err });
     });
 };
 
@@ -51,11 +52,30 @@ export const getModalThemeAction = () => async dispatch => {
     dispatch({ type: GET_THEME_SUCCESS, payload: response.data });
   } else {
     console.log(response);
-    dispatch({ type: GET_THEME_ERROR, payload: response });
+    dispatch({ type: SET_ERROR, payload: response });
   }
 };
 
-export const addPostAction = (id, header, desc) => async dispatch => {
+export const addPostAction = (header, desc, id) => async dispatch => {
   dispatch({ type: LOADING, payload: true });
-  console.log(id, header, desc);
+  const url = helper.urlConstants.baseUrl + helper.urlConstants.postUrl;
+  const headers = {
+    "Content-Type": "application/json"
+  };
+  const postBody = {
+    ForumId: parseInt(id),
+    Header: header,
+    Description: desc
+  };
+  axios
+    .post(url, JSON.stringify(postBody), { headers })
+    .then(response => {
+      console.log(response);
+      dispatch({ type: LOADING, payload: false });
+      history.push(`/forum/${id}`);
+    })
+    .catch(e => {
+      console.log(e.response);
+      dispatch({ type: SET_ERROR, payload: e.response.data.Header[0] });
+    });
 };

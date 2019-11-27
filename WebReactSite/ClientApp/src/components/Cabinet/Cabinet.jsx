@@ -66,7 +66,7 @@ const Cabinet = props => {
               handleInputChange={handleInputChange}
               values={values}
               addTheme={addTheme}
-              modalError={props.modalError}
+              modalError={props.error}
             />
           </div>
         </div>
@@ -79,7 +79,7 @@ const mapStateToProps = state => {
   return {
     loading: state.ForumReducers.loading,
     openModal: state.ForumReducers.openModal,
-    modalError: state.ForumReducers.modalError,
+    error: state.ForumReducers.error,
     isAdmin: state.UsersReducers.isAdmin
   };
 };

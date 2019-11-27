@@ -34,7 +34,7 @@ namespace WebReactSite.Controllers
         // POST api/<controller>
         [Route("theme")]
         [HttpPost]
-        public async Task<IActionResult> AddComment([FromBody] AddForumThemeRequest request)
+        public async Task<IActionResult> AddTheme([FromBody] AddForumThemeRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -49,8 +49,7 @@ namespace WebReactSite.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            return Ok("Success");
+            return Ok();
         }
-
     }
 }

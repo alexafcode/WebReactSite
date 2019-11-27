@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
+import { addPostAction } from "../../store/forum/actions";
+import Loading from "../Loading/Loading";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
@@ -24,11 +27,22 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     marginLeft: "auto"
+  },
+  loading: {
+    margin: "auto",
+    width: "10%",
+    marginTop: "10%"
+  },
+  error: {
+    color: "red",
+    margin: "auto",
+    marginTop: "3%"
   }
 }));
 
 const AddPost = props => {
   const classes = useStyles();
+  const { error, loading } = props;
   const forumId = props.location.state.id;
   const [input, setInput] = useState({
     header: "",
@@ -41,33 +55,58 @@ const AddPost = props => {
   };
 
   return (
-    <form className={classes.container} noValidate autoComplete="off">
-      <div className={classes.inputContainer}>
-        <TextField
-          name="header"
-          required
-          id="standard-required"
-          label="Header Required"
-          className={classes.textField}
-          margin="normal"
-          onChange={handleInput}
-        />
-        <TextareaAutosize
-          name="description"
-          aria-label="minimum height"
-          rows={5}
-          placeholder="Enter Your Post Description"
-          className={classes.textArea}
-          onChange={handleInput}
-        />
-        <div className={classes.button}>
-          <Button variant="contained" onClick={() => console.log(input)}>
-            Add Post
-          </Button>
+    <>
+      {loading ? (
+        <div className={classes.loading}>
+          <Loading />
         </div>
-      </div>
-    </form>
+      ) : (
+        <form className={classes.container} noValidate autoComplete="off">
+          <div className={classes.inputContainer}>
+            <TextField
+              name="header"
+              required
+              id="standard-required"
+              label="Header Required"
+              className={classes.textField}
+              margin="normal"
+              onChange={handleInput}
+            />
+            <TextareaAutosize
+              name="description"
+              aria-label="minimum height"
+              rows={5}
+              placeholder="Enter Your Post Description"
+              className={classes.textArea}
+              onChange={handleInput}
+            />
+            <div className={classes.button}>
+              <Button
+                variant="contained"
+                onClick={() =>
+                  props.addPostAction(input.header, input.description, forumId)
+                }
+              >
+                Add Post
+              </Button>
+            </div>
+            {error && <p className={classes.error}>{error}</p>}
+          </div>
+        </form>
+      )}
+    </>
   );
 };
 
-export default AddPost;
+const mapStateToProps = state => {
+  return {
+    loading: state.ForumReducers.loading,
+    error: state.ForumReducers.error
+  };
+};
+
+const mapDispatchToProps = {
+  addPostAction
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddPost);

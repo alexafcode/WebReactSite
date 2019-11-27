@@ -1,8 +1,9 @@
 import {
   LOADING,
   SET_MODAL,
-  SET_MODAL_ERROR,
+  SET_ERROR,
   GET_THEME_SUCCESS,
+  ADD_POST_ERROR,
   GET_THEME_ERROR,
   GET_POSTS_SUCCESS,
   GET_POSTS_ERROR,
@@ -16,7 +17,7 @@ const initialState = {
   errorMessage: "",
   loading: false,
   openModal: false,
-  modalError: null
+  error: null
 };
 //ToDo Clear Error in Modal
 export default (state = initialState, action) => {
@@ -25,7 +26,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: action.payload,
-        modalError: null
+        error: null
       };
     }
     case SET_MODAL: {
@@ -34,11 +35,11 @@ export default (state = initialState, action) => {
         openModal: !state.openModal
       };
     }
-    case SET_MODAL_ERROR: {
+    case SET_ERROR: {
       return {
         ...state,
         loading: false,
-        modalError: action.payload
+        error: action.payload
       };
     }
     case GET_THEME_SUCCESS: {
