@@ -56,7 +56,8 @@ namespace WebReactSite.Controllers
         [HttpGet]
         public IActionResult GetPost()
         {
-            return Ok();
+            var posts = _forumService.GetPosts();
+            return Ok(posts);
         }
     }
 }
