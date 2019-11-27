@@ -26,5 +26,13 @@ namespace WebReactSite.Repositories
                 await context.SaveChangesAsync();
             }
         }
+        public async Task AddPost(Post post)
+        {
+            using (var context = ContextFactory.CreateDbContext(ConnectionString))
+            {
+                context.Posts.Add(post);
+                await context.SaveChangesAsync();
+            }
+        }
     }
 }

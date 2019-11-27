@@ -32,5 +32,13 @@ namespace WebReactSite.Services.Implementation
                 throw new ApplicationException(e.Message);
             }
         }
+        public async Task AddPost(AddPostRequest request)
+        {
+            DateTime now = DateTime.Now;
+            //string sqlFormattedDate = now.ToString("dd-MM-yyyy HH:mm:ss.fff");
+            //ToDo tags
+            Post post = new Post() { ForumId = request.ForumId, Header = request.Header, Description = request.Description, CreatedDate = now };
+            await _repository.AddPost(post);
+        }
     }
 }

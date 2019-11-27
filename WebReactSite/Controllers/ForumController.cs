@@ -49,6 +49,7 @@ namespace WebReactSite.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+            await _forumService.AddPost(request);
             return Ok();
         }
     }
