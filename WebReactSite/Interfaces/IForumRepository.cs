@@ -11,5 +11,6 @@ namespace WebReactSite.Interfaces
         IEnumerable<ForumTheme> GetForumTheme();
         Task AddForumTheme(ForumTheme ft);
         Task AddPost (Post post);
+        IEnumerable<Post> GetPosts();
     }
 }

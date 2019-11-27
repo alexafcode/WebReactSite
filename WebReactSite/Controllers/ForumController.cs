@@ -52,5 +52,11 @@ namespace WebReactSite.Controllers
             await _forumService.AddPost(request);
             return Ok();
         }
+        [Route("post")]
+        [HttpGet]
+        public IActionResult GetPost()
+        {
+            return Ok();
+        }
     }
 }

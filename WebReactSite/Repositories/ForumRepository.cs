@@ -34,5 +34,12 @@ namespace WebReactSite.Repositories
                 await context.SaveChangesAsync();
             }
         }
+        public  IEnumerable<Post> GetPosts()
+        {
+            using (var context = ContextFactory.CreateDbContext(ConnectionString))
+            {
+                return context.Posts.ToList();
+            }
+        }
     }
 }
