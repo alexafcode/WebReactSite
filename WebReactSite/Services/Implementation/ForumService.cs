@@ -40,11 +40,11 @@ namespace WebReactSite.Services.Implementation
             Post post = new Post() { ForumId = request.ForumId, Header = request.Header, Description = request.Description, CreatedDate = now };
             await _repository.AddPost(post);
         }
-        public IEnumerable<Post> GetPosts()
+        public IEnumerable<Post> GetPosts(int id)
         {
             try
             {
-                return _repository.GetPosts();
+                return _repository.GetPosts(id);
             }
             catch(Exception e)
             {

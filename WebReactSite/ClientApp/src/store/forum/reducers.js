@@ -5,7 +5,7 @@ import {
   GET_THEME_SUCCESS,
   ADD_POST_ERROR,
   GET_THEME_ERROR,
-  GET_POSTS_SUCCESS,
+  GET_POSTS,
   GET_POSTS_ERROR,
   GET_COMMENT_SUCCESS,
   GET_COMMENT_ERROR
@@ -13,11 +13,11 @@ import {
 
 const initialState = {
   forumTheme: [],
+  posts: [],
   error: false,
   errorMessage: "",
   loading: false,
-  openModal: false,
-  error: null
+  openModal: false
 };
 //ToDo Clear Error in Modal
 export default (state = initialState, action) => {
@@ -47,6 +47,13 @@ export default (state = initialState, action) => {
         ...state,
         loading: false,
         forumTheme: [...action.payload]
+      };
+    }
+    case GET_POSTS: {
+      return {
+        ...state,
+        loading: false,
+        posts: [...action.payload]
       };
     }
     default:

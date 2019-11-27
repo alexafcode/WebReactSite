@@ -3,6 +3,7 @@ export const SET_MODAL = "SET_MODAL";
 export const SET_ERROR = "SET_ERROR";
 
 export const ADD_POST_ERROR = "ADD_POST_ERROR";
+export const GET_POSTS = "GET_POSTS";
 
 export const GET_THEME_SUCCESS = "GET_THEME_SUCCESS";
 export const GET_THEME_ERROR = "GET_THEME_ERROR";

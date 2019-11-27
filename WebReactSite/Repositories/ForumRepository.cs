@@ -34,11 +34,12 @@ namespace WebReactSite.Repositories
                 await context.SaveChangesAsync();
             }
         }
-        public  IEnumerable<Post> GetPosts()
+        public  IEnumerable<Post> GetPosts(int id)
         {
             using (var context = ContextFactory.CreateDbContext(ConnectionString))
             {
-                return context.Posts.ToList();
+                var posts = context.Posts.Where(p => p.ForumId == id);
+                return posts.ToArray();
             }
         }
     }
