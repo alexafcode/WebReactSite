@@ -1,18 +1,18 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { getModalTheme } from "../../store/forum/actions";
+import { getModalThemeAction } from "../../store/forum/actions";
 import Loading from "../Loading/Loading";
 import ThemeItem from "./ThemeItem";
 
 const Main = props => {
-  const { loading, forumTheme, getModalTheme } = props;
+  const { loading, forumTheme, getModalThemeAction } = props;
 
   const ForumBody = forumTheme.map(el => (
     <ThemeItem key={el.forumId} theme={el} />
   ));
 
   useEffect(() => {
-    getModalTheme();
+    getModalThemeAction();
   }, []);
 
   return (
@@ -34,7 +34,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  getModalTheme
+  getModalThemeAction
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

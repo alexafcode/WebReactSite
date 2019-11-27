@@ -25,7 +25,7 @@ export const addThemeAction = (header, desc, icon) => dispatch => {
     Icon: icon
   });
   axios
-    .post(helper.urlConstants.addThemeUrl, postBody, { headers })
+    .post(helper.urlConstants.themeUrl, postBody, { headers })
     .then(response => {
       console.log(response);
       dispatch({ type: LOADING, payload: false });
@@ -42,15 +42,20 @@ export const addThemeAction = (header, desc, icon) => dispatch => {
 export const setModalAction = () => dispatch => {
   dispatch({ type: SET_MODAL });
 };
-export const getModalTheme = () => async dispatch => {
+
+export const getModalThemeAction = () => async dispatch => {
   dispatch({ type: LOADING, payload: true });
-  const response = await axios.get(helper.urlConstants.getthemeUtl);
+  const response = await axios.get(helper.urlConstants.themeUrl);
   if (response.status === 200) {
     console.log(response);
-    console.log(response.data);
     dispatch({ type: GET_THEME_SUCCESS, payload: response.data });
   } else {
     console.log(response);
     dispatch({ type: GET_THEME_ERROR, payload: response });
   }
+};
+
+export const addPostAction = (id, header, desc) => async dispatch => {
+  dispatch({ type: LOADING, payload: true });
+  console.log(id, header, desc);
 };

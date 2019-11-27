@@ -8,6 +8,7 @@ import SignUp from "./components/Login/SignUp";
 import PrivateRoute from "./components/Login/PrivateRoute";
 import Cabinet from "./components/Cabinet/Cabinet";
 import Post from "./components/Forum/Post";
+import AddPost from "./components/Forum/AddPost";
 import NotFound from "./components/Layouts/NotFound";
 import "./App.css";
 
@@ -19,8 +20,8 @@ const App = () => (
         <Route exact path="/" component={Main} />
         <Route exact path="/signin" component={SignIn} />
         <Route exact path="/signup" component={SignUp} />
+        <Route exact path="/forum/add" component={AddPost} />
         <Route exact path="/forum/:id" component={Post} />
-        <Route exact path="/forum/add" component={Post} />
         <PrivateRoute path="/cabinet" component={Cabinet} />
         <Route component={NotFound} />
       </Switch>

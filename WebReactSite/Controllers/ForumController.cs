@@ -43,7 +43,7 @@ namespace WebReactSite.Controllers
             return Ok();
             
         }
-        [Route("addpost")]
+        [Route("post")]
         [HttpPost]
         public async Task<IActionResult> AddPost([FromBody] AddPostRequest request)
         {
