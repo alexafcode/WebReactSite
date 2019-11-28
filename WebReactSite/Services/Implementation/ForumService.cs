@@ -35,10 +35,15 @@ namespace WebReactSite.Services.Implementation
         public async Task AddPost(AddPostRequest request)
         {
             DateTime now = DateTime.Now;
-            //string sqlFormattedDate = now.ToString("dd-MM-yyyy HH:mm:ss.fff");
-            //ToDo tags
             Post post = new Post() { ForumId = request.ForumId, Header = request.Header, Description = request.Description, CreatedDate = now };
-            await _repository.AddPost(post);
+            int postId = await _repository.AddPost(post);
+            var tags = new List<Tag>();
+            foreach(var tag in request.Tags)
+            {
+                var newTag = new Tag() { PostId = postId, TagName = tag };
+                tags.Add(newTag);
+            }
+            await _repository.AddTags(tags);
         }
         public IEnumerable<Post> GetPostByID(int id)
         {

@@ -34,8 +34,7 @@ export const addThemeAction = (header, desc, icon) => dispatch => {
     })
     .catch(e => {
       console.log(e.response);
-      const err = e.response.data.Header[0];
-      console.log(err);
+      const err = e.response.data;
       dispatch({ type: SET_ERROR, payload: err });
     });
 };

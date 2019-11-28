@@ -23,21 +23,18 @@ namespace WebReactSite.Repositories
             context.ForumThemes.Add(ft);
             await context.SaveChangesAsync();
         }
-        public async Task AddPost(Post post)
+        public async Task<int> AddPost(Post post)
         {
             using var context = ContextFactory.CreateDbContext(ConnectionString);
             context.Posts.Add(post);
             await context.SaveChangesAsync();
-            //int postId = post.PostId;
-            //return postId;
+            int postId = post.PostId;
+            return postId;
         }
-        public async Task AddTags(Tag[] tags)
+        public async Task AddTags(List<Tag> tags)
         {
             using var context = ContextFactory.CreateDbContext(ConnectionString);
-            foreach(Tag tag in tags)
-            {
-                context.Add(tags);
-            }
+            tags.ForEach(t => context.Add(t));
             await context.SaveChangesAsync();
         }
         public  IEnumerable<Post> GetPostByID(int id)

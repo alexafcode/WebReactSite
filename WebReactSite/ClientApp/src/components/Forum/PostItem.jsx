@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+import Chip from "@material-ui/core/Chip";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -13,6 +14,9 @@ const useStyles = makeStyles(theme => ({
   },
   name: {
     marginTop: "25%"
+  },
+  chip: {
+    margin: theme.spacing(0.25)
   }
 }));
 
@@ -33,9 +37,19 @@ const PostItem = props => {
           Создано пользователем:
         </Typography>
         <div>
-          {tags.map((t, i) => (
+          {/* {tags.map((t, i) => (
             <li key={i}>{t.tagName}</li>
-          ))}
+          ))} */}
+          {tags.map((data, i) => {
+            return (
+              <Chip
+                size="small"
+                key={i}
+                label={data.tagName}
+                className={classes.chip}
+              />
+            );
+          })}
         </div>
       </Grid>
     </Grid>

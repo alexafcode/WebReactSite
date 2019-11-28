@@ -11,13 +11,14 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     overflow: "hidden",
-    padding: theme.spacing(0, 3)
+    padding: theme.spacing(0, 3),
   },
   paper: {
     maxWidth: "80%",
     margin: `${theme.spacing(1)}px auto`,
     padding: theme.spacing(2),
-    background: "#c5c5c5"
+    background: "#c5c5c5",
+    cursor: "pointer"
   },
   icon: {
     fontSize: "2.5rem",
