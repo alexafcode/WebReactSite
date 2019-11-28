@@ -16,10 +16,10 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-// ToDo Icon User
+// ToDo Icon User, Tags in string
 const PostItem = props => {
   const classes = useStyles();
-  const { header, description } = props.post;
+  const { header, description, tags } = props.post;
 
   return (
     <Grid container wrap="nowrap" spacing={2} className={classes.root}>
@@ -32,6 +32,11 @@ const PostItem = props => {
         <Typography variant="body2" className={classes.name}>
           Создано пользователем:
         </Typography>
+        <div>
+          {tags.map((t, i) => (
+            <li key={i}>{t.tagName}</li>
+          ))}
+        </div>
       </Grid>
     </Grid>
   );

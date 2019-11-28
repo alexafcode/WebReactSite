@@ -54,9 +54,9 @@ namespace WebReactSite.Controllers
         }
         [Route("post")]
         [HttpGet]
-        public IActionResult GetPost([FromQuery]int id)
+        public IActionResult GetPostByID([FromQuery]int id)
         {
-            var posts = _forumService.GetPosts(id);
+            var posts = _forumService.GetPostByID(id);
             return Ok(posts);
         }
     }

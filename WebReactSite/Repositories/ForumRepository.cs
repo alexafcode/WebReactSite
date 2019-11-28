@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebReactSite.Models;
 using WebReactSite.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebReactSite.Repositories
 {
@@ -13,34 +14,25 @@ namespace WebReactSite.Repositories
 
         public IEnumerable<ForumTheme> GetForumTheme()
         {
-            using (var context = ContextFactory.CreateDbContext(ConnectionString))
-            {
-                return context.ForumThemes.ToList();
-            }
+            using var context = ContextFactory.CreateDbContext(ConnectionString);
+            return context.ForumThemes.ToList();
         }
         public async Task AddForumTheme(ForumTheme ft)
         {
-            using (var context = ContextFactory.CreateDbContext(ConnectionString))
-            {
-                context.ForumThemes.Add(ft);
-                await context.SaveChangesAsync();
-            }
+            using var context = ContextFactory.CreateDbContext(ConnectionString);
+            context.ForumThemes.Add(ft);
+            await context.SaveChangesAsync();
         }
         public async Task AddPost(Post post)
         {
-            using (var context = ContextFactory.CreateDbContext(ConnectionString))
-            {
-                context.Posts.Add(post);
-                await context.SaveChangesAsync();
-            }
+            using var context = ContextFactory.CreateDbContext(ConnectionString);
+            context.Posts.Add(post);
+            await context.SaveChangesAsync();
         }
-        public  IEnumerable<Post> GetPosts(int id)
+        public  IEnumerable<Post> GetPostByID(int id)
         {
-            using (var context = ContextFactory.CreateDbContext(ConnectionString))
-            {
-                var posts = context.Posts.Where(p => p.ForumId == id);
-                return posts.ToList();
-            }
+            using var context = ContextFactory.CreateDbContext(ConnectionString);
+            return context.Posts.Include(p => p.Tags).Where(p => p.ForumId == id).ToList();
         }
     }
 }
