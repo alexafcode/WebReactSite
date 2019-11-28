@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     maxWidth: "80%",
     margin: `${theme.spacing(1)}px auto`,
     padding: theme.spacing(2),
-    background: "#f9f9f9"
+    background: "#c5c5c5"
   },
   icon: {
     fontSize: "2.5rem",

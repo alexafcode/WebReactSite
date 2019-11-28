@@ -6,6 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import Button from "@material-ui/core/Button";
+import AddTag from "./AddTag";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -18,7 +19,9 @@ const useStyles = makeStyles(theme => ({
     width: "80%"
   },
   inputContainer: {
-    marginLeft: "10%"
+    marginLeft: "10%",
+    width: "80%",
+    maxWidth: "38rem"
   },
   textArea: {
     width: "90%",
@@ -26,7 +29,8 @@ const useStyles = makeStyles(theme => ({
     fontSize: "1.5em"
   },
   button: {
-    marginLeft: "auto"
+    marginLeft: "auto",
+    marginTop: theme.spacing(1)
   },
   loading: {
     margin: "auto",
@@ -48,6 +52,7 @@ const AddPost = props => {
     header: "",
     description: ""
   });
+  const [chipData, setChipData] = useState([]);
 
   const handleInput = e => {
     const { name, value } = e.target;
@@ -80,6 +85,7 @@ const AddPost = props => {
               className={classes.textArea}
               onChange={handleInput}
             />
+            <AddTag chipData={chipData} setChipData={setChipData} />
             <div className={classes.button}>
               <Button
                 variant="contained"
