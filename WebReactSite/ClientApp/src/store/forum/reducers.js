@@ -53,7 +53,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        posts: [...action.payload]
+        posts: action.payload //[...action.payload]
       };
     }
     default:

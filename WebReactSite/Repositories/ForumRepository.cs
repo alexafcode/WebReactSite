@@ -39,7 +39,7 @@ namespace WebReactSite.Repositories
             using (var context = ContextFactory.CreateDbContext(ConnectionString))
             {
                 var posts = context.Posts.Where(p => p.ForumId == id);
-                return posts.ToArray();
+                return posts.ToList();
             }
         }
     }

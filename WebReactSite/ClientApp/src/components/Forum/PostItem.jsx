@@ -7,11 +7,9 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     overflow: "hidden",
-    padding: theme.spacing(0, 3)
-  },
-  icon: {
-    fontSize: "2.5rem",
-    color: "primary"
+    padding: theme.spacing(0, 3),
+    border: "solid 1px rgba(72, 76, 84, 0.68)",
+    borderRadius: ".5rem"
   },
   name: {
     marginTop: "25%"
@@ -21,22 +19,21 @@ const useStyles = makeStyles(theme => ({
 // ToDo Icon User
 const PostItem = props => {
   const classes = useStyles();
-  console.log(props);
-  const { header, description } = props.posts;
+  const { header, description } = props.post;
+
   return (
-    <div></div>
-    // <Grid container wrap="nowrap" spacing={2}>
-    //   {/* <Grid item>{Icon}</Grid> */}
-    //   <Grid item xs>
-    //     <Typography variant="h5">{header}</Typography>
-    //     <Typography variant="body1">{description}</Typography>
-    //   </Grid>
-    //   <Grid item>
-    //     <Typography variant="body2" className={classes.name}>
-    //       Отправлено пользователем
-    //     </Typography>
-    //   </Grid>
-    // </Grid>
+    <Grid container wrap="nowrap" spacing={2} className={classes.root}>
+      {/* <Grid item>{Icon}</Grid> */}
+      <Grid item xs>
+        <Typography variant="h5">{header}</Typography>
+        <Typography variant="body1">{description}</Typography>
+      </Grid>
+      <Grid item>
+        <Typography variant="body2" className={classes.name}>
+          Создано пользователем:
+        </Typography>
+      </Grid>
+    </Grid>
   );
 };
 
