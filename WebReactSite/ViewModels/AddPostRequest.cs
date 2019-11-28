@@ -16,5 +16,9 @@ namespace WebReactSite.ViewModels
         [Required]
         [StringLength(3000, MinimumLength = 5)]
         public string Description { get; set; }
+        public string[] Tags { get; set; }
+        [StringLength(30, MinimumLength = 3)]
+        public string CommentUser { get; set; }
+
     }
 }

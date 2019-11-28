@@ -28,6 +28,17 @@ namespace WebReactSite.Repositories
             using var context = ContextFactory.CreateDbContext(ConnectionString);
             context.Posts.Add(post);
             await context.SaveChangesAsync();
+            //int postId = post.PostId;
+            //return postId;
+        }
+        public async Task AddTags(Tag[] tags)
+        {
+            using var context = ContextFactory.CreateDbContext(ConnectionString);
+            foreach(Tag tag in tags)
+            {
+                context.Add(tags);
+            }
+            await context.SaveChangesAsync();
         }
         public  IEnumerable<Post> GetPostByID(int id)
         {

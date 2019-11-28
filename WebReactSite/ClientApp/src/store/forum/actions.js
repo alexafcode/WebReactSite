@@ -56,7 +56,13 @@ export const getModalThemeAction = () => async dispatch => {
   }
 };
 
-export const addPostAction = (header, desc, id) => async dispatch => {
+export const addPostAction = (
+  header,
+  desc,
+  id,
+  user,
+  tags
+) => async dispatch => {
   dispatch({ type: LOADING, payload: true });
   const url = helper.urlConstants.baseUrl + helper.urlConstants.postUrl;
   const headers = {
@@ -65,7 +71,9 @@ export const addPostAction = (header, desc, id) => async dispatch => {
   const postBody = {
     ForumId: parseInt(id),
     Header: header,
-    Description: desc
+    Description: desc,
+    Tags: tags,
+    CommentUser: user
   };
   axios
     .post(url, JSON.stringify(postBody), { headers })

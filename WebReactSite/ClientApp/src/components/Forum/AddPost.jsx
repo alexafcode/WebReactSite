@@ -46,7 +46,7 @@ const useStyles = makeStyles(theme => ({
 
 const AddPost = props => {
   const classes = useStyles();
-  const { error, loading } = props;
+  const { error, loading, user } = props;
   const forumId = props.location.state.id;
   const [input, setInput] = useState({
     header: "",
@@ -90,7 +90,13 @@ const AddPost = props => {
               <Button
                 variant="contained"
                 onClick={() =>
-                  props.addPostAction(input.header, input.description, forumId)
+                  props.addPostAction(
+                    input.header,
+                    input.description,
+                    forumId,
+                    user,
+                    chipData
+                  )
                 }
               >
                 Add Post
@@ -107,7 +113,8 @@ const AddPost = props => {
 const mapStateToProps = state => {
   return {
     loading: state.ForumReducers.loading,
-    error: state.ForumReducers.error
+    error: state.ForumReducers.error,
+    user: state.UsersReducers.user
   };
 };
 
