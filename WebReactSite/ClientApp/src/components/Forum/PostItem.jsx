@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -10,10 +11,12 @@ const useStyles = makeStyles(theme => ({
     overflow: "hidden",
     padding: theme.spacing(0, 3),
     border: "solid 1px rgba(72, 76, 84, 0.68)",
-    borderRadius: ".5rem"
+    borderRadius: ".5rem",
+    marginBottom: theme.spacing(2),
+    background: "whitesmoke"
   },
-  name: {
-    marginTop: "25%"
+  titleContainer: {
+    flex: "auto"
   },
   chip: {
     margin: theme.spacing(0.25)
@@ -24,22 +27,18 @@ const useStyles = makeStyles(theme => ({
 const PostItem = props => {
   const classes = useStyles();
   const { header, description, tags } = props.post;
-
   return (
     <Grid container wrap="nowrap" spacing={2} className={classes.root}>
       {/* <Grid item>{Icon}</Grid> */}
-      <Grid item xs>
+      <div className={classes.titleContainer}>
         <Typography variant="h5">{header}</Typography>
         <Typography variant="body1">{description}</Typography>
-      </Grid>
-      <Grid item>
+      </div>
+      <div>
         <Typography variant="body2" className={classes.name}>
           Создано пользователем:
         </Typography>
         <div>
-          {/* {tags.map((t, i) => (
-            <li key={i}>{t.tagName}</li>
-          ))} */}
           {tags.map((data, i) => {
             return (
               <Chip
@@ -51,7 +50,7 @@ const PostItem = props => {
             );
           })}
         </div>
-      </Grid>
+      </div>
     </Grid>
   );
 };
