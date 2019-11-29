@@ -18,15 +18,26 @@ const useStyles = makeStyles(theme => ({
   titleContainer: {
     flex: "auto"
   },
+  rightContainer: {
+    width: "20%"
+  },
   chip: {
     margin: theme.spacing(0.25)
   }
 }));
 
-// ToDo Icon User, Tags in string
+// ToDo Icon User
 const PostItem = props => {
+  console.log(props.post);
   const classes = useStyles();
-  const { header, description, tags } = props.post;
+  const { header, description, tags, createdDate } = props.post;
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  };
+  const date = new Date(createdDate).toLocaleString("ru", options);
   return (
     <Grid container wrap="nowrap" spacing={2} className={classes.root}>
       {/* <Grid item>{Icon}</Grid> */}
@@ -34,9 +45,9 @@ const PostItem = props => {
         <Typography variant="h5">{header}</Typography>
         <Typography variant="body1">{description}</Typography>
       </div>
-      <div>
+      <div className={classes.rightContainer}>
         <Typography variant="body2" className={classes.name}>
-          Создано пользователем:
+          Создано: {date}
         </Typography>
         <div>
           {tags.map((data, i) => {

@@ -5,7 +5,7 @@ import {
   GET_THEME_SUCCESS,
   ADD_POST_ERROR,
   GET_THEME_ERROR,
-  GET_POSTS,
+  GET_POSTS_SUCCESS,
   GET_POSTS_ERROR,
   GET_COMMENT_SUCCESS,
   GET_COMMENT_ERROR
@@ -49,7 +49,7 @@ export default (state = initialState, action) => {
         forumTheme: [...action.payload]
       };
     }
-    case GET_POSTS: {
+    case GET_POSTS_SUCCESS: {
       return {
         ...state,
         loading: false,

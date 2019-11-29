@@ -6,7 +6,7 @@ import {
   GET_THEME_SUCCESS,
   GET_THEME_ERROR,
   ADD_POST_ERROR,
-  GET_POSTS,
+  GET_POSTS_SUCCESS,
   GET_POSTS_ERROR,
   GET_COMMENT_SUCCESS,
   GET_COMMENT_ERROR
@@ -97,7 +97,7 @@ export const getPostAction = id => async dispatch => {
       }
     });
     console.log(response.data);
-    dispatch({ type: GET_POSTS, payload: response.data });
+    dispatch({ type: GET_POSTS_SUCCESS, payload: response.data });
   } catch (e) {
     console.log(e.response);
     dispatch({ type: SET_ERROR, payload: e.response });
