@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 const Post = props => {
   const classes = useStyles();
   const { id } = props.match.params;
-  const { posts, loading, error } = props;
+  const { posts, loading, error, isAuthenticated } = props;
 
   useEffect(() => {
     props.getPostAction(id);
@@ -31,7 +31,7 @@ const Post = props => {
   return (
     <div className={classes.root}>
       <div className="post__control">
-        <PostControl id={id} />
+        <PostControl id={id} isAuthenticated={isAuthenticated} />
       </div>
       <div className={classes.paper}>
         {loading ? (
@@ -48,7 +48,8 @@ const mapStateToProps = state => {
   return {
     loading: state.ForumReducers.loading,
     posts: state.ForumReducers.posts,
-    error: state.ForumReducers.error
+    error: state.ForumReducers.error,
+    isAuthenticated: state.UsersReducers.isAuthenticated
   };
 };
 

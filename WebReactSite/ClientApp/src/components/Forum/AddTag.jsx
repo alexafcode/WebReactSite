@@ -44,7 +44,7 @@ const AddTag = props => {
   const addTags = () => {
     if (input) {
       const newData = [...chipData];
-      newData.push(input);
+      newData.push(input.toLowerCase());
       setChipData(newData);
       setInput("");
     }

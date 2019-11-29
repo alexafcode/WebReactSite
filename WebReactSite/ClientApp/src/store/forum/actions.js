@@ -13,12 +13,13 @@ import {
 } from "./constants";
 import history from "../../history";
 import helper from "../../utils/forumHelpers";
+import authHelper from "../../utils/authHelpers";
 
 export const addThemeAction = (header, desc, icon) => dispatch => {
   dispatch({ type: LOADING, payload: true });
-  console.log(header, desc, icon);
   const headers = {
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${authHelper.getToken()}`
   };
   const postBody = JSON.stringify({
     Header: header,
@@ -34,7 +35,9 @@ export const addThemeAction = (header, desc, icon) => dispatch => {
     })
     .catch(e => {
       console.log(e.response);
-      const err = e.response.data;
+      const err = e.response.data.Header
+        ? e.response.data.Header[0]
+        : e.response.status + " Not Authorized";
       dispatch({ type: SET_ERROR, payload: err });
     });
 };
@@ -65,7 +68,8 @@ export const addPostAction = (
   dispatch({ type: LOADING, payload: true });
   const url = helper.urlConstants.baseUrl + helper.urlConstants.postUrl;
   const headers = {
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${authHelper.getToken()}`
   };
   const postBody = {
     ForumId: parseInt(id),
@@ -83,7 +87,10 @@ export const addPostAction = (
     })
     .catch(e => {
       console.log(e.response);
-      dispatch({ type: SET_ERROR, payload: e.response.data.Header[0] });
+      const err = e.response.data.Header
+        ? e.response.data.Header[0]
+        : e.response.status + " Not Authorized";
+      dispatch({ type: SET_ERROR, payload: err });
     });
 };
 

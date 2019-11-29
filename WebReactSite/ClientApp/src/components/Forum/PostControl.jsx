@@ -3,8 +3,7 @@ import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import history from "../../history";
-import Button from '@material-ui/core/Button';
-
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,7 +15,8 @@ const useStyles = makeStyles(theme => ({
     maxWidth: "80%",
     margin: `${theme.spacing(1)}px auto`,
     padding: theme.spacing(1),
-    background: "#d4d3d3"
+    background: "#d4d3d3",
+    height: "2.5rem"
   },
   button: {
     marginLeft: "auto"
@@ -25,15 +25,24 @@ const useStyles = makeStyles(theme => ({
 
 const PostControl = props => {
   const classes = useStyles();
-  return <div className={classes.root}>
-    <Paper className={classes.paper}>
-      <Grid container wrap="nowrap" spacing={2}>
-        <Grid item className={classes.button}>
-          <Button variant="contained" onClick={() => history.push(`/forum/add`, props)}>Add Post</Button>
+  return (
+    <div className={classes.root}>
+      <Paper className={classes.paper}>
+        <Grid container wrap="nowrap" spacing={2}>
+          <Grid item className={classes.button}>
+            {props.isAuthenticated && (
+              <Button
+                variant="contained"
+                onClick={() => history.push(`/forum/add`, props)}
+              >
+                Add Post
+              </Button>
+            )}
+          </Grid>
         </Grid>
-      </Grid>
-    </Paper>
-  </div>
+      </Paper>
+    </div>
+  );
 };
 
 export default PostControl;

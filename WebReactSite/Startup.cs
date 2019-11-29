@@ -90,14 +90,17 @@ namespace WebReactSite
                 app.UseHsts();
             }
 
+            app.UseRouting();
+            app.UseHttpsRedirection();
+
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseHttpsRedirection();
+            
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
-            app.UseRouting();
+            
 
             app.UseEndpoints(endpoints =>
             {

@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using WebReactSite.Models;
 using WebReactSite.Services.Interfaces;
 using WebReactSite.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -22,7 +24,7 @@ namespace WebReactSite.Controllers
             _forumService = service;
         }
 
-        // GET: api/<controller>
+        // GET: api/<controller>        
         [Route("theme")]
         [HttpGet]
         public IActionResult GetForumTheme()
@@ -32,6 +34,7 @@ namespace WebReactSite.Controllers
         }
 
         // POST api/<controller>
+        [Authorize]
         [Route("theme")]
         [HttpPost]
         public async Task<IActionResult> AddTheme([FromBody] AddForumThemeRequest request)
@@ -44,6 +47,7 @@ namespace WebReactSite.Controllers
             
         }
         [Route("post")]
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddPost([FromBody] AddPostRequest request)
         {
