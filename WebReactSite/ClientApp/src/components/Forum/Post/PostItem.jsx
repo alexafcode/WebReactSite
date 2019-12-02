@@ -45,10 +45,16 @@ const PostItem = props => {
       spacing={2}
       className={classes.root}
       onClick={() =>
-        history.push(
-          `/forum/${props.post.forumId}/post?postId=${props.post.postId}`
-        )
+        history.push({
+          pathname: `/forum/${props.post.forumId}/post`,
+          search: `?postId=${props.post.postId}`
+        })
       }
+      // onClick={() =>
+      //   history.push(
+      //     `/forum/${props.post.forumId}/post?postId=${props.post.postId}`
+      //   )
+      // }
     >
       {/* <Grid item>{Icon}</Grid> */}
       <div className={classes.titleContainer}>

@@ -9,6 +9,7 @@ import PrivateRoute from "./components/Login/PrivateRoute";
 import Cabinet from "./components/Cabinet/Cabinet";
 import Post from "./components/Forum/Post/Post";
 import AddPost from "./components/Forum/Post/AddPost";
+import Comment from "./components/Forum/Comment/Comment";
 import NotFound from "./components/Layouts/NotFound";
 import "./App.css";
 
@@ -21,6 +22,7 @@ const App = () => (
         <Route exact path="/signin" component={SignIn} />
         <Route exact path="/signup" component={SignUp} />
         <Route exact path="/forum/add" component={AddPost} />
+        <Route exact path="/forum/:id/post" component={Comment} />
         <Route exact path="/forum/:id" component={Post} />
         <PrivateRoute path="/cabinet" component={Cabinet} />
         <Route component={NotFound} />
