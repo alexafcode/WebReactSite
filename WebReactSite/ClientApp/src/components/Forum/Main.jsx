@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { getModalThemeAction } from "../../store/forum/actions";
 import Loading from "../Loading/Loading";
-import ThemeItem from "./ThemeItem";
+import ThemeItem from "./Theme/ThemeItem";
 
 const Main = props => {
   const { loading, forumTheme, getModalThemeAction } = props;

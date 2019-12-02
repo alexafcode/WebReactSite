@@ -1,9 +1,9 @@
 import React from "react";
-import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
+import history from "../../../history";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -39,7 +39,17 @@ const PostItem = props => {
   };
   const date = new Date(createdDate).toLocaleString("ru", options);
   return (
-    <Grid container wrap="nowrap" spacing={2} className={classes.root}>
+    <Grid
+      container
+      wrap="nowrap"
+      spacing={2}
+      className={classes.root}
+      onClick={() =>
+        history.push(
+          `/forum/${props.post.forumId}/post?postId=${props.post.postId}`
+        )
+      }
+    >
       {/* <Grid item>{Icon}</Grid> */}
       <div className={classes.titleContainer}>
         <Typography variant="h5">{header}</Typography>

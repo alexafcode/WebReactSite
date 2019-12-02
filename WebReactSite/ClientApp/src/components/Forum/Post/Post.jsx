@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
-import { getPostAction } from "../../store/forum/actions";
-import Loading from "../Loading/Loading";
+import { getPostAction } from "../../../store/forum/actions";
+import Loading from "../../Loading/Loading";
 import PostControl from "./PostControl";
 import PostItem from "./PostItem";
 

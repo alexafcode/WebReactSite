@@ -7,8 +7,8 @@ import SignIn from "./components/Login/SignIn";
 import SignUp from "./components/Login/SignUp";
 import PrivateRoute from "./components/Login/PrivateRoute";
 import Cabinet from "./components/Cabinet/Cabinet";
-import Post from "./components/Forum/Post";
-import AddPost from "./components/Forum/AddPost";
+import Post from "./components/Forum/Post/Post";
+import AddPost from "./components/Forum/Post/AddPost";
 import NotFound from "./components/Layouts/NotFound";
 import "./App.css";
 

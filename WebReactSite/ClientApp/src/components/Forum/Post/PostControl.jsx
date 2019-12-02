@@ -2,7 +2,7 @@ import React from "react";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import history from "../../history";
+import history from "../../../history";
 import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme => ({

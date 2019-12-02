@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { addPostAction } from "../../store/forum/actions";
-import Loading from "../Loading/Loading";
+import { addPostAction } from "../../../store/forum/actions";
+import Loading from "../../Loading/Loading";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
