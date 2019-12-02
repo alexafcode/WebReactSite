@@ -21,7 +21,13 @@ export const signInAction = (login, password) => dispatch => {
     .then(response => {
       console.log(response);
       const data = response.data;
-      helper.saveAuth(data.user, data.token, data.isAdmin, data.email);
+      helper.saveAuth(
+        data.user,
+        data.token,
+        data.isAdmin,
+        data.email,
+        data.userAvatar
+      );
       dispatch({
         type: LOGIN_SUCCESS,
         payload: data.user,
@@ -54,7 +60,13 @@ export const createUserAction = (login, password, email) => dispatch => {
     .then(response => {
       console.log(response);
       const data = response.data;
-      helper.saveAuth(data.user, data.token, data.isAdmin, data.email);
+      helper.saveAuth(
+        data.user,
+        data.token,
+        data.isAdmin,
+        data.email,
+        data.userAvatar
+      );
       dispatch({
         type: LOGIN_SUCCESS,
         payload: data.user,

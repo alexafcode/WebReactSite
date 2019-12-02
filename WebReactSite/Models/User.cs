@@ -15,5 +15,6 @@ namespace WebReactSite.Models
         public bool IsAdmin { get; set; }
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
+        public string UserAvatar { get; set; }
     }
 }

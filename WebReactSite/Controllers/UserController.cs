@@ -13,6 +13,8 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
 using System.Net;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -112,7 +114,17 @@ namespace WebReactSite.Controllers
 
             return Ok(response);
         }
-
+        //[Route("avatar")]
+        //[HttpPost]
+        //public async Task<IActionResult> CreateUserAvatar(IFormFile image)
+        //{
+        //    if(image != null && image.Length > 0)
+        //    {
+        //        var fileName = Path.GetFileName(image.FileName);
+        //        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\avatar", fileName);
+        //    }
+        //    return Ok;
+        //}
         //// PUT api/<controller>/5
         //[HttpPut("{id}")]
         //public void Put(int id, [FromBody]string value)

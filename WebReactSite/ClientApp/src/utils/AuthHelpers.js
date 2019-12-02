@@ -7,13 +7,18 @@ export default {
     singInUrl: "api/user/signin",
     signUpUrl: "api/user/create"
   },
-  saveAuth: (userName, token, isAdmin = false, email) => {
+  saveAuth: (userName, token, isAdmin = false, email, userAvatar = null) => {
+    if (userAvatar === null) {
+      userAvatar =
+        "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/128x128/plain/user.png";
+    }
     setLS(
       JSON.stringify({
         userName: userName,
         access_token: token,
         isAdmin: isAdmin,
-        email: email
+        email: email,
+        userAvatar: userAvatar
       })
     );
   },
@@ -67,6 +72,19 @@ export default {
       token = JSON.parse(item).access_token;
     }
     return token;
+  },
+
+  getUserAvatar: () => {
+    const item = getLS();
+    let image = null;
+    if (item) {
+      image = JSON.parse(item).userAvatar;
+      if (image) {
+        return image;
+      } else {
+        return "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/128x128/plain/user.png";
+      }
+    }
   }
 };
 const getLS = () => {

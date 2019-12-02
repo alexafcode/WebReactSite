@@ -13,6 +13,7 @@ const initialState = {
   user: helper.getLogin(),
   email: helper.getEmail(),
   isAdmin: helper.isAdmin(),
+  userAvatar: helper.getUserAvatar(),
   error: false,
   errorMessage: "",
   loading: false
@@ -28,7 +29,6 @@ export default (state = initialState, action) => {
         errorMessage: ""
       };
     case LOGIN_SUCCESS:
-      console.log(action);
       return {
         ...state,
         isAuthenticated: true,
@@ -44,7 +44,6 @@ export default (state = initialState, action) => {
         token: action.payload
       };
     case SIGNIN_ERROR:
-      console.log(action);
       return {
         ...state,
         loading: false,
