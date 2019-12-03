@@ -4,7 +4,10 @@ import {
   SIGNOUT,
   TOKEN,
   SIGNIN_ERROR,
-  LOGIN_SUCCESS
+  LOGIN_SUCCESS,
+  UPLOAD_AVATAR,
+  UPLOAD_AVATAR_SUCCESS,
+  UPLOAD_AVATAR_ERROR
 } from "./constants";
 import helper from "../../utils/authHelpers";
 import history from "../../history";
@@ -20,20 +23,14 @@ export const signInAction = (login, password) => dispatch => {
     })
     .then(response => {
       console.log(response);
-      const data = response.data;
-      helper.saveAuth(
-        data.user,
-        data.token,
-        data.isAdmin,
-        data.email,
-        data.userAvatar
-      );
+      const { user, token, isAdmin, email, userAvatar } = response.dataa;
+      helper.saveAuth(user, token, isAdmin, email, userAvatar);
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: data.user,
-        token: data.token,
-        email: data.email,
-        isAdmin: data.isAdmin
+        payload: user,
+        token: token,
+        email: email,
+        isAdmin: isAdmin
       });
       history.push("/");
     })
@@ -59,26 +56,26 @@ export const createUserAction = (login, password, email) => dispatch => {
     })
     .then(response => {
       console.log(response);
-      const data = response.data;
-      helper.saveAuth(
-        data.user,
-        data.token,
-        data.isAdmin,
-        data.email,
-        data.userAvatar
-      );
+      const { user, token, isAdmin, email, userAvatar } = response.dataa;
+      helper.saveAuth(user, token, isAdmin, email, userAvatar);
+      helper.saveAuth(user, token, isAdmin, email, userAvatar);
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: data.user,
-        token: data.token,
-        email: data.email,
-        isAdmin: data.isAdmin
+        payload: user,
+        token: token,
+        email: email,
+        isAdmin: isAdmin
       });
-      dispatch({ type: TOKEN, payload: data.token });
+      dispatch({ type: TOKEN, payload: token });
       history.push("/");
     })
     .catch(e => {
       console.log(e.response);
       dispatch({ type: SIGNIN_ERROR, payload: e.response.data });
     });
+};
+
+export const uploadUserImage = image => dispatch => {
+  const userName = helper.getLogin();
+  console.log(userName, image);
 };

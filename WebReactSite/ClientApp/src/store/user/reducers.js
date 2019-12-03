@@ -4,7 +4,10 @@ import {
   LOGIN_SUCCESS,
   SIGNOUT,
   TOKEN,
-  SIGNIN_ERROR
+  SIGNIN_ERROR,
+  UPLOAD_AVATAR,
+  UPLOAD_AVATAR_SUCCESS,
+  UPLOAD_AVATAR_ERROR
 } from "./constants";
 
 const initialState = {
@@ -57,7 +60,25 @@ export default (state = initialState, action) => {
         user: null,
         token: null,
         email: "",
-        isAdmin: null
+        isAdmin: null,
+        userAvatar: null
+      };
+    case UPLOAD_AVATAR:
+      return {
+        ...state,
+        loading: true,
+        error: false,
+        errorMessage: ""
+      };
+    case UPLOAD_AVATAR_SUCCESS:
+      return {
+        ...state,
+        userAvatar: action.payload
+      };
+    case UPLOAD_AVATAR_ERROR:
+      return {
+        ...state,
+        error: action.payload
       };
     default:
       return state;

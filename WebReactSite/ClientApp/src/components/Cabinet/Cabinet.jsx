@@ -1,34 +1,33 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { addThemeAction, setModalAction } from "../../store/forum/actions";
+import { uploadUserImage } from "../../store/user/actions";
 import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
 import ThemeDialog from "./ThemeDialog";
 import Loading from "../Loading/Loading";
-import Grid from "@material-ui/core/Grid";
+import UploadAvatar from "./UploadAvatar";
+import Button from "@material-ui/core/Button";
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1,
+    overflow: "hidden",
+    padding: theme.spacing(2)
+  },
+  button: {
+    margin: theme.spacing(1)
+  },
+  input: {
+    display: "none"
+  },
+  loading: {
+    margin: "auto",
+    width: "10%",
+    marginTop: "10%"
+  }
+}));
 
 const Cabinet = props => {
-  const useStyles = makeStyles(theme => ({
-    button: {
-      margin: theme.spacing(1)
-    },
-    input: {
-      display: "none"
-    },
-    loading: {
-      margin: "auto",
-      width: "10%",
-      marginTop: "10%"
-    },
-    media: {
-      backgroundImage: `url(${props.userAvatar})`,
-      height: "30vh",
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      backgroundRepeat: "no-repeat",
-      overflow: "hidden"
-    }
-  }));
   const classes = useStyles();
   const open = props.openModal;
   const [values, setValues] = useState({
@@ -49,10 +48,11 @@ const Cabinet = props => {
   };
 
   return (
-    <React.Fragment>
-      <Grid item xs={4} sm={1}>
-        <div className={classes.media} />
-      </Grid>
+    <div className={classes.root}>
+      <UploadAvatar
+        userAvatar={props.userAvatar}
+        uploadUserImage={props.uploadUserImage}
+      />
       {props.loading ? (
         <div className={classes.loading}>
           <Loading />
@@ -82,7 +82,7 @@ const Cabinet = props => {
           </div>
         </div>
       )}
-    </React.Fragment>
+    </div>
   );
 };
 
@@ -98,7 +98,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   addThemeAction,
-  setModalAction
+  setModalAction,
+  uploadUserImage
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cabinet);

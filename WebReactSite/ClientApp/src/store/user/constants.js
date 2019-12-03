@@ -3,3 +3,6 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const SIGNOUT = "SIGNOUT";
 export const TOKEN = "TOKEN";
 export const SIGNIN_ERROR = "SIGNIN_ERROR";
+export const UPLOAD_AVATAR = "UPLOAD_AVATAR";
+export const UPLOAD_AVATAR_SUCCESS = "UPLOAD_AVATAR_SUCCESS";
+export const UPLOAD_AVATAR_ERROR = "UPLOAD_AVATAR_ERROR";
