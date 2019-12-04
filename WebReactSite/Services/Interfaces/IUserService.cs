@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebReactSite.Models;
 using System.Security.Claims;
+using WebReactSite.ViewModels;
 
 namespace WebReactSite.Services.Interfaces
 {
@@ -18,6 +19,7 @@ namespace WebReactSite.Services.Interfaces
         User GetUserByName(string name);
         bool IsNameInUse(string name);
         User GetUserByEmail(string email);
+        Task<string> UploadUserImage(AddUserAvatarRequest request);
 
     }
 }

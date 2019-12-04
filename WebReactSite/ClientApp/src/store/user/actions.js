@@ -76,6 +76,24 @@ export const createUserAction = (login, password, email) => dispatch => {
 };
 
 export const uploadUserImage = image => dispatch => {
+  const formData = new FormData();
+  const imageName = helper.getLogin();
   const userName = helper.getLogin();
-  console.log(userName, image);
+  formData.set("Name", userName);
+  formData.append("image", image, imageName);
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${helper.getToken()}`
+  };
+  axios
+    .post(helper.urlConstants.uploadAvatarUrl, formData, { headers })
+    .then(response => {
+      console.log(response.data);
+      helper.updateUserInfo(response.data, "userAvatar");
+      dispatch({ type: UPLOAD_AVATAR_SUCCESS, payload: response.data });
+    })
+    .catch(e => {
+      console.log(e);
+      console.log(e.response);
+    });
 };

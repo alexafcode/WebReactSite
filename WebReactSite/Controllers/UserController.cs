@@ -15,6 +15,9 @@ using Microsoft.AspNetCore.Authorization;
 using System.Net;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.AspNetCore.StaticFiles;
+using MimeTypes;
+using WebReactSite.ViewModels;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -114,17 +117,17 @@ namespace WebReactSite.Controllers
 
             return Ok(response);
         }
-        //[Route("avatar")]
-        //[HttpPost]
-        //public async Task<IActionResult> CreateUserAvatar(IFormFile image)
-        //{
-        //    if(image != null && image.Length > 0)
-        //    {
-        //        var fileName = Path.GetFileName(image.FileName);
-        //        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\avatar", fileName);
-        //    }
-        //    return Ok;
-        //}
+        [Route("upload")]
+        //ToDo Auth
+        [HttpPost]
+        public async Task<IActionResult> CreateUserAvatar([FromForm] AddUserAvatarRequest request)
+        {
+            var url = await _service.UploadUserImage(request);
+            if (url == null)
+                return BadRequest();
+            return Ok(url);
+            
+        }
         //// PUT api/<controller>/5
         //[HttpPut("{id}")]
         //public void Put(int id, [FromBody]string value)

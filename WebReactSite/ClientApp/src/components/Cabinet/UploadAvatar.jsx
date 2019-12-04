@@ -36,7 +36,7 @@ const UploadAvatar = props => {
       fr.readAsDataURL(image[0]);
       const config = {
         file: image[0],
-        maxSize: 150
+        maxSize: 300
       };
       setState({
         ...state,

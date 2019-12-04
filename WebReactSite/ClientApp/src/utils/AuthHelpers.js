@@ -5,7 +5,8 @@ const constants = {
 export default {
   urlConstants: {
     singInUrl: "api/user/signin",
-    signUpUrl: "api/user/create"
+    signUpUrl: "api/user/create",
+    uploadAvatarUrl: "api/user/upload"
   },
   saveAuth: (userName, token, isAdmin = false, email, userAvatar = null) => {
     if (userAvatar === null) {
@@ -84,6 +85,14 @@ export default {
       } else {
         return "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/128x128/plain/user.png";
       }
+    }
+  },
+  updateUserInfo: (changeData, key) => {
+    const item = getLS();
+    if (item) {
+      const data = JSON.parse(item);
+      data[key] = changeData;
+      setLS(JSON.stringify(data));
     }
   }
 };

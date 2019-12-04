@@ -13,5 +13,6 @@ namespace WebReactSite.Interfaces
         IEnumerable<User> GetAll();
         User GetUserByName(string name);
         User GetUserByEmail(string email);
+        Task UpdateUser(User user);
     }
 }

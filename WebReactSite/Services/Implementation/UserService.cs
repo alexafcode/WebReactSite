@@ -13,6 +13,9 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using WebReactSite.ViewModels;
+using System.IO;
+using Microsoft.AspNetCore.StaticFiles;
+using MimeTypes;
 
 namespace WebReactSite.Services.Implementation
 {
@@ -132,6 +135,30 @@ namespace WebReactSite.Services.Implementation
             {
                 return false;
             }
+        }
+
+        public async Task<string> UploadUserImage(AddUserAvatarRequest request)
+        {
+            if (request.Image != null)
+            {
+                var wwwroot = "wwwroot\\avatar";
+                var avatarRoot = "\\avatar";
+                var fileName = Path.GetFileName(request.Image.FileName);
+                var ext = MimeTypes.MimeTypeMap.GetExtension(request.Image.ContentType);
+                var FileNameWithExt = string.Concat(fileName, ext);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), wwwroot, FileNameWithExt);
+                var image = request.Image;
+
+                using var fileStream = new FileStream(filePath, FileMode.Create);
+                await image.CopyToAsync(fileStream);
+                
+                var imagePath = Path.Combine(avatarRoot, FileNameWithExt).Replace('\\', '/');
+                User user = _repository.GetUserByName(request.Name);
+                user.UserAvatar = imagePath;
+                await _repository.UpdateUser(user);
+                return imagePath;
+            }
+            return null;
         }
 
     }
