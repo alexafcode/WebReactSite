@@ -13,7 +13,7 @@ const UploadAvatar = props => {
     },
     media: {
       backgroundImage: `url(${props.userAvatar})`,
-      height: "30vh",
+      height: "25vh",
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",

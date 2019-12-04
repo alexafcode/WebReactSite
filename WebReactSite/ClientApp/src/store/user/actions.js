@@ -57,8 +57,7 @@ export const createUserAction = (login, password, email) => dispatch => {
     })
     .then(response => {
       console.log(response);
-      const { user, token, isAdmin, email, userAvatar } = response.dataa;
-      helper.saveAuth(user, token, isAdmin, email, userAvatar);
+      const { user, token, isAdmin, email, userAvatar } = response.data;
       helper.saveAuth(user, token, isAdmin, email, userAvatar);
       dispatch({
         type: LOGIN_SUCCESS,

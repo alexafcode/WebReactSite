@@ -26,7 +26,6 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-// ToDo Icon User
 const PostItem = props => {
   console.log(props.post);
   const classes = useStyles();
