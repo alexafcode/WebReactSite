@@ -40,7 +40,8 @@ export default (state = initialState, action) => {
         loading: false,
         token: action.token,
         email: action.email,
-        isAdmin: action.isAdmin
+        isAdmin: action.isAdmin,
+        userAvatar: action.userAvatar
       };
     case TOKEN:
       return {

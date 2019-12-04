@@ -139,7 +139,7 @@ namespace WebReactSite.Services.Implementation
 
         public async Task<string> UploadUserImage(AddUserAvatarRequest request)
         {
-            if (request.Image != null)
+            if (request.Image != null && request.Name != null)
             {
                 var wwwroot = "wwwroot\\avatar";
                 var avatarRoot = "\\avatar";

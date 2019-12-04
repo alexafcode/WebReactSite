@@ -1,25 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebReactSite.Models;
 using WebReactSite.Services.Interfaces;
-using WebReactSite.Services.Implementation;
-using System.Security.Claims;
-using WebReactSite.Helpers;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
 using System.Net;
-using Microsoft.AspNetCore.Http;
-using System.IO;
-using Microsoft.AspNetCore.StaticFiles;
-using MimeTypes;
 using WebReactSite.ViewModels;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WebReactSite.Controllers
 {
@@ -112,13 +100,14 @@ namespace WebReactSite.Controllers
                 token = encodedJwt,
                 user = user.Login,
                 isAdmin = user.IsAdmin,
-                email = user.Email
+                email = user.Email,
+                userAvatar = user.UserAvatar
             };
 
             return Ok(response);
         }
         [Route("upload")]
-        //ToDo Auth
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateUserAvatar([FromForm] AddUserAvatarRequest request)
         {

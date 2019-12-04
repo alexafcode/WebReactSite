@@ -23,14 +23,15 @@ export const signInAction = (login, password) => dispatch => {
     })
     .then(response => {
       console.log(response);
-      const { user, token, isAdmin, email, userAvatar } = response.dataa;
+      const { user, token, isAdmin, email, userAvatar } = response.data;
       helper.saveAuth(user, token, isAdmin, email, userAvatar);
       dispatch({
         type: LOGIN_SUCCESS,
         payload: user,
         token: token,
         email: email,
-        isAdmin: isAdmin
+        isAdmin: isAdmin,
+        userAvatar: userAvatar
       });
       history.push("/");
     })
@@ -76,6 +77,7 @@ export const createUserAction = (login, password, email) => dispatch => {
 };
 
 export const uploadUserImage = image => dispatch => {
+  dispatch({ type: UPLOAD_AVATAR });
   const formData = new FormData();
   const imageName = helper.getLogin();
   const userName = helper.getLogin();
@@ -93,6 +95,11 @@ export const uploadUserImage = image => dispatch => {
       dispatch({ type: UPLOAD_AVATAR_SUCCESS, payload: response.data });
     })
     .catch(e => {
-      dispatch({ type: UPLOAD_AVATAR_ERROR, payload: e.response.data });
+      console.log(e.response);
+      if (e.response.status === 401) {
+        dispatch({ type: UPLOAD_AVATAR_ERROR, payload: "Invalid Token" });
+      } else {
+        dispatch({ type: UPLOAD_AVATAR_ERROR, payload: e.response.data });
+      }
     });
 };
