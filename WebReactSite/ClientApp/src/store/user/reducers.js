@@ -10,6 +10,7 @@ import {
   UPLOAD_AVATAR_ERROR
 } from "./constants";
 
+// ToDo delete errorMessage
 const initialState = {
   isAuthenticated: helper.isAuthenticated(),
   token: helper.getToken(),
@@ -78,7 +79,8 @@ export default (state = initialState, action) => {
     case UPLOAD_AVATAR_ERROR:
       return {
         ...state,
-        error: action.payload
+        error: true,
+        errorMessage: action.payload
       };
     default:
       return state;

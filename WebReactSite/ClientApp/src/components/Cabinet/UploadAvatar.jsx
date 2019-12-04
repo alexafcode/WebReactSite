@@ -48,6 +48,11 @@ const UploadAvatar = props => {
     }
   };
 
+  const uploadImage = () => {
+    props.uploadUserImage(state.blobImage);
+    setState({ ...state, disabled: !state.disabled });
+  };
+
   return (
     <Grid container wrap="nowrap" spacing={2}>
       <Grid item xs={4} sm={1}>
@@ -67,7 +72,7 @@ const UploadAvatar = props => {
               variant="contained"
               color="primary"
               className={classes.button}
-              onClick={() => props.uploadUserImage(state.blobImage)}
+              onClick={() => uploadImage()}
             >
               Отправить
             </Button>
@@ -80,6 +85,9 @@ const UploadAvatar = props => {
               Отмена
             </Button>
           </div>
+        )}
+        {props.usersError && (
+          <p style={{ color: "red", margin: "auto" }}>{props.errorMessage}</p>
         )}
       </Grid>
       {!state.disabled && (

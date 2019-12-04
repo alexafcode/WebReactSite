@@ -52,6 +52,8 @@ const Cabinet = props => {
       <UploadAvatar
         userAvatar={props.userAvatar}
         uploadUserImage={props.uploadUserImage}
+        usersError={props.usersError}
+        errorMessage={props.errorMessage}
       />
       {props.loading ? (
         <div className={classes.loading}>
@@ -92,7 +94,9 @@ const mapStateToProps = state => {
     openModal: state.ForumReducers.openModal,
     error: state.ForumReducers.error,
     isAdmin: state.UsersReducers.isAdmin,
-    userAvatar: state.UsersReducers.userAvatar
+    userAvatar: state.UsersReducers.userAvatar,
+    usersError: state.UsersReducers.error,
+    errorMessage: state.UsersReducers.errorMessage
   };
 };
 

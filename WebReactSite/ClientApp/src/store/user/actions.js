@@ -93,7 +93,6 @@ export const uploadUserImage = image => dispatch => {
       dispatch({ type: UPLOAD_AVATAR_SUCCESS, payload: response.data });
     })
     .catch(e => {
-      console.log(e);
-      console.log(e.response);
+      dispatch({ type: UPLOAD_AVATAR_ERROR, payload: e.response.data });
     });
 };
