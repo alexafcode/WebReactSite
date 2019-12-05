@@ -63,7 +63,9 @@ export default (state = initialState, action) => {
         token: null,
         email: "",
         isAdmin: null,
-        userAvatar: null
+        userAvatar: null,
+        error: null,
+        errorMessage: ""
       };
     case UPLOAD_AVATAR:
       return {

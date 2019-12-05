@@ -141,9 +141,10 @@ namespace WebReactSite.Services.Implementation
         {
             if (request.Image != null && request.Name != null)
             {
+                string date = DateTime.Now.ToString("yyyyMMddTHHmm");
                 var wwwroot = "wwwroot\\avatar";
                 var avatarRoot = "\\avatar";
-                var fileName = Path.GetFileName(request.Image.FileName);
+                var fileName = string.Concat(Path.GetFileName(request.Image.FileName), date);
                 var ext = MimeTypes.MimeTypeMap.GetExtension(request.Image.ContentType);
                 var FileNameWithExt = string.Concat(fileName, ext);
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), wwwroot, FileNameWithExt);
