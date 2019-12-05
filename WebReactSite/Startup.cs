@@ -18,7 +18,7 @@ using System;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WebReactSite.Helpers;
-
+using System.Threading.Tasks;
 
 namespace WebReactSite
 {
@@ -52,12 +52,20 @@ namespace WebReactSite
                         IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
                         ValidateIssuerSigningKey = true
                     };
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnAuthenticationFailed = context =>
+                        {
+                            if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                            {
+                                context.Response.Headers.Add("Token-Expired", "true");
+                            }
+                            return Task.CompletedTask;
+                        }
+                    };
                 });
 
             services.AddControllersWithViews();
-            //string connection = Configuration.GetConnectionString("DefaultConnection");
-            //services.AddDbContext<RepositoryContext>(options =>
-            //    options.UseSqlServer(connection));
             services.AddScoped<IRepositoryContextFactory, RepositoryContextFactory>();
             services.AddScoped<IUserRepository>(provider => new UserRepository(Configuration.GetConnectionString("DefaultConnection"), provider.GetService<IRepositoryContextFactory>()));
             services.AddScoped<IForumRepository>(provider => new ForumRepository(Configuration.GetConnectionString("DefaultConnection"), provider.GetService<IRepositoryContextFactory>()));

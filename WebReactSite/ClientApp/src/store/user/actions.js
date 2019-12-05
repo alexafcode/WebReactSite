@@ -95,7 +95,12 @@ export const uploadUserImage = image => dispatch => {
     })
     .catch(e => {
       console.log(e.response);
-      if (e.response.status === 401) {
+      if (
+        e.response.status === 401 &&
+        e.response.headers.has("Token-Expired")
+      ) {
+        // ToDo refreshToken
+        // const refreshToken = getRefleshToken();
         dispatch({ type: UPLOAD_AVATAR_ERROR, payload: "Invalid Token" });
       } else {
         dispatch({ type: UPLOAD_AVATAR_ERROR, payload: e.response.data });

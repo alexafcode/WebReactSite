@@ -77,6 +77,7 @@ export default (state = initialState, action) => {
     case UPLOAD_AVATAR_SUCCESS:
       return {
         ...state,
+        loading: false,
         userAvatar: action.payload
       };
     case UPLOAD_AVATAR_ERROR:

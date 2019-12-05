@@ -63,7 +63,8 @@ namespace WebReactSite.Controllers
                 token = encodedJwt,
                 user = user.Login,
                 isAdmin = user.IsAdmin,
-                email = user.Email
+                email = user.Email,
+                expires_in = DateTime.Now.AddDays(7).ToString()
             };
 
             return Ok(response);
@@ -101,7 +102,8 @@ namespace WebReactSite.Controllers
                 user = user.Login,
                 isAdmin = user.IsAdmin,
                 email = user.Email,
-                userAvatar = user.UserAvatar
+                userAvatar = user.UserAvatar,
+                expires_in = DateTime.Now.AddDays(7).ToString()
             };
 
             return Ok(response);
