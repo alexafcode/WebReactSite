@@ -53,6 +53,7 @@ namespace WebReactSite.Services.Implementation
             user.Login = login;
             user.Password = hash;
             user.Email = email;
+            user.RefToken = GenerateRefreshToken();
             var result = _repository.Create(user);
             if(result != null)
             {
@@ -160,6 +161,55 @@ namespace WebReactSite.Services.Implementation
                 return imagePath;
             }
             return null;
+        }
+        public object RefreshToken(string token, string refToken)
+        {
+            var principal = GetPrincipalFromExpiredToken(token);
+            var userName = principal.Identity.Name;
+            var user = GetUserByName(userName);
+            if (user.RefToken != refToken)
+                throw new SecurityTokenException("Invalid refresh Token");
+            var identity = GetIdentity(userName);
+            var newJwtToken = GetToken(identity);
+            var newRefToken = GenerateRefreshToken();
+            user.RefToken = newRefToken;
+            _repository.UpdateUser(user);
+
+            return new
+            {
+                token = newJwtToken,
+                refToken = newRefToken
+            };
+
+        }
+        public string GenerateRefreshToken()
+        {
+            var random = new byte[32];
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(random);
+            return Convert.ToBase64String(random);
+        }
+        //private User GetRefToken(string userName)
+        //{
+        //    return _repository.GetUserByName(userName);
+        //}
+        private ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
+        {
+            var tokenValidParams = new TokenValidationParameters
+            {
+                ValidateAudience = false,
+                ValidateIssuer = false,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+                ValidateLifetime = false
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+            SecurityToken securityToken;
+            var principal = tokenHandler.ValidateToken(token, tokenValidParams, out securityToken);
+            var jwtSecurityToken = securityToken as JwtSecurityToken;
+            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+                throw new SecurityTokenException("Invalid token");
+            return principal;
         }
 
     }

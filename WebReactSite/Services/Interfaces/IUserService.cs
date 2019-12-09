@@ -20,6 +20,7 @@ namespace WebReactSite.Services.Interfaces
         bool IsNameInUse(string name);
         User GetUserByEmail(string email);
         Task<string> UploadUserImage(AddUserAvatarRequest request);
+        object RefreshToken(string token, string refToken);
 
     }
 }

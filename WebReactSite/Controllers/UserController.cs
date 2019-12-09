@@ -64,7 +64,7 @@ namespace WebReactSite.Controllers
                 user = user.Login,
                 isAdmin = user.IsAdmin,
                 email = user.Email,
-                expires_in = DateTime.Now.AddDays(7).ToString()
+                refToken = user.RefToken
             };
 
             return Ok(response);
@@ -103,7 +103,7 @@ namespace WebReactSite.Controllers
                 isAdmin = user.IsAdmin,
                 email = user.Email,
                 userAvatar = user.UserAvatar,
-                expires_in = DateTime.Now.AddDays(7).ToString()
+                refToken = user.RefToken
             };
 
             return Ok(response);
@@ -119,6 +119,24 @@ namespace WebReactSite.Controllers
             return Ok(url);
             
         }
+        [Route("refresh")]
+        [HttpPost]
+        public IActionResult Refresh([FromBody] RefreshTokenRequest request)
+        {
+            // ToDo null
+            if (!ModelState.IsValid)
+                return BadRequest();
+            try
+            {
+                var response = _service.RefreshToken(request.Token, request.RefreshToken);
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
+            }
+        }
+
         //// PUT api/<controller>/5
         //[HttpPut("{id}")]
         //public void Put(int id, [FromBody]string value)

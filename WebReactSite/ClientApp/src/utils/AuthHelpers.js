@@ -6,9 +6,17 @@ export default {
   urlConstants: {
     singInUrl: "api/user/signin",
     signUpUrl: "api/user/create",
-    uploadAvatarUrl: "api/user/upload"
+    uploadAvatarUrl: "api/user/upload",
+    refreshToken: "api/user/refresh"
   },
-  saveAuth: (userName, token, isAdmin = false, email, userAvatar = null) => {
+  saveAuth: (
+    userName,
+    token,
+    isAdmin = false,
+    email,
+    userAvatar = null,
+    refToken
+  ) => {
     if (userAvatar === null) {
       userAvatar =
         "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/128x128/plain/user.png";
@@ -19,7 +27,8 @@ export default {
         access_token: token,
         isAdmin: isAdmin,
         email: email,
-        userAvatar: userAvatar
+        userAvatar: userAvatar,
+        refToken: refToken
       })
     );
   },
@@ -53,6 +62,14 @@ export default {
     } else {
       return false;
     }
+  },
+  getrefToken: () => {
+    const item = getLS();
+    let refToken = "";
+    if (item) {
+      refToken = JSON.parse(item).refToken;
+    }
+    return refToken;
   },
 
   isAdmin: () => {
