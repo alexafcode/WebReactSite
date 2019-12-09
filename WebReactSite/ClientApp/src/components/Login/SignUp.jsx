@@ -13,6 +13,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import ErrorMessage from "../Layouts/ErrorMessage";
 
 const useStyles = makeStyles(theme => ({
   "@global": {
@@ -167,11 +168,7 @@ function SignUp(props) {
             </Grid>
           </Grid>
           {props.loading && <LinearProgress />}
-          {props.error && (
-            <p style={{ color: "red", textAlign: "center" }}>
-              {props.errorMessage}
-            </p>
-          )}
+          {props.error && <ErrorMessage error={props.error} />}
           <Button
             type="submit"
             fullWidth

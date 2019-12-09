@@ -19,7 +19,7 @@ const initialState = {
   isAdmin: helper.isAdmin(),
   userAvatar: helper.getUserAvatar(),
   error: false,
-  errorMessage: "",
+  // errorMessage: "",
   loading: false
 };
 
@@ -52,8 +52,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        error: true,
-        errorMessage: action.payload
+        error: action.payload
       };
     case SIGNOUT:
       return {
@@ -64,15 +63,13 @@ export default (state = initialState, action) => {
         email: "",
         isAdmin: null,
         userAvatar: null,
-        error: null,
-        errorMessage: ""
+        error: null
       };
     case UPLOAD_AVATAR:
       return {
         ...state,
         loading: true,
-        error: false,
-        errorMessage: ""
+        error: null
       };
     case UPLOAD_AVATAR_SUCCESS:
       return {
@@ -83,8 +80,7 @@ export default (state = initialState, action) => {
     case UPLOAD_AVATAR_ERROR:
       return {
         ...state,
-        error: true,
-        errorMessage: action.payload
+        error: action.payload
       };
     default:
       return state;

@@ -13,6 +13,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import ErrorMessage from "../Layouts/ErrorMessage";
 
 const useStyles = makeStyles(theme => ({
   "@global": {
@@ -67,9 +68,6 @@ function SignIn(props) {
             value={login}
             onChange={e => setLogin(e.target.value)}
           />
-          {/* {loginState.loginError && (
-            <p style={{ color: "red" }}>{loginState.loginErrorText}</p>
-          )} */}
           <TextField
             variant="outlined"
             margin="normal"
@@ -83,11 +81,7 @@ function SignIn(props) {
             onChange={e => setPassword(e.target.value)}
           />
           {props.loading && <LinearProgress />}
-          {props.error && (
-            <p style={{ color: "red", textAlign: "center" }}>
-              {props.errorMessage}
-            </p>
-          )}
+          {props.error && <ErrorMessage error={props.error} />}
           <Button
             type="submit"
             fullWidth
@@ -120,7 +114,6 @@ function SignIn(props) {
 const mapStateToProps = state => {
   return {
     error: state.UsersReducers.error,
-    errorMessage: state.UsersReducers.errorMessage,
     loading: state.UsersReducers.loading
   };
 };

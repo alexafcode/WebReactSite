@@ -4,6 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import { DropzoneArea } from "material-ui-dropzone";
 import Button from "@material-ui/core/Button";
+import ErrorMessage from "../Layouts/ErrorMessage";
 
 const UploadAvatar = props => {
   const useStyles = makeStyles(theme => ({
@@ -86,9 +87,7 @@ const UploadAvatar = props => {
             </Button>
           </div>
         )}
-        {props.usersError && (
-          <p style={{ color: "red", margin: "auto" }}>{props.errorMessage}</p>
-        )}
+        {props.usersError && <ErrorMessage error={props.usersError} />}
       </Grid>
       {!state.disabled && (
         <Grid item xs={6} sm={4}>

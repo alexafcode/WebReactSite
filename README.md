@@ -1,12 +1,9 @@
 # WebReactSite
+
 Technology stack: .NET Core 3.0, Entity Framework Core, MySQL, React + Redux + Material-UI
 
+# Features
 
-Tasks List
-- [x] Add time created in post
-- [ ] Add count posts
-- [ ] Add Comment
-- [ ] Add user management
-- [ ] Add user icon
-- [ ] Add user change password
-- [ ] Add filter comments
+- Standard forum functionality such as boards, posts, messages, and user accounts.
+- Authorization
+- User Avatar upload
