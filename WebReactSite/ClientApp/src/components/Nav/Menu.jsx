@@ -65,7 +65,7 @@ const Menu = props => {
                   className={classes.linkAuth}
                   onClick={() => props.signOutAction()}
                 >
-                  SignOut
+                  {props.user} / SignOut
                 </Button>
               </>
             ) : (
@@ -88,7 +88,8 @@ const Menu = props => {
 // export default withStyles(styles)(Menu);
 const mapStateToProps = state => ({
   ...state,
-  isAuthenticated: state.UsersReducers.isAuthenticated
+  isAuthenticated: state.UsersReducers.isAuthenticated,
+  user: state.UsersReducers.user
 });
 
 const mapDispatchToProps = {
