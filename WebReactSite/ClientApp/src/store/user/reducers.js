@@ -69,7 +69,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: true,
-        error: null
+        error: null,
+        userAvatar: null
       };
     case UPLOAD_AVATAR_SUCCESS:
       return {
