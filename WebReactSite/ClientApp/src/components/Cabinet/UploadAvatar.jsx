@@ -18,7 +18,8 @@ const UploadAvatar = props => {
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
-      overflow: "hidden"
+      overflow: "hidden",
+      margin: theme.spacing(1)
     },
     loader: {
       padding: theme.spacing(2)

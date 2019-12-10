@@ -32,11 +32,6 @@ const useStyles = makeStyles(theme => ({
     marginLeft: "auto",
     marginTop: theme.spacing(1)
   },
-  loading: {
-    margin: "auto",
-    width: "10%",
-    marginTop: "10%"
-  },
   error: {
     color: "red",
     margin: "auto",
@@ -62,9 +57,7 @@ const AddPost = props => {
   return (
     <>
       {loading ? (
-        <div className={classes.loading}>
-          <Loading />
-        </div>
+        <Loading />
       ) : (
         <form className={classes.container} noValidate autoComplete="off">
           <div className={classes.inputContainer}>

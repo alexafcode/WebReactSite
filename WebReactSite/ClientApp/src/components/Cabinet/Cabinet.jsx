@@ -19,11 +19,6 @@ const useStyles = makeStyles(theme => ({
   },
   input: {
     display: "none"
-  },
-  loading: {
-    margin: "auto",
-    width: "10%",
-    marginTop: "10%"
   }
 }));
 
@@ -55,9 +50,7 @@ const Cabinet = props => {
         usersError={props.usersError}
       />
       {props.loading ? (
-        <div className={classes.loading}>
-          <Loading />
-        </div>
+        <Loading />
       ) : (
         <div>
           <div>Cabinet</div>
