@@ -56,5 +56,16 @@ namespace WebReactSite.Services.Implementation
                 throw new ApplicationException(e.Message);
             }
         }
+        public Post GetPostByPostId(int id)
+        {
+            try
+            {
+                return _repository.GetPostByPostId(id);
+            }
+            catch(Exception e)
+            {
+                throw new ApplicationException(e.Message);
+            }
+        }
     }
 }

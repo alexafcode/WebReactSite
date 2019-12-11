@@ -13,5 +13,6 @@ namespace WebReactSite.Interfaces
         Task<int> AddPost (Post post);
         Task AddTags(List<Tag> tags);
         IEnumerable<Post> GetPostByID(int id);
+        Post GetPostByPostId(int id);
     }
 }

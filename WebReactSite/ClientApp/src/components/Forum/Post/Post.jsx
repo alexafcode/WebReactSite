@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
-import { getPostAction } from "../../../store/forum/actions";
+import { getPostsAction } from "../../../store/forum/actions";
 import Loading from "../../Loading/Loading";
 import PostControl from "./PostControl";
 import PostItem from "./PostItem";
@@ -25,7 +25,7 @@ const Post = props => {
   const { posts, loading, error, isAuthenticated } = props;
 
   useEffect(() => {
-    props.getPostAction(id);
+    props.getPostsAction(id);
   }, []);
 
   return (
@@ -54,7 +54,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  getPostAction
+  getPostsAction
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Post);

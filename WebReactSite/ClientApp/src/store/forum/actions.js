@@ -7,6 +7,7 @@ import {
   GET_THEME_ERROR,
   ADD_POST_ERROR,
   GET_POSTS_SUCCESS,
+  GET_POST_SUCCESS,
   GET_POSTS_ERROR,
   GET_COMMENT_SUCCESS,
   GET_COMMENT_ERROR
@@ -94,7 +95,7 @@ export const addPostAction = (
     });
 };
 
-export const getPostAction = id => async dispatch => {
+export const getPostsAction = id => async dispatch => {
   dispatch({ type: LOADING, payload: true });
   const url = helper.urlConstants.baseUrl + helper.urlConstants.postUrl;
   try {
@@ -107,6 +108,22 @@ export const getPostAction = id => async dispatch => {
     dispatch({ type: GET_POSTS_SUCCESS, payload: response.data });
   } catch (e) {
     console.log(e.response);
+    dispatch({ type: SET_ERROR, payload: e.response });
+  }
+};
+
+export const getPostActionByPostId = id => async dispatch => {
+  dispatch({ type: LOADING, payload: true });
+  try {
+    const response = await axios.get(helper.urlConstants.postById, {
+      params: {
+        id: parseInt(id)
+      }
+    });
+    console.log(response.data);
+    dispatch({ type: GET_POST_SUCCESS, payload: response.data });
+  } catch (e) {
+    console.log(e);
     dispatch({ type: SET_ERROR, payload: e.response });
   }
 };

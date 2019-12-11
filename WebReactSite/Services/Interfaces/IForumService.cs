@@ -13,5 +13,6 @@ namespace WebReactSite.Services.Interfaces
         IEnumerable<ForumTheme> GetForumThemes();
         Task AddPost(AddPostRequest request);
         IEnumerable<Post> GetPostByID(int id);
+        Post GetPostByPostId(int id);
     }
 }

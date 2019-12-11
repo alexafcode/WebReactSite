@@ -8,7 +8,8 @@ import {
   GET_POSTS_SUCCESS,
   GET_POSTS_ERROR,
   GET_COMMENT_SUCCESS,
-  GET_COMMENT_ERROR
+  GET_COMMENT_ERROR,
+  GET_POST_SUCCESS
 } from "./constants";
 
 const initialState = {
@@ -53,7 +54,14 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        posts: action.payload //[...action.payload]
+        posts: action.payload //[...action.payload] arr.push([action.newItem])  [...state.arr, action.newItem]
+      };
+    }
+    case GET_POST_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        posts: [...state.posts, action.payload]
       };
     }
     default:

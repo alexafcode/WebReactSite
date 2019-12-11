@@ -42,5 +42,11 @@ namespace WebReactSite.Repositories
             using var context = ContextFactory.CreateDbContext(ConnectionString);
             return context.Posts.Include(p => p.Tags).Where(p => p.ForumId == id).ToList();
         }
+
+        public Post GetPostByPostId(int id)
+        {
+            using var constext = ContextFactory.CreateDbContext(ConnectionString);
+            return constext.Posts.Include(p => p.Tags).Where(p => p.PostId == id).FirstOrDefault();
+        }
     }
 }
