@@ -144,7 +144,6 @@ export const addCommentAction = (body, postId) => async dispatch => {
   axios
     .post(url, JSON.stringify(postBody), { headers })
     .then(response => {
-      console.log(response);
       getPostActionByPostId(postId)(dispatch);
     })
     .catch(e => {

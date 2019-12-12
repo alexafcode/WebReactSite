@@ -14,10 +14,10 @@ const Comment = props => {
   // const { forumId } = props.match.params;
   const search = new URLSearchParams(props.location.search);
   const postId = search.get("postId");
-  const { posts } = props;
-  const post = posts.length
-    ? posts.filter(p => p.postId === parseInt(postId))[0]
-    : [];
+  const { post } = props;
+  // const post = posts.length
+  //   ? posts.filter(p => p.postId === parseInt(postId))[0]
+  //   : [];
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const openText = () => setOpen(!open);
@@ -29,13 +29,7 @@ const Comment = props => {
   };
 
   useEffect(() => {
-    console.log(posts);
-  }, [posts]);
-
-  useEffect(() => {
-    if (!props.posts.length) {
-      props.getPostActionByPostId(postId);
-    }
+    props.getPostActionByPostId(postId);
   }, []);
 
   return (
@@ -71,6 +65,7 @@ const mapStateToProps = state => {
   return {
     loading: state.ForumReducers.loading,
     posts: state.ForumReducers.posts,
+    post: state.ForumReducers.post,
     error: state.ForumReducers.error,
     isAuthenticated: state.UsersReducers.isAuthenticated
   };

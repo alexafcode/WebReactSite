@@ -3,18 +3,19 @@ import {
   SET_MODAL,
   SET_ERROR,
   GET_THEME_SUCCESS,
-  ADD_POST_ERROR,
-  GET_THEME_ERROR,
+  // ADD_POST_ERROR,
+  // GET_THEME_ERROR,
   GET_POSTS_SUCCESS,
-  GET_POSTS_ERROR,
-  GET_COMMENT_SUCCESS,
-  GET_COMMENT_ERROR,
+  // GET_POSTS_ERROR,
+  // GET_COMMENT_SUCCESS,
+  // GET_COMMENT_ERROR,
   GET_POST_SUCCESS
 } from "./constants";
 
 const initialState = {
   forumTheme: [],
   posts: [],
+  post: [],
   error: false,
   errorMessage: "",
   loading: false,
@@ -61,7 +62,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        posts: [...state.posts, action.payload]
+        post: action.payload
       };
     }
     default:
