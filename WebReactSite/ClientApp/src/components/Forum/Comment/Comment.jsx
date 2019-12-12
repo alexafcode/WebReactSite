@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import AddComment from "./AddComment";
-import { getPostActionByPostId } from "../../../store/forum/actions";
+import CommentItem from "./CommentItem";
+import {
+  getPostActionByPostId,
+  addCommentAction
+} from "../../../store/forum/actions";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Loading from "../../Loading/Loading";
@@ -11,12 +15,17 @@ const Comment = props => {
   const search = new URLSearchParams(props.location.search);
   const postId = search.get("postId");
   const { posts } = props;
+  console.log(posts);
   const post = posts.length
     ? posts.filter(p => p.postId === parseInt(postId))[0]
     : [];
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const openText = () => setOpen(!open);
+
+  const addComment = () => {
+    props.addCommentAction(input, postId);
+  };
 
   useEffect(() => {
     if (!props.posts.length) {
@@ -33,13 +42,19 @@ const Comment = props => {
           <Typography variant="h4" gutterBottom>
             {post.header}
           </Typography>
-          <div></div>
+          <div>
+            {post.comments &&
+              post.comments.map(comment => (
+                <CommentItem key={comment.commentId} comment={comment} />
+              ))}
+          </div>
           <Divider variant="middle" />
           <AddComment
             openText={openText}
             open={open}
             input={input}
             setInput={setInput}
+            addComment={addComment}
           />
         </>
       )}
@@ -57,7 +72,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  getPostActionByPostId
+  getPostActionByPostId,
+  addCommentAction
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Comment);

@@ -12,9 +12,11 @@ namespace WebReactSite.Services.Implementation
     public class ForumService : IForumService
     {
         IForumRepository _repository;
-        public ForumService(IForumRepository repository)
+        IUserRepository _userRepository;
+        public ForumService(IForumRepository repository, IUserRepository userRepository)
         {
             _repository = repository;
+            _userRepository = userRepository;
         }
         public async Task AddForumTheme(AddForumThemeRequest request)
         {
@@ -45,11 +47,11 @@ namespace WebReactSite.Services.Implementation
             }
             await _repository.AddTags(tags);
         }
-        public IEnumerable<Post> GetPostByID(int id)
+        public IEnumerable<Post> GetPostsByForumId(int id)
         {
             try
             {
-                return _repository.GetPostByID(id);
+                return _repository.GetPostsByForumId(id);
             }
             catch(Exception e)
             {
@@ -66,6 +68,14 @@ namespace WebReactSite.Services.Implementation
             {
                 throw new ApplicationException(e.Message);
             }
+        }
+        public async Task AddComment(AddCommentRequest request)
+        {
+            DateTime now = DateTime.Now;
+            User user = _userRepository.GetUserByName(request.Author);
+            string avatar = user.UserAvatar;
+            Comment comment = new Comment { PostId = request.PostId, Body = request.Body, Author = user.Login, AuthorAvatar = avatar, CreateDate = now };
+            await _repository.AddComment(comment);
         }
     }
 }

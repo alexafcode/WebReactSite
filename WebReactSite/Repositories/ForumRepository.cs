@@ -37,16 +37,27 @@ namespace WebReactSite.Repositories
             tags.ForEach(t => context.Add(t));
             await context.SaveChangesAsync();
         }
-        public  IEnumerable<Post> GetPostByID(int id)
+        public  IEnumerable<Post> GetPostsByForumId(int id)
         {
             using var context = ContextFactory.CreateDbContext(ConnectionString);
-            return context.Posts.Include(p => p.Tags).Where(p => p.ForumId == id).ToList();
+            return context.Posts.Include(p => p.Tags).Include(p => p.Comments).Where(p => p.ForumId == id).ToList();
         }
 
         public Post GetPostByPostId(int id)
         {
             using var constext = ContextFactory.CreateDbContext(ConnectionString);
-            return constext.Posts.Include(p => p.Tags).Where(p => p.PostId == id).FirstOrDefault();
+            return constext.Posts.Include(p => p.Tags).Include(p => p.Comments).Where(p => p.PostId == id).FirstOrDefault();
+        }
+        public async Task AddComment(Comment comment)
+        {
+            using var context = ContextFactory.CreateDbContext(ConnectionString);
+            context.Comments.Add(comment);
+            await context.SaveChangesAsync();
+        }
+        public Comment GetCommentById(int id)
+        {
+            using var context = ContextFactory.CreateDbContext(ConnectionString);
+            return context.Comments.Where(c => c.CommentId == id).FirstOrDefault();
         }
     }
 }

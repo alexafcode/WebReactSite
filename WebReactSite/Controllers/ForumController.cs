@@ -60,7 +60,7 @@ namespace WebReactSite.Controllers
         [HttpGet]
         public IActionResult GetPostsByID([FromQuery]int id)
         {
-            var posts = _forumService.GetPostByID(id);
+            var posts = _forumService.GetPostsByForumId(id);
             return Ok(posts);
         }
 
@@ -72,6 +72,16 @@ namespace WebReactSite.Controllers
         {
             var post = _forumService.GetPostByPostId(id);
             return Ok(post);
+        }
+        [Route("comment")]
+        //[Authorize] //ToDo
+        [HttpPost]
+        public async Task<IActionResult> AddComment([FromBody] AddCommentRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            await _forumService.AddComment(request);
+            return Ok();
         }
     }
 }

@@ -21,7 +21,8 @@ const CommentItem = props => {
   return (
     <Grid container wrap="nowrap" spacing={2} className={classes.root}>
       <Grid item>
-        <Avatar alt={comment.user} src={comment.userAvatar} />
+        <Avatar alt={comment.author} src={comment.authorAvatar} />
+        {/* body , createDate: "2019-12-12T08:44:24.5727698"*/}
       </Grid>
     </Grid>
   );

@@ -50,7 +50,7 @@ const AddComment = props => {
               color="primary"
               size="small"
               className={classes.button}
-              // onClick={() => }
+              onClick={() => props.addComment()}
               startIcon={<SaveIcon />}
             >
               Save

@@ -113,6 +113,7 @@ export const getPostsAction = id => async dispatch => {
 };
 
 export const getPostActionByPostId = id => async dispatch => {
+  console.log("getPostActionByPostId");
   dispatch({ type: LOADING, payload: true });
   try {
     const response = await axios.get(helper.urlConstants.postById, {
@@ -126,4 +127,28 @@ export const getPostActionByPostId = id => async dispatch => {
     console.log(e);
     dispatch({ type: SET_ERROR, payload: e.response });
   }
+};
+
+export const addCommentAction = (body, postId) => async dispatch => {
+  dispatch({ type: LOADING, payload: true });
+  const url = helper.urlConstants.commentUrl;
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${authHelper.getToken()}`
+  };
+  const postBody = {
+    PostId: parseInt(postId),
+    Body: body,
+    Author: authHelper.getLogin()
+  };
+  axios
+    .post(url, JSON.stringify(postBody), { headers })
+    .then(response => {
+      console.log(response);
+      getPostActionByPostId(postId);
+    })
+    .catch(e => {
+      console.log(e.response);
+      dispatch({ type: SET_ERROR, payload: e.response });
+    });
 };

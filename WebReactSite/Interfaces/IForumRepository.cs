@@ -12,7 +12,9 @@ namespace WebReactSite.Interfaces
         Task AddForumTheme(ForumTheme ft);
         Task<int> AddPost (Post post);
         Task AddTags(List<Tag> tags);
-        IEnumerable<Post> GetPostByID(int id);
+        IEnumerable<Post> GetPostsByForumId(int id);
         Post GetPostByPostId(int id);
+        Task AddComment(Comment comment);
+        Comment GetCommentById(int id);
     }
 }

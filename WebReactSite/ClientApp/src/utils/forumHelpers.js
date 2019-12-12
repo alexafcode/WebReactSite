@@ -3,6 +3,7 @@ export default {
     baseUrl: window.location.origin,
     themeUrl: "api/forum/theme",
     postUrl: "/api/forum/post",
-    postById: "/api/forum/postById"
+    postById: "/api/forum/postById",
+    commentUrl: "/api/forum/comment"
   }
 };
