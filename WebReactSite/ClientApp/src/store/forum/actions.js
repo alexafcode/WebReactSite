@@ -145,7 +145,7 @@ export const addCommentAction = (body, postId) => async dispatch => {
     .post(url, JSON.stringify(postBody), { headers })
     .then(response => {
       console.log(response);
-      getPostActionByPostId(postId);
+      getPostActionByPostId(postId)(dispatch);
     })
     .catch(e => {
       console.log(e.response);

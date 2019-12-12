@@ -15,7 +15,6 @@ const Comment = props => {
   const search = new URLSearchParams(props.location.search);
   const postId = search.get("postId");
   const { posts } = props;
-  console.log(posts);
   const post = posts.length
     ? posts.filter(p => p.postId === parseInt(postId))[0]
     : [];
@@ -25,7 +24,13 @@ const Comment = props => {
 
   const addComment = () => {
     props.addCommentAction(input, postId);
+    setOpen(!open);
+    setInput("");
   };
+
+  useEffect(() => {
+    console.log(posts);
+  }, [posts]);
 
   useEffect(() => {
     if (!props.posts.length) {
