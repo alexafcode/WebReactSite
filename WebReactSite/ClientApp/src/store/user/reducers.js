@@ -10,7 +10,6 @@ import {
   UPLOAD_AVATAR_ERROR
 } from "./constants";
 
-// ToDo delete errorMessage
 const initialState = {
   isAuthenticated: helper.isAuthenticated(),
   token: helper.getToken(),
@@ -19,7 +18,6 @@ const initialState = {
   isAdmin: helper.isAdmin(),
   userAvatar: helper.getUserAvatar(),
   error: false,
-  // errorMessage: "",
   loading: false
 };
 

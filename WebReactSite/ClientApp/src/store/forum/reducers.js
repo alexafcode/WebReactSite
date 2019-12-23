@@ -3,13 +3,13 @@ import {
   SET_MODAL,
   SET_ERROR,
   GET_THEME_SUCCESS,
+  GET_POSTS_SUCCESS,
+  GET_POST_SUCCESS // ToDo
   // ADD_POST_ERROR,
   // GET_THEME_ERROR,
-  GET_POSTS_SUCCESS,
   // GET_POSTS_ERROR,
   // GET_COMMENT_SUCCESS,
   // GET_COMMENT_ERROR,
-  GET_POST_SUCCESS
 } from "./constants";
 
 const initialState = {
@@ -58,6 +58,7 @@ export default (state = initialState, action) => {
         posts: action.payload //[...action.payload] arr.push([action.newItem])  [...state.arr, action.newItem]
       };
     }
+    //ToDo separate reducers
     case GET_POST_SUCCESS: {
       return {
         ...state,

@@ -23,7 +23,6 @@ export const signInAction = (login, password) => dispatch => {
       }
     })
     .then(response => {
-      console.log(response);
       const {
         user,
         token,
@@ -44,7 +43,6 @@ export const signInAction = (login, password) => dispatch => {
       history.push("/");
     })
     .catch(e => {
-      console.log(e.response);
       dispatch({ type: SIGNIN_ERROR, payload: e.response.data });
     });
 };
@@ -64,7 +62,6 @@ export const createUserAction = (login, password, email) => dispatch => {
       Email: email
     })
     .then(response => {
-      console.log(response);
       const {
         user,
         token,
@@ -85,7 +82,6 @@ export const createUserAction = (login, password, email) => dispatch => {
       history.push("/");
     })
     .catch(e => {
-      console.log(e.response);
       dispatch({ type: SIGNIN_ERROR, payload: e.response.data });
     });
 };
@@ -93,7 +89,6 @@ export const createUserAction = (login, password, email) => dispatch => {
 export const uploadUserImage = image => async dispatch => {
   dispatch({ type: UPLOAD_AVATAR });
   const result = await uploadImage(image);
-  console.log(result);
   if (result.status === 200) {
     helper.updateUserInfo(result.data, "userAvatar");
     dispatch({ type: UPLOAD_AVATAR_SUCCESS, payload: result.data });

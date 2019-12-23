@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import AddComment from "./AddComment";
 import CommentItem from "./CommentItem";
+import { makeStyles } from "@material-ui/core/styles";
 import {
   getPostActionByPostId,
   addCommentAction
@@ -10,17 +11,22 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Loading from "../../Loading/Loading";
 
+const useStyles = makeStyles(theme => ({
+  header: {
+    marginLeft: theme.spacing(2)
+  }
+}));
+
 const Comment = props => {
   // const { forumId } = props.match.params;
   const search = new URLSearchParams(props.location.search);
   const postId = search.get("postId");
   const { post } = props;
-  // const post = posts.length
-  //   ? posts.filter(p => p.postId === parseInt(postId))[0]
-  //   : [];
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const openText = () => setOpen(!open);
+
+  const classes = useStyles();
 
   const addComment = () => {
     props.addCommentAction(input, postId);
@@ -38,8 +44,11 @@ const Comment = props => {
         <Loading />
       ) : (
         <>
-          <Typography variant="h4" gutterBottom>
+          <Typography variant="h4" gutterBottom className={classes.header}>
             {post.header}
+          </Typography>
+          <Typography variant="h6" gutterBottom className={classes.header}>
+            {post.description}
           </Typography>
           <div>
             {post.comments &&
@@ -64,7 +73,6 @@ const Comment = props => {
 const mapStateToProps = state => {
   return {
     loading: state.ForumReducers.loading,
-    posts: state.ForumReducers.posts,
     post: state.ForumReducers.post,
     error: state.ForumReducers.error,
     isAuthenticated: state.UsersReducers.isAuthenticated

@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
 
 const AddPost = props => {
   const classes = useStyles();
-  const { error, loading, user } = props;
+  const { error, loading } = props;
   const forumId = props.location.state.id;
   const [input, setInput] = useState({
     header: "",
@@ -87,7 +87,6 @@ const AddPost = props => {
                     input.header,
                     input.description,
                     forumId,
-                    user,
                     chipData
                   )
                 }
@@ -106,8 +105,7 @@ const AddPost = props => {
 const mapStateToProps = state => {
   return {
     loading: state.ForumReducers.loading,
-    error: state.ForumReducers.error,
-    user: state.UsersReducers.user
+    error: state.ForumReducers.error
   };
 };
 
