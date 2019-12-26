@@ -1,5 +1,7 @@
 const constants = {
-  tokenKey: "auth"
+  tokenKey: "auth",
+  defaultImageSrc:
+    "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/128x128/plain/user.png"
 };
 
 export default {
@@ -17,17 +19,13 @@ export default {
     userAvatar = null,
     refToken
   ) => {
-    if (userAvatar === null) {
-      userAvatar =
-        "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/128x128/plain/user.png";
-    }
     setLS(
       JSON.stringify({
         userName: userName,
         access_token: token,
         isAdmin: isAdmin,
         email: email,
-        userAvatar: userAvatar,
+        userAvatar: userAvatar ? userAvatar : constants.defaultImageSrc,
         refToken: refToken
       })
     );
@@ -100,7 +98,7 @@ export default {
       if (image) {
         return image;
       } else {
-        return "https://d1nhio0ox7pgb.cloudfront.net/_img/o_collection_png/green_dark_grey/128x128/plain/user.png";
+        return constants.defaultImageSrc;
       }
     }
   },

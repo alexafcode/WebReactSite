@@ -38,7 +38,7 @@ export const signInAction = (login, password) => dispatch => {
         token: token,
         email: email,
         isAdmin: isAdmin,
-        userAvatar: userAvatar
+        userAvatar: userAvatar ? userAvatar : authHelpers.getUserAvatar()
       });
       history.push("/");
     })

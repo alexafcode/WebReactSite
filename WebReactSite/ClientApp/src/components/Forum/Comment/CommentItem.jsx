@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Avatar from "@material-ui/core/Avatar";
+import AuthHelpers from "../../../utils/authHelpers";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -33,7 +34,14 @@ const CommentItem = props => {
   return (
     <Grid container wrap="nowrap" spacing={1} className={classes.root}>
       <Grid item xs={2} sm={1}>
-        <Avatar alt={comment.author} src={comment.authorAvatar} />
+        <Avatar
+          alt={comment.author}
+          src={
+            comment.authorAvatar
+              ? comment.authorAvatar
+              : AuthHelpers.getUserAvatar()
+          }
+        />
       </Grid>
       <Grid item xs={7} sm={9}>
         {comment.body}

@@ -71,7 +71,7 @@ export const addPostAction = (header, desc, id, tags) => async dispatch => {
   };
   axios
     .post(url, JSON.stringify(postBody), { headers })
-    .then(response => {
+    .then(() => {
       dispatch({ type: LOADING, payload: false });
       history.push(`/forum/${id}`);
     })

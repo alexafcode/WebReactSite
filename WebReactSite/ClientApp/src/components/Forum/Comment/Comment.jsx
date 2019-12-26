@@ -13,6 +13,9 @@ import Loading from "../../Loading/Loading";
 
 const useStyles = makeStyles(theme => ({
   header: {
+    width: "95%"
+  },
+  title: {
     marginLeft: theme.spacing(2)
   }
 }));
@@ -43,11 +46,11 @@ const Comment = props => {
       {props.loading ? (
         <Loading />
       ) : (
-        <>
-          <Typography variant="h4" gutterBottom className={classes.header}>
+        <div className={classes.header}>
+          <Typography variant="h4" gutterBottom className={classes.title}>
             {post.header}
           </Typography>
-          <Typography variant="h6" gutterBottom className={classes.header}>
+          <Typography variant="h6" gutterBottom className={classes.title}>
             {post.description}
           </Typography>
           <div>
@@ -64,7 +67,7 @@ const Comment = props => {
             setInput={setInput}
             addComment={addComment}
           />
-        </>
+        </div>
       )}
     </div>
   );
