@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
+import Pagination from "material-ui-flat-pagination";
 import AddComment from "./AddComment";
 import CommentItem from "./CommentItem";
 import { makeStyles } from "@material-ui/core/styles";
@@ -12,10 +13,6 @@ import Divider from "@material-ui/core/Divider";
 import Loading from "../../Loading/Loading";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    display: "flex",
-    minHeight: "calc(100vh - 64px - 3rem)"
-  },
   header: {
     width: "95%"
   },
@@ -23,12 +20,11 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(2)
   },
   footer: {
-    flex: "0 0 auto",
     textAlign: "center",
-    marginTop: "auto",
-    height: "2rem",
-    position: "relative",
-    bottom: "-3rem"
+    position: "absolute",
+    bottom: "0",
+    left: "0",
+    width: "100%"
   }
 }));
 
@@ -41,6 +37,12 @@ const Comment = props => {
   const [input, setInput] = useState("");
   const openText = () => setOpen(!open);
 
+  const [state, setState] = useState({
+    offset: 0,
+    limit: 10,
+    to: 10
+  });
+
   const classes = useStyles();
 
   const addComment = () => {
@@ -49,12 +51,26 @@ const Comment = props => {
     setInput("");
   };
 
+  const handleClick = (offset, page) => {
+    const to = page * state.limit;
+    setState({ ...state, offset, to });
+    window.scrollTo({
+      top: 0
+    });
+  };
+
+  // const goToFirstPage = () => {
+  //   setState({ ...state, offset: 0, to: state.limit });
+  // };
+
   useEffect(() => {
     props.getPostActionByPostId(postId);
   }, []);
 
+  console.log(post.comments);
+
   return (
-    <div className={classes.root}>
+    <>
       {props.loading ? (
         <Loading />
       ) : (
@@ -68,7 +84,7 @@ const Comment = props => {
           <div>
             {post.comments &&
               post.comments
-                .splice(0, 10)
+                .slice(state.offset, state.to)
                 .map(comment => (
                   <CommentItem key={comment.commentId} comment={comment} />
                 ))}
@@ -82,11 +98,18 @@ const Comment = props => {
             addComment={addComment}
           />
           <footer className={classes.footer}>
-            <p>Footer</p>
+            <Pagination
+              className="pagination"
+              limit={state.limit}
+              offset={state.offset}
+              total={post.comments && post.comments.length}
+              onClick={(e, offset, page) => handleClick(offset, page)}
+              centerRipple={true}
+            />
           </footer>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

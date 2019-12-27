@@ -7,9 +7,9 @@ const useStyles = makeStyles({
     textAlign: "center"
   }
 });
-const ErrorMessage = props => {
+const ErrorMessage = ({ error }) => {
   const classes = useStyles();
-  return <p className={classes.root}>{props.error}</p>;
+  return <p className={classes.root}>{error}</p>;
 };
 
 export default ErrorMessage;
