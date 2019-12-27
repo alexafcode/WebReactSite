@@ -12,11 +12,23 @@ import Divider from "@material-ui/core/Divider";
 import Loading from "../../Loading/Loading";
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    display: "flex",
+    minHeight: "calc(100vh - 64px - 3rem)"
+  },
   header: {
     width: "95%"
   },
   title: {
     marginLeft: theme.spacing(2)
+  },
+  footer: {
+    flex: "0 0 auto",
+    textAlign: "center",
+    marginTop: "auto",
+    height: "2rem",
+    position: "relative",
+    bottom: "-3rem"
   }
 }));
 
@@ -42,7 +54,7 @@ const Comment = props => {
   }, []);
 
   return (
-    <div>
+    <div className={classes.root}>
       {props.loading ? (
         <Loading />
       ) : (
@@ -55,9 +67,11 @@ const Comment = props => {
           </Typography>
           <div>
             {post.comments &&
-              post.comments.map(comment => (
-                <CommentItem key={comment.commentId} comment={comment} />
-              ))}
+              post.comments
+                .splice(0, 10)
+                .map(comment => (
+                  <CommentItem key={comment.commentId} comment={comment} />
+                ))}
           </div>
           <Divider variant="middle" />
           <AddComment
@@ -67,6 +81,9 @@ const Comment = props => {
             setInput={setInput}
             addComment={addComment}
           />
+          <footer className={classes.footer}>
+            <p>Footer</p>
+          </footer>
         </div>
       )}
     </div>
