@@ -8,13 +8,16 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     overflow: "hidden",
-    padding: theme.spacing(0, 1.5),
+    padding: theme.spacing(0, 1),
     border: "solid 1px rgba(72, 76, 84, 0.68)",
     borderRadius: ".5rem",
     marginBottom: theme.spacing(1.5),
     background: "whitesmoke",
     width: "85%",
     marginLeft: theme.spacing(2)
+  },
+  commentText: {
+    overflowWrap: "break-word"
   },
   date: {
     fontSize: "0.75rem"
@@ -33,7 +36,7 @@ const CommentItem = props => {
   const date = new Date(comment.createDate).toLocaleString("ru", options);
   return (
     <Grid container wrap="nowrap" spacing={1} className={classes.root}>
-      <Grid item xs={2} sm={1}>
+      <Grid item xs={3} sm={1}>
         <Avatar
           alt={comment.author}
           src={
@@ -43,7 +46,7 @@ const CommentItem = props => {
           }
         />
       </Grid>
-      <Grid item xs={7} sm={9}>
+      <Grid item xs={6} sm={9} className={classes.commentText}>
         {comment.body}
       </Grid>
       <Grid item xs={3} sm={2} className={classes.date}>

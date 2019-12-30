@@ -12,9 +12,17 @@ const useStyles = makeStyles(theme => ({
   fab: {
     margin: theme.spacing(2)
   },
+  text: {
+    margin: "0 auto"
+  },
   textArea: {
     width: "90%",
     marginTop: theme.spacing(2)
+  },
+  commentButton: {
+    display: "flex",
+    justifyContent: "space-evenly",
+    width: "90%"
   }
 }));
 
@@ -23,19 +31,21 @@ const AddComment = props => {
   const classes = useStyles();
   return (
     <Grid container spacing={1} wrap="nowrap">
-      <Grid item xs={2} sm={1}>
-        <Tooltip
-          title="Add Commment"
-          aria-label="add"
-          onClick={() => openText()}
-        >
-          <Fab color="primary" className={classes.fab}>
-            <AddIcon />
-          </Fab>
-        </Tooltip>
-      </Grid>
+      {!open && (
+        <Grid item xs={2} sm={1}>
+          <Tooltip
+            title="Add Commment"
+            aria-label="add"
+            onClick={() => openText()}
+          >
+            <Fab color="primary" className={classes.fab}>
+              <AddIcon />
+            </Fab>
+          </Tooltip>
+        </Grid>
+      )}
       {open && (
-        <Grid item xs={11} sm={8}>
+        <Grid item xs={9} sm={8} className={classes.text}>
           <TextareaAutosize
             aria-label="minimum height"
             rows={5}
@@ -44,7 +54,7 @@ const AddComment = props => {
             value={props.input}
             onChange={e => props.setInput(e.target.value)}
           />
-          <div>
+          <div className={classes.commentButton}>
             <Button
               variant="contained"
               color="primary"
@@ -54,6 +64,15 @@ const AddComment = props => {
               startIcon={<SaveIcon />}
             >
               Save
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              className={classes.button}
+              onClick={() => openText()}
+            >
+              Cancal
             </Button>
           </div>
         </Grid>
