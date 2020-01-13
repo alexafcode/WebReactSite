@@ -13,17 +13,18 @@ import Divider from "@material-ui/core/Divider";
 import Loading from "../../Loading/Loading";
 
 const useStyles = makeStyles(theme => ({
-  header: {
-    width: "95%"
+  root: {
+    width: "95%",
+    display: "flex",
+    flexDirection: "column",
+    minHeight: "calc(100vh - 64px)"
   },
   title: {
     marginLeft: theme.spacing(2)
   },
   footer: {
     textAlign: "center",
-    position: "absolute",
-    // bottom: "0",
-    // left: "0",
+    marginTop: "auto",
     width: "100%"
   }
 }));
@@ -74,7 +75,7 @@ const Comment = props => {
       {props.loading ? (
         <Loading />
       ) : (
-        <div className={classes.header}>
+        <div className={classes.root}>
           <Typography variant="h4" gutterBottom className={classes.title}>
             {post.header}
           </Typography>
