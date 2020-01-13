@@ -18,6 +18,10 @@ const useStyles = makeStyles(theme => ({
   titleContainer: {
     flex: "auto"
   },
+  header: {
+    cursor: "pointer",
+    width: "max-content"
+  },
   rightContainer: {
     width: "20%"
   },
@@ -26,10 +30,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const PostItem = props => {
-  console.log(props.post);
+const PostItem = ({ post }) => {
   const classes = useStyles();
-  const { header, description, tags, createdDate } = props.post;
+  const { header, description, tags, createdDate, forumId, postId } = post;
   const options = {
     weekday: "long",
     year: "numeric",
@@ -43,12 +46,6 @@ const PostItem = props => {
       wrap="nowrap"
       spacing={2}
       className={classes.root}
-      onClick={() =>
-        history.push({
-          pathname: `/forum/${props.post.forumId}/post`,
-          search: `?postId=${props.post.postId}`
-        })
-      }
       // onClick={() =>
       //   history.push(
       //     `/forum/${props.post.forumId}/post?postId=${props.post.postId}`
@@ -57,7 +54,18 @@ const PostItem = props => {
     >
       {/* <Grid item>{Icon}</Grid> */}
       <div className={classes.titleContainer}>
-        <Typography variant="h5">{header}</Typography>
+        <Typography
+          variant="h5"
+          className={classes.header}
+          onClick={() =>
+            history.push({
+              pathname: `/forum/${forumId}/post`,
+              search: `?postId=${postId}`
+            })
+          }
+        >
+          {header}
+        </Typography>
         <Typography variant="body1">{description}</Typography>
       </div>
       <div className={classes.rightContainer}>
@@ -65,12 +73,12 @@ const PostItem = props => {
           Создано: {date}
         </Typography>
         <div>
-          {tags.map((data, i) => {
+          {tags.map(({ tagName }, i) => {
             return (
               <Chip
                 size="small"
                 key={i}
-                label={data.tagName}
+                label={tagName}
                 className={classes.chip}
               />
             );

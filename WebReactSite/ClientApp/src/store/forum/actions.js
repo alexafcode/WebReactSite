@@ -29,7 +29,7 @@ export const addThemeAction = (header, desc, icon) => dispatch => {
   });
   axios
     .post(helper.urlConstants.themeUrl, postBody, { headers })
-    .then(response => {
+    .then(() => {
       dispatch({ type: LOADING, payload: false });
       dispatch({ type: SET_MODAL });
     })
@@ -78,7 +78,7 @@ export const addPostAction = (header, desc, id, tags) => async dispatch => {
     .catch(e => {
       const err = e.response.data.Header
         ? e.response.data.Header[0]
-        : e.response.status + " Not Authorized";
+        : `${e.response.status} Not Authorized`;
       dispatch({ type: SET_ERROR, payload: err });
     });
 };

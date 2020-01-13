@@ -31,13 +31,15 @@ export const signInAction = (login, password) => dispatch => {
         userAvatar,
         refToken
       } = response.data;
-      helper.saveAuth(user, token, isAdmin, email, userAvatar, refToken);
+      const options = { user, token, isAdmin, email, userAvatar, refToken };
+      console.log(options);
+      helper.saveAuth(options);
       dispatch({
         type: LOGIN_SUCCESS,
         payload: user,
-        token: token,
-        email: email,
-        isAdmin: isAdmin,
+        token,
+        email,
+        isAdmin,
         userAvatar: userAvatar ? userAvatar : authHelpers.getUserAvatar()
       });
       history.push("/");
@@ -70,13 +72,14 @@ export const createUserAction = (login, password, email) => dispatch => {
         userAvatar,
         refToken
       } = response.data;
-      helper.saveAuth(user, token, isAdmin, email, userAvatar, refToken);
+      const options = { user, token, isAdmin, email, userAvatar, refToken };
+      helper.saveAuth(options);
       dispatch({
         type: LOGIN_SUCCESS,
         payload: user,
-        token: token,
-        email: email,
-        isAdmin: isAdmin
+        token,
+        email,
+        isAdmin
       });
       dispatch({ type: TOKEN, payload: token });
       history.push("/");

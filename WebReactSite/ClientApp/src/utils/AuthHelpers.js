@@ -12,21 +12,30 @@ export default {
     refreshToken: "api/user/refresh"
   },
   saveAuth: (
-    userName,
-    token,
-    isAdmin = false,
-    email,
-    userAvatar = null,
-    refToken
+    options
+    // userName,
+    // token,
+    // isAdmin = false,
+    // email,
+    // userAvatar = null,
+    // refToken
   ) => {
+    const {
+      userName,
+      token,
+      isAdmin = false,
+      email,
+      userAvatar = constants.defaultImageSrc,
+      refToken
+    } = options;
     setLS(
       JSON.stringify({
-        userName: userName,
+        userName,
         access_token: token,
-        isAdmin: isAdmin,
-        email: email,
-        userAvatar: userAvatar ? userAvatar : constants.defaultImageSrc,
-        refToken: refToken
+        isAdmin,
+        email,
+        userAvatar,
+        refToken
       })
     );
   },
