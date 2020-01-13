@@ -13,14 +13,26 @@ import helper from "../../utils/authHelpers";
 import history from "../../history";
 import authHelpers from "../../utils/authHelpers";
 
+// import ApiService from "../../utils/apiService";
+// const apiService = new ApiService();
+// export const signInAction = (login, password) => dispatch => {
+//   const data = { login, password };
+//   apiService
+//     .signIn(data)
+//     .then(response => {
+//       console.log(response);
+//     })
+//     .catch(e => {
+//       console.error(e);
+//     });
+// };
+
 export const signInAction = (login, password) => dispatch => {
   dispatch({ type: SIGNIN });
   axios
-    .post(helper.urlConstants.singInUrl, null, {
-      params: {
-        login,
-        password
-      }
+    .post(helper.urlConstants.singInUrl, {
+      Login: login,
+      Password: password
     })
     .then(response => {
       const {

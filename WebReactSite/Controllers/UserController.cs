@@ -72,12 +72,13 @@ namespace WebReactSite.Controllers
         //api/user/signin
         [Route("signin")]
         [HttpPost]
-        public IActionResult SignIn([FromQuery] string login, string password)
+        // public IActionResult SignIn([FromQuery] string login, string password)
+        public IActionResult SignIn([FromBody] UserRequest request )
         {
             User user;
             try
             {
-                user = _service.SignIn(login.ToLower().Trim(), password);
+                user = _service.SignIn(request.Login.ToLower().Trim(), request.Password);
             }
             catch (Exception e)
             {
@@ -88,7 +89,7 @@ namespace WebReactSite.Controllers
             {
                 return Unauthorized();
             }
-            var identity = _service.GetIdentity(login);
+            var identity = _service.GetIdentity(request.Login);
             if (identity == null)
             {
                 return Unauthorized();

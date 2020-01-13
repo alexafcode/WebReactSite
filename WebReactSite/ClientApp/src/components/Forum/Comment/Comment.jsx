@@ -68,8 +68,6 @@ const Comment = props => {
     props.getPostActionByPostId(postId);
   }, []);
 
-  console.log(post.comments);
-
   return (
     <>
       {props.loading ? (
