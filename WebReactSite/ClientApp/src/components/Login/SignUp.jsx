@@ -5,7 +5,7 @@ import { createUserAction } from "../../store/user/actions";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Link from "@material-ui/core/Link";
+// import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
@@ -14,6 +14,7 @@ import Container from "@material-ui/core/Container";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import ErrorMessage from "../Layouts/ErrorMessage";
 import TextFieldComponent from "./TextFieldComponent";
+import FooterLink from "./FooterLink";
 
 const useStyles = makeStyles(theme => ({
   "@global": {
@@ -100,12 +101,23 @@ function SignUp(props) {
       });
     }
   };
+  const createUser = e => {
+    e.preventDefault();
+    if (!email.error && !password.error) {
+      createUserAction(login.value, password.value, email.value);
+    }
+  };
   const textField = (name, value, label, change) => {
     const options = { name, value, label, change };
     return <TextFieldComponent {...options} />;
   };
 
   const lineProgress = loading ? <LinearProgress /> : null;
+
+  const messageError = (error, text) => {
+    if (!error) return null;
+    return <ErrorMessage error={text} />;
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -118,56 +130,33 @@ function SignUp(props) {
           Sign up
         </Typography>
         <form className={classes.form} noValidate>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              {textField(
-                "email",
-                email.value,
-                "Email Address",
-                emailValidation
-              )}
-              {email.error && <ErrorMessage error="Email is not Corrected" />}
-            </Grid>
-            <Grid item xs={12}>
-              {textField("login", login.value, "Enter Login", loginValidation)}
-              {login.error && (
-                <ErrorMessage
-                  error="Your Login must be at least 4 characters long and most 10
-                 characters"
-                />
-              )}
-            </Grid>
-            <Grid item xs={12}>
-              {textField("password", password.value, "Password", pwdValidation)}
-              {password.error && (
-                <ErrorMessage error="Your password must be at least 4 characters long and most 8 characters" />
-              )}
-            </Grid>
-          </Grid>
+          {textField("email", email.value, "Email Address", emailValidation)}
+          {messageError(email.error, "Email is not Corrected")}
+          {textField("login", login.value, "Enter Login", loginValidation)}
+          {messageError(
+            login.error,
+            "Your Login must be at least 4 characters long and most 10 characters"
+          )}
+          {textField("password", password.value, "Password", pwdValidation)}
+          {messageError(
+            password.error,
+            "Your password must be at least 4 characters long and most 8 characters"
+          )}
           {lineProgress}
-          {error && <ErrorMessage error={error} />}
+          {messageError(error, error)}
           <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={e => {
-              e.preventDefault();
-              if (!email.error && !password.error) {
-                createUserAction(login.value, password.value, email.value);
-              }
-            }}
+            onClick={e => createUser(e)}
           >
             Sign Up
           </Button>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <Link href="/signin" variant="body2">
-                Already have an account? Sign in
-              </Link>
-            </Grid>
-          </Grid>
+          <FooterLink href={"/signin"}>
+            Already have an account? Sign in
+          </FooterLink>
         </form>
       </div>
     </Container>
@@ -177,7 +166,6 @@ function SignUp(props) {
 const mapStateToProps = state => {
   return {
     error: state.UsersReducers.error,
-    // errorMessage: state.UsersReducers.errorMessage,
     loading: state.UsersReducers.loading
   };
 };
