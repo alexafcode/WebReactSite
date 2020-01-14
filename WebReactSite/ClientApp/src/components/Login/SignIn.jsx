@@ -5,7 +5,7 @@ import { signInAction } from "../../store/user/actions";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
+// import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -14,6 +14,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import ErrorMessage from "../Layouts/ErrorMessage";
+
+import TextFieldComponent from "./TextFieldComponent";
 
 const useStyles = makeStyles(theme => ({
   "@global": {
@@ -47,20 +49,8 @@ function SignIn(props) {
   const [password, setPassword] = useState("");
 
   const textField = (name, value, label, change) => {
-    return (
-      <TextField
-        variant="outlined"
-        margin="normal"
-        required
-        fullWidth
-        label={label}
-        name={name}
-        autoFocus
-        value={value}
-        type={name}
-        onChange={e => change(e.target.value)}
-      />
-    );
+    const options = { name, value, label, change };
+    return <TextFieldComponent {...options} />;
   };
 
   const lineProgress = props.loading ? <LinearProgress /> : null;
@@ -72,7 +62,6 @@ function SignIn(props) {
     e.preventDefault();
     if (login && password) {
       props.signInAction(login, password);
-      setPassword(password);
     }
   };
 
