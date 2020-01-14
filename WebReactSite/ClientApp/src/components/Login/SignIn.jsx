@@ -5,9 +5,7 @@ import { signInAction } from "../../store/user/actions";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
-// import TextField from "@material-ui/core/TextField";
-// import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
+import TextField from "@material-ui/core/TextField";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
@@ -15,8 +13,6 @@ import Container from "@material-ui/core/Container";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import ErrorMessage from "../Layouts/ErrorMessage";
 import FooterLink from "./FooterLink";
-
-import TextFieldComponent from "./TextFieldComponent";
 
 const useStyles = makeStyles(theme => ({
   "@global": {
@@ -49,11 +45,6 @@ function SignIn(props) {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
 
-  const textField = (name, value, label, change) => {
-    const options = { name, value, label, change };
-    return <TextFieldComponent {...options} />;
-  };
-
   const lineProgress = props.loading ? <LinearProgress /> : null;
   const errorMessage = props.error ? (
     <ErrorMessage error={props.error} />
@@ -77,8 +68,29 @@ function SignIn(props) {
           Sign in
         </Typography>
         <form className={classes.form} noValidate>
-          {textField("login", login, "Login", setLogin)}
-          {textField("password", password, "Password", setPassword)}
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            label="Login"
+            name="login"
+            autoFocus
+            value={login}
+            onChange={e => setLogin(e.target.value)}
+          />
+          <TextField
+            error={password.error}
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            label="Password"
+            name="password"
+            value={password}
+            type="password"
+            onChange={e => setPassword(e.target.value)}
+          />
           {lineProgress}
           {errorMessage}
           <Button

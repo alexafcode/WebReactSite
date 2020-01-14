@@ -5,15 +5,13 @@ import { createUserAction } from "../../store/user/actions";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
-// import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import ErrorMessage from "../Layouts/ErrorMessage";
-import TextFieldComponent from "./TextFieldComponent";
+import TextField from "@material-ui/core/TextField";
 import FooterLink from "./FooterLink";
 
 const useStyles = makeStyles(theme => ({
@@ -107,10 +105,6 @@ function SignUp(props) {
       createUserAction(login.value, password.value, email.value);
     }
   };
-  const textField = (name, value, label, change) => {
-    const options = { name, value, label, change };
-    return <TextFieldComponent {...options} />;
-  };
 
   const lineProgress = loading ? <LinearProgress /> : null;
 
@@ -119,6 +113,56 @@ function SignUp(props) {
     return <ErrorMessage error={text} />;
   };
 
+  const inputArray = [
+    {
+      error: email.error,
+      label: "Email Address",
+      name: "email",
+      autofocus: true,
+      value: email.value,
+      helperText: "Email is not Corrected",
+      change: emailValidation
+    },
+    {
+      error: login.error,
+      label: "Login",
+      name: "login",
+      autofocus: false,
+      value: login.value,
+      helperText:
+        "Your Login must be at least 4 characters long and most 10 characters",
+      change: loginValidation
+    },
+    {
+      error: password.error,
+      label: "Password",
+      name: "password",
+      autofocus: false,
+      value: password.value,
+      helperText:
+        "Your password must be at least 4 characters long and most 8 characters",
+      change: pwdValidation
+    }
+  ];
+  const textInputs = inputArray.map(input => {
+    const { error, label, name, autoFocus, value } = input;
+    return (
+      <TextField
+        error={error}
+        variant="outlined"
+        margin="normal"
+        required
+        fullWidth
+        label={label}
+        name={name}
+        autoFocus={autoFocus}
+        value={value}
+        helperText={input.error ? input.helperText : null}
+        onChange={e => input.change(e.target.value)}
+        key={name}
+      />
+    );
+  });
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -130,18 +174,7 @@ function SignUp(props) {
           Sign up
         </Typography>
         <form className={classes.form} noValidate>
-          {textField("email", email.value, "Email Address", emailValidation)}
-          {messageError(email.error, "Email is not Corrected")}
-          {textField("login", login.value, "Enter Login", loginValidation)}
-          {messageError(
-            login.error,
-            "Your Login must be at least 4 characters long and most 10 characters"
-          )}
-          {textField("password", password.value, "Password", pwdValidation)}
-          {messageError(
-            password.error,
-            "Your password must be at least 4 characters long and most 8 characters"
-          )}
+          {textInputs}
           {lineProgress}
           {messageError(error, error)}
           <Button
