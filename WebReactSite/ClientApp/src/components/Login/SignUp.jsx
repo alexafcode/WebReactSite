@@ -5,7 +5,6 @@ import { createUserAction } from "../../store/user/actions";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -14,6 +13,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import ErrorMessage from "../Layouts/ErrorMessage";
+import TextFieldComponent from "./TextFieldComponent";
 
 const useStyles = makeStyles(theme => ({
   "@global": {
@@ -55,6 +55,8 @@ function SignUp(props) {
     value: "",
     error: false
   });
+
+  const { error, loading, createUserAction } = props;
 
   const loginValidation = login => {
     if (login.length >= 4 && login.length <= 10) {
@@ -98,6 +100,12 @@ function SignUp(props) {
       });
     }
   };
+  const textField = (name, value, label, change) => {
+    const options = { name, value, label, change };
+    return <TextFieldComponent {...options} />;
+  };
+
+  const lineProgress = loading ? <LinearProgress /> : null;
 
   return (
     <Container component="main" maxWidth="xs">
@@ -112,63 +120,32 @@ function SignUp(props) {
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <TextField
-                value={email.value}
-                error={email.error}
-                variant="outlined"
-                // required
-                fullWidth
-                autoFocus
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                onChange={e => emailValidation(e.target.value)}
-              />
-              {email.error && (
-                <p style={{ color: "red" }}>Email not Corrected</p>
+              {textField(
+                "email",
+                email.value,
+                "Email Address",
+                emailValidation
               )}
+              {email.error && <ErrorMessage error="Email is not Corrected" />}
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                value={login.value}
-                error={login.error}
-                variant="outlined"
-                required
-                fullWidth
-                label="Enter Login"
-                name="login"
-                onChange={e => loginValidation(e.target.value)}
-              />
+              {textField("login", login.value, "Enter Login", loginValidation)}
               {login.error && (
-                <p style={{ color: "red" }}>
-                  Your Login must be at least 4 characters long and most 10
-                  characters
-                </p>
+                <ErrorMessage
+                  error="Your Login must be at least 4 characters long and most 10
+                 characters"
+                />
               )}
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                value={password.value}
-                error={password.error}
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                autoComplete="current-password"
-                onChange={e => pwdValidation(e.target.value)}
-              />
+              {textField("password", password.value, "Password", pwdValidation)}
               {password.error && (
-                <p style={{ color: "red" }}>
-                  Your password must be at least 4 characters long and most 8
-                  characters
-                </p>
+                <ErrorMessage error="Your password must be at least 4 characters long and most 8 characters" />
               )}
             </Grid>
           </Grid>
-          {props.loading && <LinearProgress />}
-          {props.error && <ErrorMessage error={props.error} />}
+          {lineProgress}
+          {error && <ErrorMessage error={error} />}
           <Button
             type="submit"
             fullWidth
@@ -178,11 +155,7 @@ function SignUp(props) {
             onClick={e => {
               e.preventDefault();
               if (!email.error && !password.error) {
-                props.createUserAction(
-                  login.value,
-                  password.value,
-                  email.value
-                );
+                createUserAction(login.value, password.value, email.value);
               }
             }}
           >
@@ -204,7 +177,7 @@ function SignUp(props) {
 const mapStateToProps = state => {
   return {
     error: state.UsersReducers.error,
-    errorMessage: state.UsersReducers.errorMessage,
+    // errorMessage: state.UsersReducers.errorMessage,
     loading: state.UsersReducers.loading
   };
 };
