@@ -6,6 +6,7 @@ export default class ApiService {
   fetchUrl = async url => {
     const response = await fetch(`${this._baseUrl}${url}`);
     if (!response.ok) {
+      //ToDo Message
       throw new Error(`Not Fetch, ${response.status}`);
     }
     return await response.json();

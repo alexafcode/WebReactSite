@@ -46,6 +46,36 @@ function SignIn(props) {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
 
+  const textField = (name, value, label, change) => {
+    return (
+      <TextField
+        variant="outlined"
+        margin="normal"
+        required
+        fullWidth
+        label={label}
+        name={name}
+        autoFocus
+        value={value}
+        type={name}
+        onChange={e => change(e.target.value)}
+      />
+    );
+  };
+
+  const lineProgress = props.loading ? <LinearProgress /> : null;
+  const errorMessage = props.error ? (
+    <ErrorMessage error={props.error} />
+  ) : null;
+
+  const signInCheck = e => {
+    e.preventDefault();
+    if (login && password) {
+      props.signInAction(login, password);
+      setPassword(password);
+    }
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -57,44 +87,17 @@ function SignIn(props) {
           Sign in
         </Typography>
         <form className={classes.form} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            label="Login"
-            name="login"
-            autoFocus
-            value={login}
-            onChange={e => setLogin(e.target.value)}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            autoComplete="current-password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-          />
-          {props.loading && <LinearProgress />}
-          {props.error && <ErrorMessage error={props.error} />}
+          {textField("login", login, "Login", setLogin)}
+          {textField("password", password, "Password", setPassword)}
+          {lineProgress}
+          {errorMessage}
           <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={e => {
-              e.preventDefault();
-              if (login && password) {
-                props.signInAction(login, password);
-                setPassword(password);
-              }
-            }}
+            onClick={e => signInCheck(e)}
           >
             Sign In
           </Button>

@@ -13,7 +13,7 @@ export default {
   },
   saveAuth: options => {
     const {
-      userName,
+      user,
       token,
       isAdmin = false,
       email,
@@ -22,7 +22,7 @@ export default {
     } = options;
     setLS(
       JSON.stringify({
-        userName,
+        user,
         access_token: token,
         isAdmin,
         email,
@@ -40,7 +40,7 @@ export default {
     const item = getLS();
     let login = "";
     if (item) {
-      login = JSON.parse(item).userName;
+      login = JSON.parse(item).user;
     }
     return login;
   },
