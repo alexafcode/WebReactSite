@@ -159,6 +159,7 @@ function SignUp(props) {
         value={value}
         helperText={input.error ? input.helperText : null}
         onChange={e => input.change(e.target.value)}
+        type={name}
         key={name}
       />
     );
@@ -173,7 +174,7 @@ function SignUp(props) {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={e => createUser(e)}>
           {textInputs}
           {lineProgress}
           {messageError(error, error)}
@@ -183,7 +184,6 @@ function SignUp(props) {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick={e => createUser(e)}
           >
             Sign Up
           </Button>
