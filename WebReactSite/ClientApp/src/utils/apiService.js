@@ -1,14 +1,17 @@
+import authHelpers from "./authHelpers";
+
 export default class ApiService {
   _baseUrl = "api";
 
-  async fetchUrl(url) {
+  fetchUrl = async url => {
     const response = await fetch(`${this._baseUrl}${url}`);
     if (!response.ok) {
       throw new Error(`Not Fetch, ${response.status}`);
     }
     return await response.json();
-  }
-  async postUrl(url, data) {
+  };
+
+  postUrl = async (url, data) => {
     const response = await fetch(`${this._baseUrl}${url}`, {
       method: "Post",
       headers: {
@@ -17,16 +20,27 @@ export default class ApiService {
       body: JSON.stringify(data)
     });
     if (!response.ok) {
-      throw new Error(`Not Fetch, status ${response.status}`);
+      throw new Error(`No User, status ${response.status}`);
     }
-    return await response.json();
-  }
+    const json = await response.json();
+    return json;
+  };
 
-  async signIn(data) {
+  signIn = async data => {
     const response = await this.postUrl("/user/signin", data);
-    return response;
-  }
-}
+    return this._transformUser(response);
+  };
 
-//  singInUrl: "api/user/signin",
-//   body:JSON.stringify({tittle:tittle, body:body})
+  signUp = async data => {
+    const response = await this.postUrl("/user/create", data);
+    return this._transformUser(response);
+  };
+  _transformUser = data => {
+    const { user, token, isAdmin, email, refToken } = data;
+    const userAvatar =
+      data.userAvatar === undefined || !data.userAvatar
+        ? authHelpers.getDefaultUserAvatar()
+        : data.userAvatar;
+    return { user, token, isAdmin, email, userAvatar, refToken };
+  };
+}

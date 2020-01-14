@@ -72,7 +72,6 @@ namespace WebReactSite.Controllers
         //api/user/signin
         [Route("signin")]
         [HttpPost]
-        // public IActionResult SignIn([FromQuery] string login, string password)
         public IActionResult SignIn([FromBody] UserRequest request )
         {
             User user;

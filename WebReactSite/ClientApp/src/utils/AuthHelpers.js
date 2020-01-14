@@ -11,15 +11,7 @@ export default {
     uploadAvatarUrl: "api/user/upload",
     refreshToken: "api/user/refresh"
   },
-  saveAuth: (
-    options
-    // userName,
-    // token,
-    // isAdmin = false,
-    // email,
-    // userAvatar = null,
-    // refToken
-  ) => {
+  saveAuth: options => {
     const {
       userName,
       token,
@@ -110,6 +102,9 @@ export default {
         return constants.defaultImageSrc;
       }
     }
+  },
+  getDefaultUserAvatar: () => {
+    return constants.defaultImageSrc;
   },
   updateUserInfo: (changeData, key) => {
     const item = getLS();

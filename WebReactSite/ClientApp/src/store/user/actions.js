@@ -11,53 +11,27 @@ import {
 } from "./constants";
 import helper from "../../utils/authHelpers";
 import history from "../../history";
-import authHelpers from "../../utils/authHelpers";
 
-// import ApiService from "../../utils/apiService";
-// const apiService = new ApiService();
-// export const signInAction = (login, password) => dispatch => {
-//   const data = { login, password };
-//   apiService
-//     .signIn(data)
-//     .then(response => {
-//       console.log(response);
-//     })
-//     .catch(e => {
-//       console.error(e);
-//     });
-// };
-
+import ApiService from "../../utils/apiService";
+const apiService = new ApiService();
 export const signInAction = (login, password) => dispatch => {
   dispatch({ type: SIGNIN });
-  axios
-    .post(helper.urlConstants.singInUrl, {
-      Login: login,
-      Password: password
-    })
-    .then(response => {
-      const {
-        user,
-        token,
-        isAdmin,
-        email,
-        userAvatar,
-        refToken
-      } = response.data;
-      const options = { user, token, isAdmin, email, userAvatar, refToken };
-      console.log(options);
+  const data = { login, password };
+  apiService
+    .signIn(data)
+    .then(options => {
       helper.saveAuth(options);
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: user,
-        token,
-        email,
-        isAdmin,
-        userAvatar: userAvatar ? userAvatar : authHelpers.getUserAvatar()
+        ...options
       });
       history.push("/");
     })
     .catch(e => {
-      dispatch({ type: SIGNIN_ERROR, payload: e.response.data });
+      dispatch({
+        type: SIGNIN_ERROR,
+        payload: "Invalid User Name or Password"
+      });
     });
 };
 
@@ -66,38 +40,23 @@ export const signOutAction = () => dispatch => {
   helper.clearAuth();
   history.push("/");
 };
-
-export const createUserAction = (login, password, email) => dispatch => {
+export const createUserAction = (username, password, email) => dispatch => {
+  const data = { username, password, email };
   dispatch({ type: SIGNIN });
-  axios
-    .post(helper.urlConstants.signUpUrl, {
-      Username: login,
-      Password: password,
-      Email: email
-    })
-    .then(response => {
-      const {
-        user,
-        token,
-        isAdmin,
-        email,
-        userAvatar,
-        refToken
-      } = response.data;
-      const options = { user, token, isAdmin, email, userAvatar, refToken };
+  apiService
+    .signUp(data)
+    .then(options => {
+      const { token } = options;
       helper.saveAuth(options);
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: user,
-        token,
-        email,
-        isAdmin
+        ...options
       });
       dispatch({ type: TOKEN, payload: token });
       history.push("/");
     })
     .catch(e => {
-      dispatch({ type: SIGNIN_ERROR, payload: e.response.data });
+      dispatch({ type: SIGNIN_ERROR, payload: "Some that Wrong" });
     });
 };
 
@@ -119,8 +78,8 @@ export const uploadUserImage = image => async dispatch => {
       });
     }
     const { token, refToken } = refreshTokenResponse.data;
-    authHelpers.updateUserInfo(token, "access_token");
-    authHelpers.updateUserInfo(refToken, "refToken");
+    helper.updateUserInfo(token, "access_token");
+    helper.updateUserInfo(refToken, "refToken");
     dispatch({ type: TOKEN, payload: token });
     const uploadResponse = await uploadImage(image);
     if (uploadResponse.status === 200) {
@@ -155,10 +114,10 @@ const uploadImage = async image => {
 };
 
 const getRefreshToken = async () => {
-  const jwtToken = authHelpers.getToken();
-  const refToken = authHelpers.getrefToken();
+  const jwtToken = helper.getToken();
+  const refToken = helper.getrefToken();
   try {
-    const response = await axios.post(authHelpers.urlConstants.refreshToken, {
+    const response = await axios.post(helper.urlConstants.refreshToken, {
       Token: jwtToken,
       RefreshToken: refToken
     });
@@ -171,7 +130,7 @@ const getRefreshToken = async () => {
 export const UpdateRefreshToken = () => async dispatch => {
   const response = await getRefreshToken();
   const { token, refToken } = response.data;
-  authHelpers.updateUserInfo(token, "access_token");
-  authHelpers.updateUserInfo(refToken, "refToken");
+  helper.updateUserInfo(token, "access_token");
+  helper.updateUserInfo(refToken, "refToken");
   dispatch({ type: TOKEN, payload: token });
 };

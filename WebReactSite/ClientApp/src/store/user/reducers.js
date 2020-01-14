@@ -34,7 +34,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isAuthenticated: true,
-        user: action.payload,
+        user: action.user,
         loading: false,
         token: action.token,
         email: action.email,
